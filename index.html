@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hostile Volume</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom animation for Level 6 Bubbles */
+        @keyframes floatUp {
+            0% { transform: translateY(50px) scale(0.5); opacity: 0; }
+            10% { opacity: 1; transform: translateY(0px) scale(1); }
+            90% { opacity: 1; }
+            100% { transform: translateY(-350px) scale(1.1); opacity: 0; }
+        }
+    </style>
 </head>
 <body class="bg-gray-900 text-white h-screen flex items-center justify-center overflow-hidden font-sans select-none relative">
 
@@ -66,6 +75,11 @@
             </div>
             <div class="mt-8 text-4xl font-mono text-gray-300 w-24 text-center" id="l5-display">75%</div>
         </div>
+
+        <div id="level-6" class="level-ui hidden h-64 flex items-center justify-center relative overflow-hidden bg-gray-900 border border-gray-700 rounded-xl mt-4">
+            <div class="text-6xl font-mono text-gray-700 w-full text-center pointer-events-none absolute z-0 opacity-50" id="l6-display">75%</div>
+            <div id="l6-bubble-container" class="absolute inset-0 z-10 pointer-events-auto"></div>
+        </div>
     </div>
 
     <div id="debug-menu" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-950 border border-red-500 rounded-lg p-3 flex gap-3 shadow-2xl z-50 items-center">
@@ -75,6 +89,7 @@
         <button onclick="forceLevel(2)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 3</button>
         <button onclick="forceLevel(3)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 4</button>
         <button onclick="forceLevel(4)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 5</button>
+        <button onclick="forceLevel(5)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 6</button>
     </div>
     <script>
         // DOM Elements
@@ -246,15 +261,74 @@
                     const slider = document.getElementById('l5-slider');
                     slider.value = vol;
                     document.getElementById('l5-display').innerText = vol + '%';
-                    
-                    // The trick: shrink the slider's scale based on the volume percentage.
-                    // We map 100% volume to scale(1) and 0% volume to scale(0.05).
                     const scaleFactor = Math.max(0.05, vol / 100);
                     slider.style.transform = `scale(${scaleFactor})`;
                 },
                 reset: () => {
                     document.getElementById('l5-slider').style.transform = 'scale(0.75)';
                 } 
+            },
+            { // Level 6
+                id: 'level-6',
+                bubbleInterval: null,
+                init: function() {
+                    // Logic is handled in reset() so it only runs when active
+                },
+                updateUI: (vol) => {
+                    document.getElementById('l6-display').innerText = vol + '%';
+                },
+                reset: function() {
+                    const container = document.getElementById('l6-bubble-container');
+                    container.innerHTML = ''; 
+                    if (this.bubbleInterval) clearInterval(this.bubbleInterval);
+
+                    this.bubbleInterval = setInterval(() => {
+                        // Double check we are actually on Level 6 so bubbles don't spawn in the background
+                        if(document.getElementById('level-6').classList.contains('hidden')) {
+                            clearInterval(this.bubbleInterval);
+                            return;
+                        }
+
+                        const bubble = document.createElement('button');
+                        
+                        // 15% chance to spawn the winning 25% bubble, otherwise random 0-100
+                        const isWinner = Math.random() < 0.15;
+                        const volValue = isWinner ? 25 : Math.floor(Math.random() * 101);
+
+                        bubble.innerText = volValue;
+                        
+                        // Bubble styling
+                        bubble.className = "absolute rounded-full bg-blue-500 bg-opacity-40 backdrop-blur-sm border border-blue-300 text-white font-bold flex items-center justify-center hover:bg-blue-400 focus:outline-none transition-colors shadow-inner cursor-pointer";
+                        
+                        // Randomize size and position
+                        const size = Math.floor(Math.random() * 30) + 40; // 40px to 70px
+                        bubble.style.width = size + 'px';
+                        bubble.style.height = size + 'px';
+                        bubble.style.fontSize = (size * 0.4) + 'px';
+                        
+                        bubble.style.left = Math.floor(Math.random() * (container.clientWidth - size)) + 'px';
+                        bubble.style.bottom = '-50px';
+                        
+                        // Randomize float speed
+                        const duration = Math.random() * 3 + 3; // 3s to 6s
+                        bubble.style.animation = `floatUp ${duration}s linear forwards`;
+
+                        bubble.onclick = () => {
+                            setVolume(volValue);
+                            bubble.remove(); // Pop the bubble!
+                        };
+
+                        container.appendChild(bubble);
+
+                        // Clean up the bubble element after it floats away
+                        setTimeout(() => {
+                            if (bubble.parentNode === container) {
+                                bubble.remove();
+                            }
+                        }, duration * 1000);
+
+                    }, 600); // Spawn a new bubble every 600ms
+                }
             }
         ];
 
