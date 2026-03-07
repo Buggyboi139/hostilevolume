@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 h-screen w-screen overflow-hidden flex items-center justify-center font-sans text-gray-800 selection:bg-transparent">
+
+    <div id="screen-1" class="absolute transition-opacity duration-1000 ease-in-out opacity-100 flex items-center justify-center w-full h-full z-10">
+        <input 
+            type="range" 
+            id="normal-slider" 
+            min="0" 
+            max="100" 
+            value="50" 
+            class="w-64 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-gray-700 outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-gray-50 transition-all"
+        >
+    </div>
+
+    <div id="screen-2" class="absolute transition-opacity duration-1000 ease-in-out opacity-0 pointer-events-none flex flex-col items-center justify-center w-full h-full z-0">
+        <div class="flex flex-col items-center gap-8">
+            <button id="vol-up" class="p-4 bg-white rounded-full shadow-sm border border-gray-200 hover:bg-gray-100 hover:shadow-md active:scale-95 transition-all outline-none focus:ring-2 focus:ring-gray-400">
+                <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                </svg>
+            </button>
+            
+            <div id="vol-display" class="text-4xl font-light w-24 text-center tracking-tight text-gray-700 tabular-nums">
+                25%
+            </div>
+            
+            <button id="vol-down" class="p-4 bg-white rounded-full shadow-sm border border-gray-200 hover:bg-gray-100 hover:shadow-md active:scale-95 transition-all outline-none focus:ring-2 focus:ring-gray-400">
+                <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const slider = document.getElementById('normal-slider');
+        const screen1 = document.getElementById('screen-1');
+        const screen2 = document.getElementById('screen-2');
+        const volDisplay = document.getElementById('vol-display');
+        const btnUp = document.getElementById('vol-up');
+        const btnDown = document.getElementById('vol-down');
+
+        let timer = null;
+        let currentVol = 25; 
+
+        // Screen 1 Logic: Listen for the 25% trigger
+        slider.addEventListener('input', (e) => {
+            if (e.target.value === '25') {
+                // Start the 3-second timer if we hit exactly 25
+                if (!timer) {
+                    timer = setTimeout(() => {
+                        transitionToScreen2();
+                    }, 3000);
+                }
+            } else {
+                // Cancel the transition if they move the slider away from 25%
+                if (timer) {
+                    clearTimeout(timer);
+                    timer = null;
+                }
+            }
+        });
+
+        // The Smooth Transition
+        function transitionToScreen2() {
+            // Fade out Screen 1
+            screen1.classList.remove('opacity-100', 'z-10');
+            screen1.classList.add('opacity-0', 'pointer-events-none', 'z-0');
+
+            // Fade in Screen 2
+            screen2.classList.remove('opacity-0', 'pointer-events-none', 'z-0');
+            screen2.classList.add('opacity-100', 'z-10');
+            screen2.classList.remove('pointer-events-none');
+        }
+
+        // Screen 2 Logic: Standard arrow operation
+        btnUp.addEventListener('click', () => {
+            if (currentVol < 100) currentVol++;
+            volDisplay.textContent = currentVol + '%';
+        });
+        
+        btnDown.addEventListener('click', () => {
+            if (currentVol > 0) currentVol--;
+            volDisplay.textContent = currentVol + '%';
+        });
+    </script>
+</body>
+</html>
