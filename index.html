@@ -6,7 +6,7 @@
     <title>Hostile Volume</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-white h-screen flex items-center justify-center overflow-hidden font-sans select-none">
+<body class="bg-gray-900 text-white h-screen flex items-center justify-center overflow-hidden font-sans select-none relative">
 
     <audio id="bg-music" loop>
         <source src="elevator.mp3" type="audio/mpeg">
@@ -16,10 +16,10 @@
         <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md text-center border border-gray-700">
             <h1 class="text-3xl font-bold mb-4 text-gray-100">Hostile Volume</h1>
             <p class="text-gray-400 mb-8 text-lg leading-relaxed">
-                To progress to the next level, set the volume to exactly <strong class="text-white bg-gray-700 px-2 py-1 rounded">25%</strong> and hold it there for 3 seconds.
+                To progress to the next level, you must set the volume to exactly <strong class="text-white bg-gray-700 px-2 py-1 rounded">25%</strong> and hold it there for 3 seconds.
             </p>
             <button id="start-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-8 rounded-lg transition-colors w-full">
-                Got it!
+                I Understand
             </button>
         </div>
     </div>
@@ -27,63 +27,75 @@
     <div id="level-container" class="hidden w-full max-w-md p-10 bg-gray-800 rounded-2xl shadow-2xl text-center border border-gray-700 transition-all duration-500">
         <h2 id="level-title" class="text-sm tracking-widest uppercase font-semibold mb-10 text-gray-500">Level 1</h2>
         
-        <div id="level-1" class="level-ui hidden">
+        <div id="level-1" class="level-ui hidden h-48 flex flex-col justify-center">
             <input type="range" min="0" max="100" value="75" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-blue-500" id="l1-slider">
             <div class="mt-8 text-4xl font-mono text-gray-300" id="l1-display">75%</div>
         </div>
 
-        <div id="level-2" class="level-ui hidden flex flex-col items-center gap-6">
-            <button id="l2-up" class="p-4 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <div id="level-2" class="level-ui hidden h-48 flex flex-col items-center justify-center gap-4">
+            <button id="l2-up" class="p-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-colors focus:outline-none">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg>
             </button>
             <div class="text-4xl font-mono text-gray-300 w-24" id="l2-display">75%</div>
-            <button id="l2-down" class="p-4 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button id="l2-down" class="p-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-colors focus:outline-none">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
             </button>
         </div>
 
-        <div id="level-3" class="level-ui hidden flex flex-col items-center justify-center min-h-[300px]">
-            <button id="l3-up" class="p-4 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-transform duration-75 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <div id="level-3" class="level-ui hidden h-48 flex flex-col items-center justify-center">
+            <button id="l3-up" class="p-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-transform duration-75 focus:outline-none z-10">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg>
             </button>
-            <div class="text-4xl font-mono text-gray-300 w-24 my-6" id="l3-display">75%</div>
-            <button id="l3-down" class="p-4 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-transform duration-75 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <div class="text-4xl font-mono text-gray-300 w-24 my-2 z-0" id="l3-display">75%</div>
+            <button id="l3-down" class="p-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-transform duration-75 focus:outline-none z-10">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
             </button>
         </div>
     </div>
 
+    <div id="debug-menu" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-950 border border-red-500 rounded-lg p-3 flex gap-3 shadow-2xl z-50 items-center">
+        <span class="text-red-500 text-xs font-bold uppercase tracking-wider mr-2">Dev Menu</span>
+        <button onclick="forceLevel(0)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 1</button>
+        <button onclick="forceLevel(1)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 2</button>
+        <button onclick="forceLevel(2)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 3</button>
+    </div>
     <script>
+        // DOM Elements
         const audio = document.getElementById('bg-music');
         const modal = document.getElementById('instructions-modal');
         const startBtn = document.getElementById('start-btn');
         const levelContainer = document.getElementById('level-container');
         const levelTitle = document.getElementById('level-title');
 
+        // Game State
         let currentVolume = 75;
         let progressTimer = null;
         let currentLevelIndex = 0;
+        
+        // Level 3 specific state
+        let l3Distance = 0;
 
-        // Centralized Volume Manager
+        // Central Volume Manager
         function setVolume(val) {
             // Clamp volume between 0 and 100
             currentVolume = Math.max(0, Math.min(100, val));
             
-            // Set actual audio volume (0.0 to 1.0)
+            // Set actual audio volume
             audio.volume = currentVolume / 100;
 
-            // Update the UI for the current level
-            levels[currentLevelIndex].updateUI(currentVolume);
+            // Update the UI for whatever level is currently active
+            if (levels[currentLevelIndex]) {
+                levels[currentLevelIndex].updateUI(currentVolume);
+            }
 
-            // Level Progression Logic
+            // Progression Logic: 25% for 3 seconds
             if (currentVolume === 25) {
                 if (!progressTimer) {
                     progressTimer = setTimeout(() => {
                         nextLevel();
-                    }, 3000); // 3 seconds at 25%
+                    }, 3000);
                 }
             } else {
-                // If they move off 25%, cancel the timer
                 if (progressTimer) {
                     clearTimeout(progressTimer);
                     progressTimer = null;
@@ -91,18 +103,20 @@
             }
         }
 
-        // Level Registry - ADD NEW LEVELS HERE
+        // Level Definitions
         const levels = [
             {
                 id: 'level-1',
                 init: () => {
-                    const slider = document.getElementById('l1-slider');
-                    slider.addEventListener('input', (e) => setVolume(parseInt(e.target.value)));
+                    document.getElementById('l1-slider').addEventListener('input', (e) => {
+                        setVolume(parseInt(e.target.value));
+                    });
                 },
                 updateUI: (vol) => {
                     document.getElementById('l1-slider').value = vol;
                     document.getElementById('l1-display').innerText = vol + '%';
-                }
+                },
+                reset: () => {} // Nothing specific to reset for L1
             },
             {
                 id: 'level-2',
@@ -112,88 +126,94 @@
                 },
                 updateUI: (vol) => {
                     document.getElementById('l2-display').innerText = vol + '%';
-                }
+                },
+                reset: () => {} // Nothing specific to reset for L2
             },
             {
                 id: 'level-3',
-                distance: 0,
-                init: function() {
+                init: () => {
                     const upBtn = document.getElementById('l3-up');
                     const downBtn = document.getElementById('l3-down');
                     
-                    const moveButtons = () => {
-                        this.distance += 1; // Move 1px per click
-                        upBtn.style.transform = `translateY(-${this.distance}px)`;
-                        downBtn.style.transform = `translateY(${this.distance}px)`;
-                    };
-
                     upBtn.onclick = () => {
                         setVolume(currentVolume + 1);
-                        moveButtons();
+                        l3Distance += 1;
+                        upBtn.style.transform = `translateY(-${l3Distance}px)`;
+                        downBtn.style.transform = `translateY(${l3Distance}px)`;
                     };
+                    
                     downBtn.onclick = () => {
                         setVolume(currentVolume - 1);
-                        moveButtons();
+                        l3Distance += 1;
+                        upBtn.style.transform = `translateY(-${l3Distance}px)`;
+                        downBtn.style.transform = `translateY(${l3Distance}px)`;
                     };
                 },
                 updateUI: (vol) => {
                     document.getElementById('l3-display').innerText = vol + '%';
                 },
-                reset: function() {
-                    this.distance = 0;
+                reset: () => {
+                    l3Distance = 0;
                     document.getElementById('l3-up').style.transform = `translateY(0px)`;
                     document.getElementById('l3-down').style.transform = `translateY(0px)`;
                 }
             }
         ];
-        ];
 
+        // Load a specific level
         function loadLevel(index) {
-            // Hide all levels first
+            // Hide all levels
             document.querySelectorAll('.level-ui').forEach(el => el.classList.add('hidden'));
             
             if (index >= levels.length) {
-                levelTitle.innerText = "More suffering coming soon...";
+                levelTitle.innerText = "You Survived. For now.";
                 return;
             }
 
-            // Show current level
+            // Setup current level
             const level = levels[index];
-            if (level.reset) level.reset();
-            
+            level.reset(); // Call the specific reset logic (like fixing L3's drifting buttons)
             document.getElementById(level.id).classList.remove('hidden');
             levelTitle.innerText = `Level ${index + 1}`;
             
-            // Fade effect for smooth transition
+            // Fade transition
             levelContainer.classList.remove('opacity-100');
             levelContainer.classList.add('opacity-0');
             
             setTimeout(() => {
-                setVolume(75); // Reset to 75%
+                setVolume(75); // Reset volume to 75% for the new level
                 levelContainer.classList.remove('opacity-0');
                 levelContainer.classList.add('opacity-100');
             }, 300);
         }
 
+        // Progress normally
         function nextLevel() {
             progressTimer = null; 
             currentLevelIndex++;
             loadLevel(currentLevelIndex);
         }
 
-        // Initialize elements
+        // DEBUG MENU FUNCTION: Jump to specific level
+        function forceLevel(index) {
+            if (progressTimer) clearTimeout(progressTimer);
+            progressTimer = null;
+            currentLevelIndex = index;
+            loadLevel(currentLevelIndex);
+        }
+
+        // Initialization
         levels.forEach(level => level.init());
 
-        // Start App
+        // Start Game
         startBtn.addEventListener('click', () => {
             modal.classList.add('opacity-0');
             setTimeout(() => {
                 modal.classList.add('hidden');
                 levelContainer.classList.remove('hidden');
                 
-                // Play music at 75%
                 audio.volume = 0.75;
-                audio.play().catch(e => console.log("Please add an elevator.mp3 file to the directory."));
+                audio.play().catch(e => console.warn("Audio not playing: Check file path or format."));
                 
                 loadLevel(0);
             }, 300);
