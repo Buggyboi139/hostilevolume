@@ -80,16 +80,26 @@
             <div class="text-6xl font-mono text-gray-700 w-full text-center pointer-events-none absolute z-0 opacity-50" id="l6-display">75%</div>
             <div id="l6-bubble-container" class="absolute inset-0 z-10 pointer-events-auto"></div>
         </div>
+
+        <div id="level-7" class="level-ui hidden flex-col items-center justify-center w-full">
+            <p class="text-gray-400 mb-3 text-sm text-center font-semibold tracking-wide">Please describe your desired volume in exactly 100 words. Include the number.</p>
+            <textarea id="l7-textarea" class="w-full h-36 bg-gray-900 text-gray-200 p-4 rounded-xl border border-gray-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none transition-colors shadow-inner leading-relaxed" placeholder="Start typing..."></textarea>
+            <div class="flex justify-end w-full mt-2">
+                <span id="l7-word-count" class="text-xs font-mono text-gray-500 transition-colors duration-200">0 / 100</span>
+            </div>
+            <div class="mt-2 text-4xl font-mono text-gray-300 w-24 text-center" id="l7-display">75%</div>
+        </div>
     </div>
 
     <div id="debug-menu" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-950 border border-red-500 rounded-lg p-3 flex gap-3 shadow-2xl z-50 items-center">
         <span class="text-red-500 text-xs font-bold uppercase tracking-wider mr-2">Dev Menu</span>
-        <button onclick="forceLevel(0)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 1</button>
-        <button onclick="forceLevel(1)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 2</button>
-        <button onclick="forceLevel(2)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 3</button>
-        <button onclick="forceLevel(3)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 4</button>
-        <button onclick="forceLevel(4)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 5</button>
-        <button onclick="forceLevel(5)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 6</button>
+        <button onclick="forceLevel(0)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-2 py-1 rounded">1</button>
+        <button onclick="forceLevel(1)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-2 py-1 rounded">2</button>
+        <button onclick="forceLevel(2)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-2 py-1 rounded">3</button>
+        <button onclick="forceLevel(3)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-2 py-1 rounded">4</button>
+        <button onclick="forceLevel(4)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-2 py-1 rounded">5</button>
+        <button onclick="forceLevel(5)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-2 py-1 rounded">6</button>
+        <button onclick="forceLevel(6)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-2 py-1 rounded">7</button>
     </div>
     <script>
         // DOM Elements
@@ -271,9 +281,7 @@
             { // Level 6
                 id: 'level-6',
                 bubbleInterval: null,
-                init: function() {
-                    // Logic is handled in reset() so it only runs when active
-                },
+                init: function() {},
                 updateUI: (vol) => {
                     document.getElementById('l6-display').innerText = vol + '%';
                 },
@@ -283,25 +291,19 @@
                     if (this.bubbleInterval) clearInterval(this.bubbleInterval);
 
                     this.bubbleInterval = setInterval(() => {
-                        // Double check we are actually on Level 6 so bubbles don't spawn in the background
                         if(document.getElementById('level-6').classList.contains('hidden')) {
                             clearInterval(this.bubbleInterval);
                             return;
                         }
 
                         const bubble = document.createElement('button');
-                        
-                        // 15% chance to spawn the winning 25% bubble, otherwise random 0-100
                         const isWinner = Math.random() < 0.15;
                         const volValue = isWinner ? 25 : Math.floor(Math.random() * 101);
 
                         bubble.innerText = volValue;
-                        
-                        // Bubble styling
                         bubble.className = "absolute rounded-full bg-blue-500 bg-opacity-40 backdrop-blur-sm border border-blue-300 text-white font-bold flex items-center justify-center hover:bg-blue-400 focus:outline-none transition-colors shadow-inner cursor-pointer";
                         
-                        // Randomize size and position
-                        const size = Math.floor(Math.random() * 30) + 40; // 40px to 70px
+                        const size = Math.floor(Math.random() * 30) + 40; 
                         bubble.style.width = size + 'px';
                         bubble.style.height = size + 'px';
                         bubble.style.fontSize = (size * 0.4) + 'px';
@@ -309,25 +311,72 @@
                         bubble.style.left = Math.floor(Math.random() * (container.clientWidth - size)) + 'px';
                         bubble.style.bottom = '-50px';
                         
-                        // Randomize float speed
-                        const duration = Math.random() * 3 + 3; // 3s to 6s
+                        const duration = Math.random() * 3 + 3; 
                         bubble.style.animation = `floatUp ${duration}s linear forwards`;
 
                         bubble.onclick = () => {
                             setVolume(volValue);
-                            bubble.remove(); // Pop the bubble!
+                            bubble.remove(); 
                         };
 
                         container.appendChild(bubble);
 
-                        // Clean up the bubble element after it floats away
                         setTimeout(() => {
                             if (bubble.parentNode === container) {
                                 bubble.remove();
                             }
                         }, duration * 1000);
 
-                    }, 600); // Spawn a new bubble every 600ms
+                    }, 600); 
+                }
+            },
+            { // Level 7
+                id: 'level-7',
+                init: () => {
+                    const textarea = document.getElementById('l7-textarea');
+                    const wordCountDisplay = document.getElementById('l7-word-count');
+
+                    textarea.addEventListener('input', (e) => {
+                        const text = e.target.value.trim();
+                        // Filter out empty strings to accurately count words
+                        const words = text.length > 0 ? text.split(/\s+/) : [];
+                        const wordCount = words.length;
+                        
+                        wordCountDisplay.innerText = `${wordCount} / 100`;
+
+                        if (wordCount === 100) {
+                            wordCountDisplay.classList.add('text-green-500');
+                            wordCountDisplay.classList.remove('text-gray-500', 'text-red-500');
+                            
+                            // Extract the first number found in the text
+                            const match = text.match(/\b\d+\b/);
+                            if (match) {
+                                setVolume(parseInt(match[0]));
+                            } else {
+                                setVolume(75); // Reset if they hit 100 words but forgot the number
+                            }
+                        } else {
+                            // Style the word counter based on progress
+                            if (wordCount > 100) {
+                                wordCountDisplay.classList.add('text-red-500');
+                                wordCountDisplay.classList.remove('text-gray-500', 'text-green-500');
+                            } else {
+                                wordCountDisplay.classList.add('text-gray-500');
+                                wordCountDisplay.classList.remove('text-green-500', 'text-red-500');
+                            }
+                            
+                            // If they aren't at exactly 100 words, hard reset the volume to break any active timers
+                            setVolume(75); 
+                        }
+                    });
+                },
+                updateUI: (vol) => {
+                    document.getElementById('l7-display').innerText = vol + '%';
+                },
+                reset: () => {
+                    document.getElementById('l7-textarea').value = '';
+                    document.getElementById('l7-word-count').innerText = '0 / 100';
+                    document.getElementById('l7-word-count').className = 'text-xs font-mono text-gray-500 transition-colors duration-200';
                 }
             }
         ];
@@ -335,6 +384,7 @@
         // Load a specific level
         function loadLevel(index) {
             document.querySelectorAll('.level-ui').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.level-ui').forEach(el => el.classList.remove('flex'));
             
             if (index >= levels.length) {
                 levelTitle.innerText = "You Survived. For now.";
@@ -343,7 +393,14 @@
 
             const level = levels[index];
             level.reset(); 
-            document.getElementById(level.id).classList.remove('hidden');
+            
+            const levelEl = document.getElementById(level.id);
+            levelEl.classList.remove('hidden');
+            // Ensure flex layouts re-apply correctly when unhiding
+            if (level.id !== 'level-1' && level.id !== 'level-5') {
+                 levelEl.classList.add('flex');
+            }
+
             levelTitle.innerText = `Level ${index + 1}`;
             
             levelContainer.classList.remove('opacity-100');
