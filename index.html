@@ -127,10 +127,18 @@
             </button>
             <div class="text-4xl font-mono text-gray-300 w-24 text-center" id="l10-display">75%</div>
         </div>
+
+        <div id="level-11" class="level-ui hidden flex-col items-center justify-center w-full gap-4 min-h-[200px]">
+            <div id="l11-question" class="text-lg font-semibold text-center text-gray-200 mb-2 px-2 h-16 flex items-center justify-center w-full">
+                </div>
+            <div id="l11-options" class="grid grid-cols-2 gap-3 w-full max-w-sm">
+                </div>
+            <div class="mt-4 text-4xl font-mono text-gray-300 w-24 text-center" id="l11-display">75%</div>
+        </div>
     </div>
 
     <div id="debug-menu" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-950 border border-red-500 rounded-lg p-3 flex gap-2 shadow-2xl z-50 items-center">
-        <span class="text-red-500 text-xs font-bold uppercase tracking-wider mr-1">Dev Menu</span>
+        <span class="text-red-500 text-xs font-bold uppercase tracking-wider mr-1">Dev</span>
         <button onclick="forceLevel(0)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">1</button>
         <button onclick="forceLevel(1)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">2</button>
         <button onclick="forceLevel(2)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">3</button>
@@ -141,6 +149,7 @@
         <button onclick="forceLevel(7)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">8</button>
         <button onclick="forceLevel(8)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">9</button>
         <button onclick="forceLevel(9)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">10</button>
+        <button onclick="forceLevel(10)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">11</button>
     </div>
     <script>
         // DOM Elements
@@ -190,91 +199,72 @@
             { id: 'level-6', bubbleInterval: null, init: function() {}, updateUI: (vol) => { document.getElementById('l6-display').innerText = vol + '%'; }, reset: function() { const container = document.getElementById('l6-bubble-container'); container.innerHTML = ''; if (this.bubbleInterval) clearInterval(this.bubbleInterval); this.bubbleInterval = setInterval(() => { if(document.getElementById('level-6').classList.contains('hidden')) { clearInterval(this.bubbleInterval); return; } const bubble = document.createElement('button'); const isWinner = Math.random() < 0.15; const volValue = isWinner ? 25 : Math.floor(Math.random() * 101); bubble.innerText = volValue; bubble.className = "absolute rounded-full bg-blue-500 bg-opacity-40 backdrop-blur-sm border border-blue-300 text-white font-bold flex items-center justify-center hover:bg-blue-400 focus:outline-none transition-colors shadow-inner cursor-pointer"; const size = Math.floor(Math.random() * 30) + 40; bubble.style.width = size + 'px'; bubble.style.height = size + 'px'; bubble.style.fontSize = (size * 0.4) + 'px'; bubble.style.left = Math.floor(Math.random() * (container.clientWidth - size)) + 'px'; bubble.style.bottom = '-50px'; const duration = Math.random() * 3 + 3; bubble.style.animation = `floatUp ${duration}s linear forwards`; bubble.onclick = () => { setVolume(volValue); bubble.remove(); }; container.appendChild(bubble); setTimeout(() => { if (bubble.parentNode === container) { bubble.remove(); } }, duration * 1000); }, 600); } },
             { id: 'level-7', init: () => { const textarea = document.getElementById('l7-textarea'); const wordCountDisplay = document.getElementById('l7-word-count'); textarea.addEventListener('input', (e) => { const text = e.target.value.trim(); const words = text.length > 0 ? text.split(/\s+/) : []; const wordCount = words.length; wordCountDisplay.innerText = `${wordCount} / 100`; if (wordCount === 100) { wordCountDisplay.classList.add('text-green-500'); wordCountDisplay.classList.remove('text-gray-500', 'text-red-500'); const match = text.match(/\b\d+\b/); if (match) { setVolume(parseInt(match[0])); } else { setVolume(75); } } else { if (wordCount > 100) { wordCountDisplay.classList.add('text-red-500'); wordCountDisplay.classList.remove('text-gray-500', 'text-green-500'); } else { wordCountDisplay.classList.add('text-gray-500'); wordCountDisplay.classList.remove('text-green-500', 'text-red-500'); } setVolume(75); } }); }, updateUI: (vol) => { document.getElementById('l7-display').innerText = vol + '%'; }, reset: () => { document.getElementById('l7-textarea').value = ''; document.getElementById('l7-word-count').innerText = '0 / 100'; document.getElementById('l7-word-count').className = 'text-xs font-mono text-gray-500 transition-colors duration-200'; } },
             { id: 'level-8', onCooldown: false, init: function() { const upBtn = document.getElementById('l8-up'); const downBtn = document.getElementById('l8-down'); const bar = document.getElementById('l8-cooldown-bar'); const handleArrowClick = (change) => { if (this.onCooldown) return; setVolume(currentVolume + change); let distance = Math.min(Math.abs(currentVolume - 25), 50); let cooldown = 1000 - (16 * distance); this.onCooldown = true; upBtn.classList.add('opacity-40', 'cursor-not-allowed', 'bg-red-900', 'hover:bg-red-900'); downBtn.classList.add('opacity-40', 'cursor-not-allowed', 'bg-red-900', 'hover:bg-red-900'); upBtn.classList.remove('bg-gray-700', 'hover:bg-gray-600'); downBtn.classList.remove('bg-gray-700', 'hover:bg-gray-600'); bar.style.transition = 'none'; bar.style.width = '0%'; void bar.offsetWidth; bar.style.transition = `width ${cooldown}ms linear`; bar.style.width = '100%'; setTimeout(() => { this.onCooldown = false; upBtn.classList.remove('opacity-40', 'cursor-not-allowed', 'bg-red-900', 'hover:bg-red-900'); downBtn.classList.remove('opacity-40', 'cursor-not-allowed', 'bg-red-900', 'hover:bg-red-900'); upBtn.classList.add('bg-gray-700', 'hover:bg-gray-600'); downBtn.classList.add('bg-gray-700', 'hover:bg-gray-600'); }, cooldown); }; upBtn.onclick = () => handleArrowClick(1); downBtn.onclick = () => handleArrowClick(-1); }, updateUI: (vol) => { document.getElementById('l8-display').innerText = vol + '%'; }, reset: function() { this.onCooldown = false; const upBtn = document.getElementById('l8-up'); const downBtn = document.getElementById('l8-down'); const bar = document.getElementById('l8-cooldown-bar'); upBtn.classList.remove('opacity-40', 'cursor-not-allowed', 'bg-red-900', 'hover:bg-red-900'); downBtn.classList.remove('opacity-40', 'cursor-not-allowed', 'bg-red-900', 'hover:bg-red-900'); upBtn.classList.add('bg-gray-700', 'hover:bg-gray-600'); downBtn.classList.add('bg-gray-700', 'hover:bg-gray-600'); bar.style.transition = 'none'; bar.style.width = '100%'; } },
-            { 
-                id: 'level-9',
-                lastCaptchaVol: 75,
-                isLocked: false,
-                isVerifying: false,
+            { id: 'level-9', lastCaptchaVol: 75, isLocked: false, isVerifying: false, init: function() { const slider = document.getElementById('l9-slider'); const modal = document.getElementById('l9-captcha-modal'); const checkbox = document.getElementById('l9-checkbox'); const checkIcon = document.getElementById('l9-check-icon'); const spinnerIcon = document.getElementById('l9-spinner-icon'); slider.addEventListener('input', (e) => { if (this.isLocked) { e.target.value = currentVolume; return; } let newVol = parseInt(e.target.value); if (Math.abs(newVol - this.lastCaptchaVol) >= 10) { let direction = newVol < this.lastCaptchaVol ? -1 : 1; let lockedVol = this.lastCaptchaVol + (10 * direction); setVolume(lockedVol); this.isLocked = true; modal.classList.remove('hidden'); } else { setVolume(newVol); } }); checkbox.addEventListener('click', () => { if (this.isVerifying) return; this.isVerifying = true; checkbox.classList.remove('border-2', 'border-gray-400', 'cursor-pointer'); spinnerIcon.classList.remove('hidden'); setTimeout(() => { spinnerIcon.classList.add('hidden'); checkIcon.classList.remove('hidden'); setTimeout(() => { modal.classList.add('hidden'); this.lastCaptchaVol = currentVolume; this.isLocked = false; this.isVerifying = false; checkbox.classList.add('border-2', 'border-gray-400', 'cursor-pointer'); checkIcon.classList.add('hidden'); }, 500); }, 2000); }); }, updateUI: (vol) => { document.getElementById('l9-slider').value = vol; document.getElementById('l9-display').innerText = vol + '%'; }, reset: function() { this.lastCaptchaVol = 75; this.isLocked = false; this.isVerifying = false; document.getElementById('l9-captcha-modal').classList.add('hidden'); document.getElementById('l9-checkbox').classList.add('border-2', 'border-gray-400', 'cursor-pointer'); document.getElementById('l9-check-icon').classList.add('hidden'); document.getElementById('l9-spinner-icon').classList.add('hidden'); } },
+            { id: 'level-10', init: function() { const btn = document.getElementById('l10-btn'); btn.addEventListener('click', () => { const isWinner = Math.random() < 0.20; const newVol = isWinner ? 25 : Math.floor(Math.random() * 101); setVolume(newVol); }); }, updateUI: (vol) => { document.getElementById('l10-display').innerText = vol + '%'; }, reset: () => {} },
+            { // Level 11
+                id: 'level-11',
+                trivia: [
+                    { q: "What is the tiny piece of plastic at the end of a shoelace called?", opts: ["Aglet", "Grommet", "Lacet", "Tip"], a: 0 },
+                    { q: "How many hearts does an octopus have?", opts: ["1", "2", "3", "4"], a: 2 },
+                    { q: "What is the national animal of Scotland?", opts: ["Loch Ness Monster", "Unicorn", "Golden Eagle", "Red Deer"], a: 1 },
+                    { q: "What is the rarest blood type?", opts: ["O Negative", "B Positive", "AB Negative", "A Negative"], a: 2 },
+                    { q: "Which planet in our solar system has the most moons?", opts: ["Jupiter", "Saturn", "Uranus", "Neptune"], a: 1 },
+                    { q: "How many bones are in the adult human body?", opts: ["198", "206", "214", "220"], a: 1 },
+                    { q: "What is the hardest natural substance on Earth?", opts: ["Gold", "Iron", "Diamond", "Quartz"], a: 2 },
+                    { q: "What is the only mammal capable of true sustained flight?", opts: ["Flying Squirrel", "Bat", "Lemur", "Glider"], a: 1 },
+                    { q: "What is the loudest animal on Earth?", opts: ["Lion", "Elephant", "Sperm Whale", "Howler Monkey"], a: 2 },
+                    { q: "Who painted the Mona Lisa?", opts: ["Vincent van Gogh", "Pablo Picasso", "Michelangelo", "Leonardo da Vinci"], a: 3 },
+                    { q: "What is the main ingredient in guacamole?", opts: ["Tomato", "Avocado", "Onion", "Lime"], a: 1 },
+                    { q: "Which element has the chemical symbol 'O'?", opts: ["Osmium", "Oganesson", "Oxygen", "Oxide"], a: 2 },
+                    { q: "What year did the Titanic sink?", opts: ["1905", "1912", "1920", "1923"], a: 1 },
+                    { q: "What is the longest river in the world?", opts: ["Amazon", "Nile", "Yangtze", "Mississippi"], a: 1 },
+                    { q: "What is the capital of Australia?", opts: ["Sydney", "Melbourne", "Canberra", "Perth"], a: 2 }
+                ],
                 init: function() {
-                    const slider = document.getElementById('l9-slider');
-                    const modal = document.getElementById('l9-captcha-modal');
-                    const checkbox = document.getElementById('l9-checkbox');
-                    const checkIcon = document.getElementById('l9-check-icon');
-                    const spinnerIcon = document.getElementById('l9-spinner-icon');
+                    // Logic handled dynamically in loadQuestion
+                },
+                loadQuestion: function() {
+                    // Stop loading questions if they've hit 25% and are waiting on the timer
+                    if (currentVolume === 25) {
+                        document.getElementById('l11-question').innerText = "Hold position...";
+                        document.getElementById('l11-options').innerHTML = '';
+                        return;
+                    }
 
-                    slider.addEventListener('input', (e) => {
-                        if (this.isLocked) {
-                            e.target.value = currentVolume; 
-                            return;
-                        }
-
-                        let newVol = parseInt(e.target.value);
-                        
-                        if (Math.abs(newVol - this.lastCaptchaVol) >= 10) {
-                            let direction = newVol < this.lastCaptchaVol ? -1 : 1;
-                            let lockedVol = this.lastCaptchaVol + (10 * direction);
-                            
-                            setVolume(lockedVol); 
-                            this.isLocked = true;
-                            
-                            modal.classList.remove('hidden');
-                        } else {
-                            setVolume(newVol);
-                        }
-                    });
-
-                    checkbox.addEventListener('click', () => {
-                        if (this.isVerifying) return;
-                        this.isVerifying = true;
-                        
-                        checkbox.classList.remove('border-2', 'border-gray-400', 'cursor-pointer');
-                        spinnerIcon.classList.remove('hidden');
-
-                        setTimeout(() => {
-                            spinnerIcon.classList.add('hidden');
-                            checkIcon.classList.remove('hidden');
-                            
-                            setTimeout(() => {
-                                modal.classList.add('hidden');
-                                this.lastCaptchaVol = currentVolume; 
-                                this.isLocked = false;
-                                this.isVerifying = false;
-                                
-                                checkbox.classList.add('border-2', 'border-gray-400', 'cursor-pointer');
-                                checkIcon.classList.add('hidden');
-                            }, 500);
-                        }, 2000);
+                    const qObj = this.trivia[Math.floor(Math.random() * this.trivia.length)];
+                    document.getElementById('l11-question').innerText = qObj.q;
+                    
+                    const optsContainer = document.getElementById('l11-options');
+                    optsContainer.innerHTML = '';
+                    
+                    qObj.opts.forEach((optText, index) => {
+                        const btn = document.createElement('button');
+                        btn.className = "bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white p-3 rounded-lg transition-colors font-medium text-sm shadow-md focus:outline-none";
+                        btn.innerText = optText;
+                        btn.onclick = () => {
+                            if (index === qObj.a) {
+                                // Correct: Move 5% toward the goal (down)
+                                setVolume(currentVolume - 5);
+                            } else {
+                                // Wrong: Move 5% away from the goal (up penalty)
+                                setVolume(currentVolume + 5);
+                            }
+                            this.loadQuestion();
+                        };
+                        optsContainer.appendChild(btn);
                     });
                 },
                 updateUI: (vol) => {
-                    document.getElementById('l9-slider').value = vol;
-                    document.getElementById('l9-display').innerText = vol + '%';
+                    document.getElementById('l11-display').innerText = vol + '%';
+                    // If volume drifts away from 25 during the holding period, reload questions
+                    if (vol !== 25 && document.getElementById('l11-options').innerHTML === '') {
+                        // We have to wait a tiny tick for the object to be ready to call itself
+                        setTimeout(() => levels[10].loadQuestion(), 50); 
+                    }
                 },
                 reset: function() {
-                    this.lastCaptchaVol = 75;
-                    this.isLocked = false;
-                    this.isVerifying = false;
-                    document.getElementById('l9-captcha-modal').classList.add('hidden');
-                    document.getElementById('l9-checkbox').classList.add('border-2', 'border-gray-400', 'cursor-pointer');
-                    document.getElementById('l9-check-icon').classList.add('hidden');
-                    document.getElementById('l9-spinner-icon').classList.add('hidden');
+                    this.loadQuestion();
                 }
-            },
-            { // Level 10
-                id: 'level-10',
-                init: function() {
-                    const btn = document.getElementById('l10-btn');
-                    btn.addEventListener('click', () => {
-                        // 20% chance to roll the perfect 25
-                        const isWinner = Math.random() < 0.20;
-                        const newVol = isWinner ? 25 : Math.floor(Math.random() * 101);
-                        setVolume(newVol);
-                    });
-                },
-                updateUI: (vol) => {
-                    document.getElementById('l10-display').innerText = vol + '%';
-                },
-                reset: () => {}
             }
         ];
 
