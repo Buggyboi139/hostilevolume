@@ -36,12 +36,12 @@
     <div id="level-container" class="hidden w-full max-w-md p-10 bg-gray-800 rounded-2xl shadow-2xl text-center border border-gray-700 transition-all duration-500">
         <h2 id="level-title" class="text-sm tracking-widest uppercase font-semibold mb-10 text-gray-500">Level 1</h2>
         
-        <div id="level-1" class="level-ui hidden h-48 flex flex-col justify-center">
+        <div id="level-1" class="level-ui hidden h-48 flex-col justify-center">
             <input type="range" min="0" max="100" value="75" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-blue-500" id="l1-slider">
             <div class="mt-8 text-4xl font-mono text-gray-300" id="l1-display">75%</div>
         </div>
 
-        <div id="level-2" class="level-ui hidden h-48 flex flex-col items-center justify-center gap-4">
+        <div id="level-2" class="level-ui hidden h-48 flex-col items-center justify-center gap-4">
             <button id="l2-up" class="p-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-colors focus:outline-none">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg>
             </button>
@@ -51,7 +51,7 @@
             </button>
         </div>
 
-        <div id="level-3" class="level-ui hidden h-48 flex flex-col items-center justify-center">
+        <div id="level-3" class="level-ui hidden h-48 flex-col items-center justify-center">
             <button id="l3-up" class="p-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-transform duration-75 focus:outline-none z-10">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg>
             </button>
@@ -61,7 +61,7 @@
             </button>
         </div>
 
-        <div id="level-4" class="level-ui hidden h-48 flex flex-col items-center justify-center relative mt-4">
+        <div id="level-4" class="level-ui hidden h-48 flex-col items-center justify-center relative mt-4">
             <div id="l4-knob" class="w-32 h-32 rounded-full bg-gray-700 border-4 border-gray-600 shadow-[0_0_15px_rgba(0,0,0,0.5)] cursor-grab relative flex items-center justify-center transition-none">
                 <div class="absolute top-2 w-3 h-3 bg-blue-500 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
                 <div class="w-16 h-16 rounded-full bg-gray-800 pointer-events-none border border-gray-600"></div>
@@ -69,14 +69,14 @@
             <div class="mt-8 text-4xl font-mono text-gray-300 w-24 text-center" id="l4-display">75%</div>
         </div>
 
-        <div id="level-5" class="level-ui hidden h-48 flex flex-col items-center justify-center">
+        <div id="level-5" class="level-ui hidden h-48 flex-col items-center justify-center">
             <div class="w-full flex justify-center h-12 items-center">
                 <input type="range" min="0" max="100" value="75" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-blue-500 origin-center transition-transform duration-100 ease-out" id="l5-slider">
             </div>
             <div class="mt-8 text-4xl font-mono text-gray-300 w-24 text-center" id="l5-display">75%</div>
         </div>
 
-        <div id="level-6" class="level-ui hidden h-64 flex items-center justify-center relative overflow-hidden bg-gray-900 border border-gray-700 rounded-xl mt-4">
+        <div id="level-6" class="level-ui hidden h-64 items-center justify-center relative overflow-hidden bg-gray-900 border border-gray-700 rounded-xl mt-4">
             <div class="text-6xl font-mono text-gray-700 w-full text-center pointer-events-none absolute z-0 opacity-50" id="l6-display">75%</div>
             <div id="l6-bubble-container" class="absolute inset-0 z-10 pointer-events-auto"></div>
         </div>
@@ -89,17 +89,31 @@
             </div>
             <div class="mt-2 text-4xl font-mono text-gray-300 w-24 text-center" id="l7-display">75%</div>
         </div>
+
+        <div id="level-8" class="level-ui hidden h-48 flex-col items-center justify-center gap-3">
+            <button id="l8-up" class="p-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-colors focus:outline-none">
+                <svg class="w-8 h-8 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg>
+            </button>
+            <div class="text-4xl font-mono text-gray-300 w-24 text-center" id="l8-display">75%</div>
+            <button id="l8-down" class="p-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-colors focus:outline-none">
+                <svg class="w-8 h-8 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div class="w-24 h-1.5 bg-gray-900 rounded-full overflow-hidden mt-3 border border-gray-700">
+                <div id="l8-cooldown-bar" class="h-full bg-blue-500 w-full"></div>
+            </div>
+        </div>
     </div>
 
-    <div id="debug-menu" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-950 border border-red-500 rounded-lg p-3 flex gap-3 shadow-2xl z-50 items-center">
-        <span class="text-red-500 text-xs font-bold uppercase tracking-wider mr-2">Dev Menu</span>
-        <button onclick="forceLevel(0)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-2 py-1 rounded">1</button>
-        <button onclick="forceLevel(1)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-2 py-1 rounded">2</button>
-        <button onclick="forceLevel(2)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-2 py-1 rounded">3</button>
-        <button onclick="forceLevel(3)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-2 py-1 rounded">4</button>
-        <button onclick="forceLevel(4)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-2 py-1 rounded">5</button>
-        <button onclick="forceLevel(5)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-2 py-1 rounded">6</button>
-        <button onclick="forceLevel(6)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-2 py-1 rounded">7</button>
+    <div id="debug-menu" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-950 border border-red-500 rounded-lg p-3 flex gap-2 shadow-2xl z-50 items-center">
+        <span class="text-red-500 text-xs font-bold uppercase tracking-wider mr-1">Dev Menu</span>
+        <button onclick="forceLevel(0)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">1</button>
+        <button onclick="forceLevel(1)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">2</button>
+        <button onclick="forceLevel(2)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">3</button>
+        <button onclick="forceLevel(3)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">4</button>
+        <button onclick="forceLevel(4)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">5</button>
+        <button onclick="forceLevel(5)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">6</button>
+        <button onclick="forceLevel(6)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">7</button>
+        <button onclick="forceLevel(7)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">8</button>
     </div>
     <script>
         // DOM Elements
@@ -201,24 +215,18 @@
                     
                     const calculateVolumeFromMouse = (clientX, clientY) => {
                         if (!this.isDragging) return;
-                        
                         const rect = knob.getBoundingClientRect();
                         const centerX = rect.left + rect.width / 2;
                         const centerY = rect.top + rect.height / 2;
-                        
                         const x = clientX - centerX;
                         const y = clientY - centerY;
-                        
                         let rad = Math.atan2(y, x);
                         let deg = rad * (180 / Math.PI);
-                        
                         deg += 90;
                         if (deg < -180) deg += 360;
                         if (deg > 180) deg -= 360;
-
                         if (deg > 135 && deg < 180) deg = 135; 
                         if (deg < -135 || (deg > 180 && deg < 225)) deg = -135; 
-                        
                         if (deg >= -135 && deg <= 135) {
                             let vol = Math.round(((deg + 135) / 270) * 100);
                             setVolume(vol);
@@ -246,7 +254,6 @@
                     knob.addEventListener('mousedown', startDrag);
                     document.addEventListener('mousemove', handleMouseMove);
                     document.addEventListener('mouseup', stopDrag);
-                    
                     knob.addEventListener('touchstart', startDrag, {passive: false});
                     document.addEventListener('touchmove', handleTouchMove, {passive: false});
                     document.addEventListener('touchend', stopDrag);
@@ -338,7 +345,6 @@
 
                     textarea.addEventListener('input', (e) => {
                         const text = e.target.value.trim();
-                        // Filter out empty strings to accurately count words
                         const words = text.length > 0 ? text.split(/\s+/) : [];
                         const wordCount = words.length;
                         
@@ -348,15 +354,13 @@
                             wordCountDisplay.classList.add('text-green-500');
                             wordCountDisplay.classList.remove('text-gray-500', 'text-red-500');
                             
-                            // Extract the first number found in the text
                             const match = text.match(/\b\d+\b/);
                             if (match) {
                                 setVolume(parseInt(match[0]));
                             } else {
-                                setVolume(75); // Reset if they hit 100 words but forgot the number
+                                setVolume(75); 
                             }
                         } else {
-                            // Style the word counter based on progress
                             if (wordCount > 100) {
                                 wordCountDisplay.classList.add('text-red-500');
                                 wordCountDisplay.classList.remove('text-gray-500', 'text-green-500');
@@ -364,8 +368,6 @@
                                 wordCountDisplay.classList.add('text-gray-500');
                                 wordCountDisplay.classList.remove('text-green-500', 'text-red-500');
                             }
-                            
-                            // If they aren't at exactly 100 words, hard reset the volume to break any active timers
                             setVolume(75); 
                         }
                     });
@@ -378,13 +380,85 @@
                     document.getElementById('l7-word-count').innerText = '0 / 100';
                     document.getElementById('l7-word-count').className = 'text-xs font-mono text-gray-500 transition-colors duration-200';
                 }
+            },
+            { // Level 8
+                id: 'level-8',
+                onCooldown: false,
+                init: function() {
+                    const upBtn = document.getElementById('l8-up');
+                    const downBtn = document.getElementById('l8-down');
+                    const bar = document.getElementById('l8-cooldown-bar');
+
+                    const handleArrowClick = (change) => {
+                        if (this.onCooldown) return;
+
+                        setVolume(currentVolume + change);
+
+                        // Calculate distance to 25. Cap at 50 for math simplicity.
+                        let distance = Math.min(Math.abs(currentVolume - 25), 50);
+                        
+                        // Linear mapping: distance 50 = 200ms, distance 0 = 1000ms
+                        let cooldown = 1000 - (16 * distance);
+
+                        // Apply Cooldown State
+                        this.onCooldown = true;
+                        upBtn.classList.add('opacity-40', 'cursor-not-allowed', 'bg-red-900', 'hover:bg-red-900');
+                        downBtn.classList.add('opacity-40', 'cursor-not-allowed', 'bg-red-900', 'hover:bg-red-900');
+                        upBtn.classList.remove('bg-gray-700', 'hover:bg-gray-600');
+                        downBtn.classList.remove('bg-gray-700', 'hover:bg-gray-600');
+
+                        // Deplete the bar instantly
+                        bar.style.transition = 'none';
+                        bar.style.width = '0%';
+
+                        // Force browser reflow to apply the 0% width immediately
+                        void bar.offsetWidth;
+
+                        // Refill the bar over the calculated cooldown time
+                        bar.style.transition = `width ${cooldown}ms linear`;
+                        bar.style.width = '100%';
+
+                        // End Cooldown
+                        setTimeout(() => {
+                            this.onCooldown = false;
+                            upBtn.classList.remove('opacity-40', 'cursor-not-allowed', 'bg-red-900', 'hover:bg-red-900');
+                            downBtn.classList.remove('opacity-40', 'cursor-not-allowed', 'bg-red-900', 'hover:bg-red-900');
+                            upBtn.classList.add('bg-gray-700', 'hover:bg-gray-600');
+                            downBtn.classList.add('bg-gray-700', 'hover:bg-gray-600');
+                        }, cooldown);
+                    };
+
+                    upBtn.onclick = () => handleArrowClick(1);
+                    downBtn.onclick = () => handleArrowClick(-1);
+                },
+                updateUI: (vol) => {
+                    document.getElementById('l8-display').innerText = vol + '%';
+                },
+                reset: function() {
+                    this.onCooldown = false;
+                    const upBtn = document.getElementById('l8-up');
+                    const downBtn = document.getElementById('l8-down');
+                    const bar = document.getElementById('l8-cooldown-bar');
+                    
+                    upBtn.classList.remove('opacity-40', 'cursor-not-allowed', 'bg-red-900', 'hover:bg-red-900');
+                    downBtn.classList.remove('opacity-40', 'cursor-not-allowed', 'bg-red-900', 'hover:bg-red-900');
+                    upBtn.classList.add('bg-gray-700', 'hover:bg-gray-600');
+                    downBtn.classList.add('bg-gray-700', 'hover:bg-gray-600');
+                    
+                    bar.style.transition = 'none';
+                    bar.style.width = '100%';
+                }
             }
         ];
 
         // Load a specific level
         function loadLevel(index) {
-            document.querySelectorAll('.level-ui').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.level-ui').forEach(el => el.classList.remove('flex'));
+            // Simplify hiding logic
+            document.querySelectorAll('.level-ui').forEach(el => {
+                el.classList.add('hidden');
+                // Standardize display by removing inline styles and ensuring tailwind classes manage it
+                el.classList.remove('flex'); 
+            });
             
             if (index >= levels.length) {
                 levelTitle.innerText = "You Survived. For now.";
@@ -396,7 +470,8 @@
             
             const levelEl = document.getElementById(level.id);
             levelEl.classList.remove('hidden');
-            // Ensure flex layouts re-apply correctly when unhiding
+            
+            // Re-apply flex to elements that need it
             if (level.id !== 'level-1' && level.id !== 'level-5') {
                  levelEl.classList.add('flex');
             }
