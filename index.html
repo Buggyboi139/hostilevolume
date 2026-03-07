@@ -143,9 +143,21 @@
             </button>
             <div class="text-4xl font-mono text-gray-300 w-24 text-center" id="l12-display">75%</div>
         </div>
+
+        <div id="level-13" class="level-ui hidden flex-col items-center justify-center relative w-full h-48">
+            <input type="range" min="0" max="100" value="75" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-blue-500" id="l13-slider">
+            
+            <div id="l13-verify-container" class="hidden flex-col items-center gap-2 w-full mt-4 absolute top-12">
+                <span class="text-red-400 text-sm font-bold uppercase tracking-widest animate-pulse">Age Verification Required</span>
+                <input type="text" id="l13-age-input" placeholder="MMDDYYYY" maxlength="8" class="bg-gray-800 border-2 border-red-500 text-white text-center font-mono py-2 px-4 rounded-lg w-48 focus:outline-none transition-colors shadow-2xl z-10">
+                <span class="text-xs text-gray-500 font-mono bg-gray-900 px-2 rounded">Enter quickly. 3.0s</span>
+            </div>
+            
+            <div class="mt-14 text-4xl font-mono text-gray-300 text-center transition-all" id="l13-display">75%</div>
+        </div>
     </div>
 
-    <div id="debug-menu" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-950 border border-red-500 rounded-lg p-3 flex gap-1.5 shadow-2xl z-50 items-center">
+    <div id="debug-menu" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-950 border border-red-500 rounded-lg p-3 flex gap-1.5 shadow-2xl z-50 items-center flex-wrap justify-center w-[90%] max-w-2xl">
         <span class="text-red-500 text-xs font-bold uppercase tracking-wider mr-1">Dev</span>
         <button onclick="forceLevel(0)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">1</button>
         <button onclick="forceLevel(1)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">2</button>
@@ -159,6 +171,7 @@
         <button onclick="forceLevel(9)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">10</button>
         <button onclick="forceLevel(10)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">11</button>
         <button onclick="forceLevel(11)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">12</button>
+        <button onclick="forceLevel(12)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded border border-blue-500">13</button>
     </div>
     <script>
         // DOM Elements
@@ -187,7 +200,15 @@
             if (currentVolume === 25) {
                 if (!progressTimer) {
                     progressTimer = setTimeout(() => {
-                        nextLevel();
+                        const currentLvl = levels[currentLevelIndex];
+                        // NEW LOGIC: Check if the level has a custom progression blocker (like Level 13's verification)
+                        if (typeof currentLvl.canProgress === 'function' && !currentLvl.canProgress()) {
+                            if (typeof currentLvl.onProgressFail === 'function') {
+                                currentLvl.onProgressFail(); // Punish them!
+                            }
+                        } else {
+                            nextLevel(); // Proceed normally
+                        }
                     }, 3000);
                 }
             } else {
@@ -211,32 +232,70 @@
             { id: 'level-9', lastCaptchaVol: 75, isLocked: false, isVerifying: false, init: function() { const slider = document.getElementById('l9-slider'); const modal = document.getElementById('l9-captcha-modal'); const checkbox = document.getElementById('l9-checkbox'); const checkIcon = document.getElementById('l9-check-icon'); const spinnerIcon = document.getElementById('l9-spinner-icon'); slider.addEventListener('input', (e) => { if (this.isLocked) { e.target.value = currentVolume; return; } let newVol = parseInt(e.target.value); if (Math.abs(newVol - this.lastCaptchaVol) >= 10) { let direction = newVol < this.lastCaptchaVol ? -1 : 1; let lockedVol = this.lastCaptchaVol + (10 * direction); setVolume(lockedVol); this.isLocked = true; modal.classList.remove('hidden'); } else { setVolume(newVol); } }); checkbox.addEventListener('click', () => { if (this.isVerifying) return; this.isVerifying = true; checkbox.classList.remove('border-2', 'border-gray-400', 'cursor-pointer'); spinnerIcon.classList.remove('hidden'); setTimeout(() => { spinnerIcon.classList.add('hidden'); checkIcon.classList.remove('hidden'); setTimeout(() => { modal.classList.add('hidden'); this.lastCaptchaVol = currentVolume; this.isLocked = false; this.isVerifying = false; checkbox.classList.add('border-2', 'border-gray-400', 'cursor-pointer'); checkIcon.classList.add('hidden'); }, 500); }, 2000); }); }, updateUI: (vol) => { document.getElementById('l9-slider').value = vol; document.getElementById('l9-display').innerText = vol + '%'; }, reset: function() { this.lastCaptchaVol = 75; this.isLocked = false; this.isVerifying = false; document.getElementById('l9-captcha-modal').classList.add('hidden'); document.getElementById('l9-checkbox').classList.add('border-2', 'border-gray-400', 'cursor-pointer'); document.getElementById('l9-check-icon').classList.add('hidden'); document.getElementById('l9-spinner-icon').classList.add('hidden'); } },
             { id: 'level-10', init: function() { const btn = document.getElementById('l10-btn'); btn.addEventListener('click', () => { const isWinner = Math.random() < 0.20; const newVol = isWinner ? 25 : Math.floor(Math.random() * 101); setVolume(newVol); }); }, updateUI: (vol) => { document.getElementById('l10-display').innerText = vol + '%'; }, reset: () => {} },
             { id: 'level-11', trivia: [ { q: "What is the tiny piece of plastic at the end of a shoelace called?", opts: ["Aglet", "Grommet", "Lacet", "Tip"], a: 0 }, { q: "How many hearts does an octopus have?", opts: ["1", "2", "3", "4"], a: 2 }, { q: "What is the national animal of Scotland?", opts: ["Loch Ness Monster", "Unicorn", "Golden Eagle", "Red Deer"], a: 1 }, { q: "What is the rarest blood type?", opts: ["O Negative", "B Positive", "AB Negative", "A Negative"], a: 2 }, { q: "Which planet in our solar system has the most moons?", opts: ["Jupiter", "Saturn", "Uranus", "Neptune"], a: 1 }, { q: "How many bones are in the adult human body?", opts: ["198", "206", "214", "220"], a: 1 }, { q: "What is the hardest natural substance on Earth?", opts: ["Gold", "Iron", "Diamond", "Quartz"], a: 2 }, { q: "What is the only mammal capable of true sustained flight?", opts: ["Flying Squirrel", "Bat", "Lemur", "Glider"], a: 1 }, { q: "What is the loudest animal on Earth?", opts: ["Lion", "Elephant", "Sperm Whale", "Howler Monkey"], a: 2 }, { q: "Who painted the Mona Lisa?", opts: ["Vincent van Gogh", "Pablo Picasso", "Michelangelo", "Leonardo da Vinci"], a: 3 }, { q: "What is the main ingredient in guacamole?", opts: ["Tomato", "Avocado", "Onion", "Lime"], a: 1 }, { q: "Which element has the chemical symbol 'O'?", opts: ["Osmium", "Oganesson", "Oxygen", "Oxide"], a: 2 }, { q: "What year did the Titanic sink?", opts: ["1905", "1912", "1920", "1923"], a: 1 }, { q: "What is the longest river in the world?", opts: ["Amazon", "Nile", "Yangtze", "Mississippi"], a: 1 }, { q: "What is the capital of Australia?", opts: ["Sydney", "Melbourne", "Canberra", "Perth"], a: 2 } ], init: function() {}, loadQuestion: function() { if (currentVolume === 25) { document.getElementById('l11-question').innerText = "Hold position..."; document.getElementById('l11-options').innerHTML = ''; return; } const qObj = this.trivia[Math.floor(Math.random() * this.trivia.length)]; document.getElementById('l11-question').innerText = qObj.q; const optsContainer = document.getElementById('l11-options'); optsContainer.innerHTML = ''; qObj.opts.forEach((optText, index) => { const btn = document.createElement('button'); btn.className = "bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white p-3 rounded-lg transition-colors font-medium text-sm shadow-md focus:outline-none"; btn.innerText = optText; btn.onclick = () => { if (index === qObj.a) { setVolume(currentVolume - 5); } else { setVolume(currentVolume + 5); } this.loadQuestion(); }; optsContainer.appendChild(btn); }); }, updateUI: (vol) => { document.getElementById('l11-display').innerText = vol + '%'; if (vol !== 25 && document.getElementById('l11-options').innerHTML === '') { setTimeout(() => levels[10].loadQuestion(), 50); } }, reset: function() { this.loadQuestion(); } },
-            { // Level 12
-                id: 'level-12',
+            { id: 'level-12', init: function() { const btn = document.getElementById('l12-btn'); const lastRollDisplay = document.getElementById('l12-last-roll'); btn.addEventListener('click', () => { const roll = Math.floor(Math.random() * 20) + 1; lastRollDisplay.innerText = `Rolled: ${roll}`; if (currentVolume > 25) { setVolume(currentVolume - roll); } else { setVolume(currentVolume + roll); } }); }, updateUI: (vol) => { document.getElementById('l12-display').innerText = vol + '%'; }, reset: () => { document.getElementById('l12-last-roll').innerText = 'Ready'; } },
+            { // Level 13
+                id: 'level-13',
                 init: function() {
-                    const btn = document.getElementById('l12-btn');
-                    const lastRollDisplay = document.getElementById('l12-last-roll');
-
-                    btn.addEventListener('click', () => {
-                        const roll = Math.floor(Math.random() * 20) + 1;
-                        lastRollDisplay.innerText = `Rolled: ${roll}`;
+                    const slider = document.getElementById('l13-slider');
+                    const input = document.getElementById('l13-age-input');
+                    
+                    slider.addEventListener('input', (e) => {
+                        setVolume(parseInt(e.target.value));
+                    });
+                    
+                    // Live validation styling so they know when they nailed it
+                    input.addEventListener('input', (e) => {
+                        const val = e.target.value;
+                        const isValid = /^(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{4}$/.test(val);
                         
-                        // If they are above 25, subtract to get closer.
-                        if (currentVolume > 25) {
-                            setVolume(currentVolume - roll);
-                        } 
-                        // If they are below or at 25, add to get further away. 
-                        // (Adding if they are AT 25 punishes them for clicking during the timer).
-                        else {
-                            setVolume(currentVolume + roll);
+                        if (isValid) {
+                            input.classList.remove('border-red-500');
+                            input.classList.add('border-green-500', 'bg-gray-700');
+                        } else {
+                            input.classList.add('border-red-500');
+                            input.classList.remove('border-green-500', 'bg-gray-700');
                         }
                     });
                 },
-                updateUI: (vol) => {
-                    document.getElementById('l12-display').innerText = vol + '%';
+                updateUI: function(vol) {
+                    document.getElementById('l13-slider').value = vol;
+                    const display = document.getElementById('l13-display');
+                    display.innerText = vol + '%';
+                    
+                    const verifyContainer = document.getElementById('l13-verify-container');
+                    const input = document.getElementById('l13-age-input');
+                    
+                    if (vol === 25) {
+                        // Ambush them with the input field
+                        verifyContainer.classList.remove('hidden');
+                        verifyContainer.classList.add('flex');
+                        display.classList.add('opacity-10'); // dim the volume text so they focus on the box
+                        input.focus();
+                    } else {
+                        // Hide it again if they fall off 25
+                        verifyContainer.classList.add('hidden');
+                        verifyContainer.classList.remove('flex');
+                        display.classList.remove('opacity-10');
+                        input.value = '';
+                        input.classList.add('border-red-500');
+                        input.classList.remove('border-green-500', 'bg-gray-700');
+                    }
                 },
-                reset: () => {
-                    document.getElementById('l12-last-roll').innerText = 'Ready';
+                canProgress: function() {
+                    // This function is called by the central manager exactly 3 seconds after hitting 25.
+                    // Strictly enforces exactly 8 digits representing a valid month/day structure.
+                    const val = document.getElementById('l13-age-input').value;
+                    return /^(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{4}$/.test(val);
+                },
+                onProgressFail: function() {
+                    // The brutal punishment if they type too slow or format it wrong
+                    setVolume(75);
+                },
+                reset: function() {
+                    document.getElementById('l13-verify-container').classList.add('hidden');
+                    document.getElementById('l13-verify-container').classList.remove('flex');
+                    document.getElementById('l13-display').classList.remove('opacity-10');
+                    document.getElementById('l13-age-input').value = '';
                 }
             }
         ];
@@ -259,7 +318,7 @@
             const levelEl = document.getElementById(level.id);
             levelEl.classList.remove('hidden');
             
-            if (level.id !== 'level-1' && level.id !== 'level-5' && level.id !== 'level-9') {
+            if (level.id !== 'level-1' && level.id !== 'level-5' && level.id !== 'level-9' && level.id !== 'level-13') {
                  levelEl.classList.add('flex');
             }
 
