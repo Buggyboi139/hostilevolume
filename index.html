@@ -51,6 +51,302 @@
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
             </button>
         </div>
+
+        <div id="level-4" class="level-ui hidden h-48 flex flex-col items-center justify-center relative mt-4">
+            <div id="l4-knob" class="w-32 h-32 rounded-full bg-gray-700 border-4 border-gray-600 shadow-[0_0_15px_rgba(0,0,0,0.5)] cursor-grab relative flex items-center justify-center transition-none">
+                <div class="absolute top-2 w-3 h-3 bg-blue-500 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
+                <div class="w-16 h-16 rounded-full bg-gray-800 pointer-events-none border border-gray-600"></div>
+            </div>
+            <div class="mt-8 text-4xl font-mono text-gray-300 w-24 text-center" id="l4-display">75%</div>
+        </div>
+    </div>
+
+    <div id="debug-menu" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-950 border border-red-500 rounded-lg p-3 flex gap-3 shadow-2xl z-50 items-center">
+        <span class="text-red-500 text-xs font-bold uppercase tracking-wider mr-2">Dev Menu</span>
+        <button onclick="forceLevel(0)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 1</button>
+        <button onclick="forceLevel(1)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 2</button>
+        <button onclick="forceLevel(2)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 3</button>
+        <button onclick="forceLevel(3)" class="bg-gray-800 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded">Lvl 4</button>
+    </div>
+    <script>
+        // DOM Elements
+        const audio = document.getElementById('bg-music');
+        const modal = document.getElementById('instructions-modal');
+        const startBtn = document.getElementById('start-btn');
+        const levelContainer = document.getElementById('level-container');
+        const levelTitle = document.getElementById('level-title');
+
+        // Game State
+        let currentVolume = 75;
+        let progressTimer = null;
+        let currentLevelIndex = 0;
+        
+        // Level 3 specific state
+        let l3Distance = 0;
+
+        // Central Volume Manager
+        function setVolume(val) {
+            currentVolume = Math.max(0, Math.min(100, val));
+            audio.volume = currentVolume / 100;
+
+            if (levels[currentLevelIndex]) {
+                levels[currentLevelIndex].updateUI(currentVolume);
+            }
+
+            if (currentVolume === 25) {
+                if (!progressTimer) {
+                    progressTimer = setTimeout(() => {
+                        nextLevel();
+                    }, 3000);
+                }
+            } else {
+                if (progressTimer) {
+                    clearTimeout(progressTimer);
+                    progressTimer = null;
+                }
+            }
+        }
+
+        // Level Definitions
+        const levels = [
+            { // Level 1
+                id: 'level-1',
+                init: () => {
+                    document.getElementById('l1-slider').addEventListener('input', (e) => setVolume(parseInt(e.target.value)));
+                },
+                updateUI: (vol) => {
+                    document.getElementById('l1-slider').value = vol;
+                    document.getElementById('l1-display').innerText = vol + '%';
+                },
+                reset: () => {} 
+            },
+            { // Level 2
+                id: 'level-2',
+                init: () => {
+                    document.getElementById('l2-up').onclick = () => setVolume(currentVolume + 1);
+                    document.getElementById('l2-down').onclick = () => setVolume(currentVolume - 1);
+                },
+                updateUI: (vol) => {
+                    document.getElementById('l2-display').innerText = vol + '%';
+                },
+                reset: () => {} 
+            },
+            { // Level 3
+                id: 'level-3',
+                init: () => {
+                    const upBtn = document.getElementById('l3-up');
+                    const downBtn = document.getElementById('l3-down');
+                    
+                    upBtn.onclick = () => {
+                        setVolume(currentVolume + 1);
+                        l3Distance += 1;
+                        upBtn.style.transform = `translateY(-${l3Distance}px)`;
+                        downBtn.style.transform = `translateY(${l3Distance}px)`;
+                    };
+                    
+                    downBtn.onclick = () => {
+                        setVolume(currentVolume - 1);
+                        l3Distance += 1;
+                        upBtn.style.transform = `translateY(-${l3Distance}px)`;
+                        downBtn.style.transform = `translateY(${l3Distance}px)`;
+                    };
+                },
+                updateUI: (vol) => {
+                    document.getElementById('l3-display').innerText = vol + '%';
+                },
+                reset: () => {
+                    l3Distance = 0;
+                    document.getElementById('l3-up').style.transform = `translateY(0px)`;
+                    document.getElementById('l3-down').style.transform = `translateY(0px)`;
+                }
+            },
+            { // Level 4
+                id: 'level-4',
+                isDragging: false,
+                init: function() {
+                    const knob = document.getElementById('l4-knob');
+                    
+                    const calculateVolumeFromMouse = (clientX, clientY) => {
+                        if (!this.isDragging) return;
+                        
+                        const rect = knob.getBoundingClientRect();
+                        const centerX = rect.left + rect.width / 2;
+                        const centerY = rect.top + rect.height / 2;
+                        
+                        const x = clientX - centerX;
+                        const y = clientY - centerY;
+                        
+                        // Calculate angle in degrees
+                        let rad = Math.atan2(y, x);
+                        let deg = rad * (180 / Math.PI);
+                        
+                        // Shift so 0 degrees is straight up (12 o'clock)
+                        deg += 90;
+                        if (deg < -180) deg += 360;
+                        if (deg > 180) deg -= 360;
+
+                        // Clamp rotation between -135deg (0%) and +135deg (100%)
+                        if (deg > 135 && deg < 180) deg = 135; // Clamp hard right
+                        if (deg < -135 || (deg > 180 && deg < 225)) deg = -135; // Clamp hard left
+                        
+                        if (deg >= -135 && deg <= 135) {
+                            // Map -135 -> +135 range to 0 -> 100 volume
+                            let vol = Math.round(((deg + 135) / 270) * 100);
+                            setVolume(vol);
+                        }
+                    };
+
+                    const handleMouseMove = (e) => calculateVolumeFromMouse(e.clientX, e.clientY);
+                    const handleTouchMove = (e) => {
+                        if (this.isDragging) e.preventDefault(); // Stop page scrolling
+                        calculateVolumeFromMouse(e.touches[0].clientX, e.touches[0].clientY);
+                    };
+
+                    const startDrag = () => {
+                        this.isDragging = true;
+                        knob.classList.remove('cursor-grab');
+                        knob.classList.add('cursor-grabbing');
+                    };
+
+                    const stopDrag = () => {
+                        this.isDragging = false;
+                        knob.classList.remove('cursor-grabbing');
+                        knob.classList.add('cursor-grab');
+                    };
+
+                    // Mouse Events
+                    knob.addEventListener('mousedown', startDrag);
+                    document.addEventListener('mousemove', handleMouseMove);
+                    document.addEventListener('mouseup', stopDrag);
+                    
+                    // Touch Events for mobile
+                    knob.addEventListener('touchstart', startDrag, {passive: false});
+                    document.addEventListener('touchmove', handleTouchMove, {passive: false});
+                    document.addEventListener('touchend', stopDrag);
+                },
+                updateUI: (vol) => {
+                    document.getElementById('l4-display').innerText = vol + '%';
+                    // Convert volume back to degrees (-135 to +135) to physically rotate the HTML element
+                    const deg = (vol / 100) * 270 - 135;
+                    document.getElementById('l4-knob').style.transform = `rotate(${deg}deg)`;
+                },
+                reset: function() {
+                    this.isDragging = false;
+                    document.getElementById('l4-knob').classList.remove('cursor-grabbing');
+                    document.getElementById('l4-knob').classList.add('cursor-grab');
+                }
+            }
+        ];
+
+        // Load a specific level
+        function loadLevel(index) {
+            document.querySelectorAll('.level-ui').forEach(el => el.classList.add('hidden'));
+            
+            if (index >= levels.length) {
+                levelTitle.innerText = "You Survived. For now.";
+                return;
+            }
+
+            const level = levels[index];
+            level.reset(); 
+            document.getElementById(level.id).classList.remove('hidden');
+            levelTitle.innerText = `Level ${index + 1}`;
+            
+            levelContainer.classList.remove('opacity-100');
+            levelContainer.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                setVolume(75); 
+                levelContainer.classList.remove('opacity-0');
+                levelContainer.classList.add('opacity-100');
+            }, 300);
+        }
+
+        function nextLevel() {
+            progressTimer = null; 
+            currentLevelIndex++;
+            loadLevel(currentLevelIndex);
+        }
+
+        // DEBUG MENU FUNCTION
+        function forceLevel(index) {
+            if (progressTimer) clearTimeout(progressTimer);
+            progressTimer = null;
+            currentLevelIndex = index;
+            loadLevel(currentLevelIndex);
+        }
+
+        // Initialization
+        levels.forEach(level => level.init());
+
+        // Start Game
+        startBtn.addEventListener('click', () => {
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                levelContainer.classList.remove('hidden');
+                
+                audio.volume = 0.75;
+                audio.play().catch(e => console.warn("Audio not playing: Check file path or format."));
+                
+                loadLevel(0);
+            }, 300);
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostile Volume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white h-screen flex items-center justify-center overflow-hidden font-sans select-none relative">
+
+    <audio id="bg-music" loop>
+        <source src="elevator.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="instructions-modal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 transition-opacity duration-300">
+        <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md text-center border border-gray-700">
+            <h1 class="text-3xl font-bold mb-4 text-gray-100">Hostile Volume</h1>
+            <p class="text-gray-400 mb-8 text-lg leading-relaxed">
+                To progress to the next level, you must set the volume to exactly <strong class="text-white bg-gray-700 px-2 py-1 rounded">25%</strong> and hold it there for 3 seconds.
+            </p>
+            <button id="start-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-8 rounded-lg transition-colors w-full">
+                I Understand
+            </button>
+        </div>
+    </div>
+
+    <div id="level-container" class="hidden w-full max-w-md p-10 bg-gray-800 rounded-2xl shadow-2xl text-center border border-gray-700 transition-all duration-500">
+        <h2 id="level-title" class="text-sm tracking-widest uppercase font-semibold mb-10 text-gray-500">Level 1</h2>
+        
+        <div id="level-1" class="level-ui hidden h-48 flex flex-col justify-center">
+            <input type="range" min="0" max="100" value="75" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-blue-500" id="l1-slider">
+            <div class="mt-8 text-4xl font-mono text-gray-300" id="l1-display">75%</div>
+        </div>
+
+        <div id="level-2" class="level-ui hidden h-48 flex flex-col items-center justify-center gap-4">
+            <button id="l2-up" class="p-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-colors focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg>
+            </button>
+            <div class="text-4xl font-mono text-gray-300 w-24" id="l2-display">75%</div>
+            <button id="l2-down" class="p-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-colors focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+        </div>
+
+        <div id="level-3" class="level-ui hidden h-48 flex flex-col items-center justify-center">
+            <button id="l3-up" class="p-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-transform duration-75 focus:outline-none z-10">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg>
+            </button>
+            <div class="text-4xl font-mono text-gray-300 w-24 my-2 z-0" id="l3-display">75%</div>
+            <button id="l3-down" class="p-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-transform duration-75 focus:outline-none z-10">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+        </div>
     </div>
 
     <div id="debug-menu" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-950 border border-red-500 rounded-lg p-3 flex gap-3 shadow-2xl z-50 items-center">
