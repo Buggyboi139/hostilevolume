@@ -3,44 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volume</title>
+    <title>Volume Control</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 h-screen w-screen overflow-hidden flex items-center justify-center font-sans text-gray-800 selection:bg-transparent">
+<body class="bg-slate-50 h-screen w-screen overflow-hidden flex items-center justify-center font-sans text-slate-800 antialiased selection:bg-transparent">
 
     <div id="screen-1" class="absolute transition-opacity duration-1000 ease-in-out opacity-100 flex items-center justify-center w-full h-full z-10">
-        <input 
-            type="range" 
-            id="normal-slider" 
-            min="0" 
-            max="100" 
-            value="50" 
-            class="w-64 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-gray-700 outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-gray-50 transition-all"
-        >
+        <div class="bg-white px-10 py-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 flex flex-col items-center w-80 transition-transform hover:scale-[1.01] duration-500">
+            
+            <svg class="w-6 h-6 text-slate-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+            </svg>
+
+            <h2 class="text-xs font-semibold text-slate-400 tracking-widest uppercase mb-2">Master Volume</h2>
+            <div id="s1-vol-display" class="text-6xl font-light text-slate-700 tabular-nums mb-8">50%</div>
+            
+            <input 
+                type="range" 
+                id="normal-slider" 
+                min="0" 
+                max="100" 
+                value="50" 
+                class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600 outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 transition-all"
+            >
+        </div>
     </div>
 
     <div id="screen-2" class="absolute transition-opacity duration-1000 ease-in-out opacity-0 pointer-events-none flex flex-col items-center justify-center w-full h-full z-0">
-        <div class="flex flex-col items-center gap-8">
-            <button id="vol-up" class="p-4 bg-white rounded-full shadow-sm border border-gray-200 hover:bg-gray-100 hover:shadow-md active:scale-95 transition-all outline-none focus:ring-2 focus:ring-gray-400">
-                <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
-                </svg>
-            </button>
+        <div class="bg-white px-10 py-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 flex flex-col items-center w-80">
+            <h2 class="text-xs font-semibold text-slate-400 tracking-widest uppercase mb-6">Fine Tuning</h2>
             
-            <div id="vol-display" class="text-4xl font-light w-24 text-center tracking-tight text-gray-700 tabular-nums">
-                25%
+            <div class="flex flex-col items-center gap-6">
+                <button id="vol-up" class="p-4 bg-slate-50 rounded-full shadow-sm border border-slate-100 hover:bg-slate-100 hover:shadow active:scale-95 transition-all outline-none focus:ring-2 focus:ring-blue-500/50 text-slate-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                    </svg>
+                </button>
+                
+                <div id="vol-display" class="text-5xl font-light w-24 text-center tracking-tight text-slate-700 tabular-nums">
+                    25%
+                </div>
+                
+                <button id="vol-down" class="p-4 bg-slate-50 rounded-full shadow-sm border border-slate-100 hover:bg-slate-100 hover:shadow active:scale-95 transition-all outline-none focus:ring-2 focus:ring-blue-500/50 text-slate-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
             </div>
-            
-            <button id="vol-down" class="p-4 bg-white rounded-full shadow-sm border border-gray-200 hover:bg-gray-100 hover:shadow-md active:scale-95 transition-all outline-none focus:ring-2 focus:ring-gray-400">
-                <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </button>
         </div>
     </div>
 
     <script>
         const slider = document.getElementById('normal-slider');
+        const s1VolDisplay = document.getElementById('s1-vol-display');
         const screen1 = document.getElementById('screen-1');
         const screen2 = document.getElementById('screen-2');
         const volDisplay = document.getElementById('vol-display');
@@ -50,17 +65,18 @@
         let timer = null;
         let currentVol = 25; 
 
-        // Screen 1 Logic: Listen for the 25% trigger
+        // Screen 1 Logic: Update text and listen for 25% trigger
         slider.addEventListener('input', (e) => {
-            if (e.target.value === '25') {
-                // Start the 3-second timer if we hit exactly 25
+            const val = e.target.value;
+            s1VolDisplay.textContent = val + '%';
+
+            if (val === '25') {
                 if (!timer) {
                     timer = setTimeout(() => {
                         transitionToScreen2();
                     }, 3000);
                 }
             } else {
-                // Cancel the transition if they move the slider away from 25%
                 if (timer) {
                     clearTimeout(timer);
                     timer = null;
@@ -70,17 +86,15 @@
 
         // The Smooth Transition
         function transitionToScreen2() {
-            // Fade out Screen 1
             screen1.classList.remove('opacity-100', 'z-10');
             screen1.classList.add('opacity-0', 'pointer-events-none', 'z-0');
 
-            // Fade in Screen 2
             screen2.classList.remove('opacity-0', 'pointer-events-none', 'z-0');
             screen2.classList.add('opacity-100', 'z-10');
             screen2.classList.remove('pointer-events-none');
         }
 
-        // Screen 2 Logic: Standard arrow operation
+        // Screen 2 Logic
         btnUp.addEventListener('click', () => {
             if (currentVol < 100) currentVol++;
             volDisplay.textContent = currentVol + '%';
