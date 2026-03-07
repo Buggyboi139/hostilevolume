@@ -120,6 +120,13 @@
                 </div>
             </div>
         </div>
+
+        <div id="level-10" class="level-ui hidden h-48 flex-col items-center justify-center gap-6">
+            <button id="l10-btn" class="bg-purple-700 hover:bg-purple-600 active:bg-purple-800 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-transform active:scale-95 focus:outline-none tracking-widest uppercase">
+                Randomize
+            </button>
+            <div class="text-4xl font-mono text-gray-300 w-24 text-center" id="l10-display">75%</div>
+        </div>
     </div>
 
     <div id="debug-menu" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-950 border border-red-500 rounded-lg p-3 flex gap-2 shadow-2xl z-50 items-center">
@@ -133,6 +140,7 @@
         <button onclick="forceLevel(6)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">7</button>
         <button onclick="forceLevel(7)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">8</button>
         <button onclick="forceLevel(8)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">9</button>
+        <button onclick="forceLevel(9)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">10</button>
     </div>
     <script>
         // DOM Elements
@@ -196,22 +204,19 @@
 
                     slider.addEventListener('input', (e) => {
                         if (this.isLocked) {
-                            e.target.value = currentVolume; // Prevent slider from moving while locked
+                            e.target.value = currentVolume; 
                             return;
                         }
 
                         let newVol = parseInt(e.target.value);
                         
-                        // Check if they moved 10 units since the last captcha
                         if (Math.abs(newVol - this.lastCaptchaVol) >= 10) {
-                            // Calculate exact boundary they hit (e.g., if last was 75, boundary is 65 or 85)
                             let direction = newVol < this.lastCaptchaVol ? -1 : 1;
                             let lockedVol = this.lastCaptchaVol + (10 * direction);
                             
-                            setVolume(lockedVol); // Snap volume to the boundary
+                            setVolume(lockedVol); 
                             this.isLocked = true;
                             
-                            // Throw the CAPTCHA modal
                             modal.classList.remove('hidden');
                         } else {
                             setVolume(newVol);
@@ -222,23 +227,19 @@
                         if (this.isVerifying) return;
                         this.isVerifying = true;
                         
-                        // Start spinning animation
                         checkbox.classList.remove('border-2', 'border-gray-400', 'cursor-pointer');
                         spinnerIcon.classList.remove('hidden');
 
-                        // Fake network delay (2 seconds)
                         setTimeout(() => {
                             spinnerIcon.classList.add('hidden');
                             checkIcon.classList.remove('hidden');
                             
-                            // Let them see the success checkmark for half a second before dismissing
                             setTimeout(() => {
                                 modal.classList.add('hidden');
-                                this.lastCaptchaVol = currentVolume; // Reset anchor point
+                                this.lastCaptchaVol = currentVolume; 
                                 this.isLocked = false;
                                 this.isVerifying = false;
                                 
-                                // Reset checkbox UI for the next time it pops up
                                 checkbox.classList.add('border-2', 'border-gray-400', 'cursor-pointer');
                                 checkIcon.classList.add('hidden');
                             }, 500);
@@ -258,6 +259,22 @@
                     document.getElementById('l9-check-icon').classList.add('hidden');
                     document.getElementById('l9-spinner-icon').classList.add('hidden');
                 }
+            },
+            { // Level 10
+                id: 'level-10',
+                init: function() {
+                    const btn = document.getElementById('l10-btn');
+                    btn.addEventListener('click', () => {
+                        // 20% chance to roll the perfect 25
+                        const isWinner = Math.random() < 0.20;
+                        const newVol = isWinner ? 25 : Math.floor(Math.random() * 101);
+                        setVolume(newVol);
+                    });
+                },
+                updateUI: (vol) => {
+                    document.getElementById('l10-display').innerText = vol + '%';
+                },
+                reset: () => {}
             }
         ];
 
