@@ -16,10 +16,10 @@
         <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md text-center border border-gray-700">
             <h1 class="text-3xl font-bold mb-4 text-gray-100">Hostile Volume</h1>
             <p class="text-gray-400 mb-8 text-lg leading-relaxed">
-                To progress to the next level, you must set the volume to exactly <strong class="text-white bg-gray-700 px-2 py-1 rounded">25%</strong> and hold it there for 3 seconds.
+                To progress to the next level, set the volume to exactly <strong class="text-white bg-gray-700 px-2 py-1 rounded">25%</strong> and hold it there for 3 seconds.
             </p>
             <button id="start-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-8 rounded-lg transition-colors w-full">
-                I Understand
+                Got it!
             </button>
         </div>
     </div>
@@ -38,6 +38,16 @@
             </button>
             <div class="text-4xl font-mono text-gray-300 w-24" id="l2-display">75%</div>
             <button id="l2-down" class="p-4 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+        </div>
+
+        <div id="level-3" class="level-ui hidden flex flex-col items-center justify-center min-h-[300px]">
+            <button id="l3-up" class="p-4 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-transform duration-75 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg>
+            </button>
+            <div class="text-4xl font-mono text-gray-300 w-24 my-6" id="l3-display">75%</div>
+            <button id="l3-down" class="p-4 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 rounded-full transition-transform duration-75 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
             </button>
         </div>
@@ -103,7 +113,39 @@
                 updateUI: (vol) => {
                     document.getElementById('l2-display').innerText = vol + '%';
                 }
+            },
+            {
+                id: 'level-3',
+                distance: 0,
+                init: function() {
+                    const upBtn = document.getElementById('l3-up');
+                    const downBtn = document.getElementById('l3-down');
+                    
+                    const moveButtons = () => {
+                        this.distance += 1; // Move 1px per click
+                        upBtn.style.transform = `translateY(-${this.distance}px)`;
+                        downBtn.style.transform = `translateY(${this.distance}px)`;
+                    };
+
+                    upBtn.onclick = () => {
+                        setVolume(currentVolume + 1);
+                        moveButtons();
+                    };
+                    downBtn.onclick = () => {
+                        setVolume(currentVolume - 1);
+                        moveButtons();
+                    };
+                },
+                updateUI: (vol) => {
+                    document.getElementById('l3-display').innerText = vol + '%';
+                },
+                reset: function() {
+                    this.distance = 0;
+                    document.getElementById('l3-up').style.transform = `translateY(0px)`;
+                    document.getElementById('l3-down').style.transform = `translateY(0px)`;
+                }
             }
+        ];
         ];
 
         function loadLevel(index) {
@@ -117,6 +159,8 @@
 
             // Show current level
             const level = levels[index];
+            if (level.reset) level.reset();
+            
             document.getElementById(level.id).classList.remove('hidden');
             levelTitle.innerText = `Level ${index + 1}`;
             
