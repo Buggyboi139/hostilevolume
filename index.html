@@ -129,10 +129,8 @@
         </div>
 
         <div id="level-11" class="level-ui hidden flex-col items-center justify-center w-full gap-4 min-h-[200px]">
-            <div id="l11-question" class="text-lg font-semibold text-center text-gray-200 mb-2 px-2 h-16 flex items-center justify-center w-full">
-                </div>
-            <div id="l11-options" class="grid grid-cols-2 gap-3 w-full max-w-sm">
-                </div>
+            <div id="l11-question" class="text-lg font-semibold text-center text-gray-200 mb-2 px-2 h-16 flex items-center justify-center w-full"></div>
+            <div id="l11-options" class="grid grid-cols-2 gap-3 w-full max-w-sm"></div>
             <div class="mt-4 text-4xl font-mono text-gray-300 w-24 text-center" id="l11-display">75%</div>
         </div>
 
@@ -146,13 +144,11 @@
 
         <div id="level-13" class="level-ui hidden flex-col items-center justify-center relative w-full h-48">
             <input type="range" min="0" max="100" value="75" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-blue-500" id="l13-slider">
-            
             <div id="l13-verify-container" class="hidden flex-col items-center gap-2 w-full mt-4 absolute top-12">
                 <span class="text-red-400 text-sm font-bold uppercase tracking-widest animate-pulse">Age Verification Required</span>
                 <input type="text" id="l13-age-input" placeholder="MMDDYYYY" maxlength="8" class="bg-gray-800 border-2 border-red-500 text-white text-center font-mono py-2 px-4 rounded-lg w-48 focus:outline-none transition-colors shadow-2xl z-10">
                 <span class="text-xs text-gray-500 font-mono bg-gray-900 px-2 rounded">Enter quickly. 3.0s</span>
             </div>
-            
             <div class="mt-14 text-4xl font-mono text-gray-300 text-center transition-all" id="l13-display">75%</div>
         </div>
 
@@ -186,7 +182,7 @@
             <div id="l17-form-container" class="w-full flex flex-col items-center gap-3">
                 <h3 id="l17-form-title" class="text-[13px] font-bold text-red-400 uppercase tracking-wider w-full text-left">EULA (1/5)</h3>
                 <div class="h-24 w-full bg-gray-950 border border-gray-700 rounded p-2 overflow-y-auto text-[10px] text-gray-500 font-mono text-left select-none shadow-inner leading-relaxed">
-                    By providing your signature below, you irrevocably agree that Hostile Volume is not responsible for any ensuing psychological damage, destruction of peripheral devices, or catastrophic loss of sanity. You willingly waive your right to an intuitive user experience and agree that the volume slider may, at any time, actively conspire against you. This agreement is binding in perpetuity throughout the known universe.
+                    By providing your signature below, you irrevocably agree that Hostile Volume is not responsible for any ensuing psychological damage. You willingly waive your right to an intuitive user experience.
                 </div>
                 <div class="relative w-full">
                     <canvas id="l17-signature-pad" width="360" height="120" class="bg-gray-200 rounded cursor-crosshair touch-none w-full shadow-inner"></canvas>
@@ -198,7 +194,7 @@
                 </div>
             </div>
             <div id="l17-reward-container" class="hidden w-full flex-col justify-center h-48">
-                <h3 class="text-green-500 font-bold mb-6 uppercase tracking-widest text-center text-xs animate-pulse">Compliance Acknowledged.<br>Slider Unlocked.</h3>
+                <h3 class="text-green-500 font-bold mb-6 uppercase tracking-widest text-center text-xs animate-pulse">Compliance Acknowledged.</h3>
                 <input type="range" min="0" max="100" value="75" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-green-500" id="l17-reward-slider">
                 <div class="mt-8 text-4xl font-mono text-gray-300 text-center" id="l17-display">75%</div>
             </div>
@@ -211,10 +207,53 @@
                 <span class="text-[10px] text-red-500 absolute -right-16 font-sans font-bold animate-pulse tracking-widest bg-red-900/30 px-1 rounded">ERR_UI</span>
             </div>
         </div>
+
+        <div id="level-19" class="level-ui hidden flex-col items-center justify-center w-full relative h-[300px]">
+            <div id="l19-chat-box" class="w-full h-48 bg-gray-950 border border-gray-700 rounded-lg p-3 overflow-y-auto mb-3 text-xs font-mono text-gray-400 flex flex-col gap-2">
+                <div><span class="text-blue-400 font-bold">System:</span> Manual overrides restricted. Speak to an agent.</div>
+            </div>
+            <div class="flex gap-2 w-full">
+                <input type="text" id="l19-input" class="flex-1 bg-gray-800 border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none text-white" placeholder="Request volume...">
+                <button id="l19-send" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded text-sm font-bold transition-colors">Send</button>
+            </div>
+            <button id="l19-confirm" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 hover:bg-green-400 text-white font-black tracking-widest py-6 px-12 rounded-2xl shadow-2xl hidden z-20 scale-110 focus:outline-none border-4 border-green-700">CONFIRM</button>
+            <div class="mt-4 text-4xl font-mono text-gray-300 text-center hidden" id="l19-display">75%</div>
+        </div>
+
+        <div id="level-20" class="level-ui hidden flex-col items-center justify-center w-full transition-all duration-300 gap-1.5 h-full py-4">
+            <div class="text-[10px] tracking-widest text-red-500 uppercase font-bold mb-2 text-center animate-pulse">Final Exam: The Average</div>
+            
+            <div class="w-full flex items-center justify-between gap-3">
+                <span class="w-4 font-bold text-red-400 text-xs">A</span>
+                <input type="range" id="l20-A" min="0" max="100" value="25" class="flex-1 h-1.5 bg-gray-700 appearance-none accent-red-500 cursor-pointer">
+            </div>
+            <div class="w-full flex items-center justify-between gap-3">
+                <span class="w-4 font-bold text-blue-400 text-xs">B</span>
+                <input type="range" id="l20-B" min="0" max="100" value="75" class="flex-1 h-1.5 bg-gray-700 appearance-none accent-blue-500 cursor-pointer">
+            </div>
+            <div class="w-full flex items-center justify-center gap-4 py-2 border-y border-gray-700 my-1 relative">
+                <span class="absolute left-0 w-4 font-bold text-green-400 text-xs">C</span>
+                <button id="l20-C-down" class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-white font-bold transition-transform focus:outline-none">-</button>
+                <span id="l20-C-val" class="font-mono text-sm w-6 text-center text-gray-400">75</span>
+                <button id="l20-C-up" class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-white font-bold transition-transform focus:outline-none">+</button>
+            </div>
+            <div class="w-full flex items-center justify-between gap-3">
+                <span class="w-4 font-bold text-yellow-400 text-xs">D</span>
+                <input type="range" id="l20-D" min="0" max="100" value="75" class="flex-1 h-1.5 bg-gray-700 appearance-none accent-yellow-500 cursor-pointer">
+            </div>
+            <div class="w-full flex items-center justify-between gap-3 relative">
+                <span class="w-4 font-bold text-purple-400 text-xs">E</span>
+                <input type="range" id="l20-E" min="0" max="100" value="75" class="flex-1 h-1.5 bg-gray-700 appearance-none accent-purple-500 pointer-events-none opacity-50 transition-all duration-200">
+                <div class="absolute right-0 -top-4 text-[8px] text-purple-400 tracking-widest uppercase">Auto-RNG</div>
+            </div>
+
+            <div class="mt-6 text-5xl font-mono text-white text-center drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" id="l20-display">75%</div>
+        </div>
+
     </div>
 
-    <div id="debug-menu" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-950 border border-red-500 rounded-lg p-3 flex gap-1.5 shadow-2xl z-50 items-center flex-wrap justify-center w-[95%] max-w-2xl">
-        <span class="text-red-500 text-xs font-bold uppercase tracking-wider mr-1">Dev</span>
+    <div id="debug-menu" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-950 border border-red-500 rounded-lg p-3 flex gap-1.5 shadow-2xl z-50 items-center flex-wrap justify-center w-[95%] max-w-3xl">
+        <span class="text-red-500 text-[10px] font-bold uppercase tracking-wider mr-1 w-full text-center">Dev Jump</span>
         <button onclick="forceLevel(0)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">1</button>
         <button onclick="forceLevel(1)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">2</button>
         <button onclick="forceLevel(2)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">3</button>
@@ -232,7 +271,9 @@
         <button onclick="forceLevel(14)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">15</button>
         <button onclick="forceLevel(15)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">16</button>
         <button onclick="forceLevel(16)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">17</button>
-        <button onclick="forceLevel(17)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded border border-blue-500">18</button>
+        <button onclick="forceLevel(17)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded">18</button>
+        <button onclick="forceLevel(18)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded border border-blue-500">19</button>
+        <button onclick="forceLevel(19)" class="bg-gray-800 hover:bg-gray-700 text-white text-xs px-2 py-1 rounded border border-blue-500">20</button>
     </div>
     <script>
         // DOM Elements
@@ -297,143 +338,164 @@
             { id: 'level-14', init: () => { document.getElementById('l14-slider').addEventListener('input', (e) => setVolume(parseInt(e.target.value))); }, updateUI: (vol) => { document.getElementById('l14-slider').value = vol; document.getElementById('l14-display').innerText = vol + '%'; let distance = Math.abs(vol - 25); let brightness = Math.max(0, Math.min(100, (distance / 50) * 100)); document.getElementById('level-container').style.filter = `brightness(${brightness}%)`; }, reset: () => { document.getElementById('l14-slider').value = 75; } },
             { id: 'level-15', animFrame: null, angle: 0, sweeping: true, init: function() { const btn = document.getElementById('l15-btn'); const lockIn = () => { this.sweeping = false; let val = Math.round(((Math.sin(this.angle) + 1) / 2) * 100); setVolume(val); btn.classList.add('bg-yellow-700', 'scale-95'); btn.classList.remove('bg-yellow-600'); }; const release = () => { if (!this.sweeping) { this.sweeping = true; setVolume(75); this.sweep(); btn.classList.remove('bg-yellow-700', 'scale-95'); btn.classList.add('bg-yellow-600'); } }; btn.addEventListener('mousedown', lockIn); document.addEventListener('mouseup', release); btn.addEventListener('touchstart', (e) => { e.preventDefault(); lockIn(); }, {passive: false}); document.addEventListener('touchend', release); }, sweep: function() { if (!this.sweeping) return; this.angle += 0.04; let val = ((Math.sin(this.angle) + 1) / 2) * 100; document.getElementById('l15-needle').style.left = val + '%'; document.getElementById('l15-display').innerText = Math.round(val) + '%'; this.animFrame = requestAnimationFrame(() => this.sweep()); }, updateUI: (vol) => { if (!levels[14].sweeping) { document.getElementById('l15-display').innerText = vol + '%'; document.getElementById('l15-needle').style.left = vol + '%'; } }, reset: function() { this.sweeping = true; this.angle = Math.asin((75 / 100) * 2 - 1); if (this.animFrame) cancelAnimationFrame(this.animFrame); this.sweep(); const btn = document.getElementById('l15-btn'); btn.classList.remove('bg-yellow-700', 'scale-95'); btn.classList.add('bg-yellow-600'); } },
             { id: 'level-16', gravityInterval: null, init: function() { const upBtn = document.getElementById('l16-up'); const downBtn = document.getElementById('l16-down'); upBtn.addEventListener('click', () => setVolume(currentVolume + 1)); downBtn.addEventListener('click', () => setVolume(currentVolume - 1)); }, updateUI: (vol) => { document.getElementById('l16-display').innerText = vol + '%'; }, reset: function() { if (this.gravityInterval) clearInterval(this.gravityInterval); this.gravityInterval = setInterval(() => { if (levels[currentLevelIndex].id !== 'level-16') { clearInterval(this.gravityInterval); return; } if (currentVolume < 75) { setVolume(currentVolume + 1); } else if (currentVolume > 75) { setVolume(currentVolume - 1); } }, 300); } },
+            { id: 'level-17', formIndex: 0, isDrawing: false, hasSigned: false, ctx: null, titles: [ "End User License Agreement", "Waiver of Liability for Emotional Distress", "Binding Arbitration Agreement", "Soul Transfer Authorization", "Final Confirmation of Voluntary Participation" ], init: function() { const canvas = document.getElementById('l17-signature-pad'); this.ctx = canvas.getContext('2d'); this.ctx.lineWidth = 3; this.ctx.strokeStyle = '#1e3a8a'; this.ctx.lineCap = 'round'; this.ctx.lineJoin = 'round'; const getPos = (e) => { const rect = canvas.getBoundingClientRect(); const clientX = e.touches ? e.touches[0].clientX : e.clientX; const clientY = e.touches ? e.touches[0].clientY : e.clientY; return { x: (clientX - rect.left) * (canvas.width / rect.width), y: (clientY - rect.top) * (canvas.height / rect.height) }; }; const startDraw = (e) => { e.preventDefault(); this.isDrawing = true; this.hasSigned = true; const pos = getPos(e); this.ctx.beginPath(); this.ctx.moveTo(pos.x, pos.y); }; const draw = (e) => { if (!this.isDrawing) return; e.preventDefault(); const pos = getPos(e); this.ctx.lineTo(pos.x, pos.y); this.ctx.stroke(); }; const stopDraw = () => { this.isDrawing = false; }; canvas.addEventListener('mousedown', startDraw); canvas.addEventListener('mousemove', draw); canvas.addEventListener('mouseup', stopDraw); canvas.addEventListener('mouseout', stopDraw); canvas.addEventListener('touchstart', startDraw, {passive: false}); canvas.addEventListener('touchmove', draw, {passive: false}); canvas.addEventListener('touchend', stopDraw); document.getElementById('l17-clear-btn').onclick = () => { this.ctx.clearRect(0, 0, canvas.width, canvas.height); this.hasSigned = false; }; document.getElementById('l17-submit-btn').onclick = () => { if (!this.hasSigned) { const container = document.getElementById('l17-form-container'); container.classList.add('translate-x-2'); setTimeout(() => container.classList.remove('translate-x-2'), 100); setTimeout(() => container.classList.add('-translate-x-2'), 200); setTimeout(() => container.classList.remove('-translate-x-2'), 300); return; } this.formIndex++; if (this.formIndex < 5) { document.getElementById('l17-form-title').innerText = `${this.titles[this.formIndex]} (${this.formIndex + 1}/5)`; this.ctx.clearRect(0, 0, canvas.width, canvas.height); this.hasSigned = false; } else { document.getElementById('l17-form-container').classList.add('hidden'); document.getElementById('l17-form-container').classList.remove('flex'); document.getElementById('l17-reward-container').classList.remove('hidden'); document.getElementById('l17-reward-container').classList.add('flex'); this.updateUI(currentVolume); } }; document.getElementById('l17-reward-slider').addEventListener('input', (e) => { setVolume(parseInt(e.target.value)); }); }, updateUI: function(vol) { if (this.formIndex >= 5) { document.getElementById('l17-reward-slider').value = vol; document.getElementById('l17-display').innerText = vol + '%'; } }, reset: function() { this.formIndex = 0; this.hasSigned = false; if (this.ctx) { const canvas = document.getElementById('l17-signature-pad'); this.ctx.clearRect(0, 0, canvas.width, canvas.height); } document.getElementById('l17-form-title').innerText = `${this.titles[0]} (1/5)`; document.getElementById('l17-form-container').classList.remove('hidden'); document.getElementById('l17-form-container').classList.add('flex'); document.getElementById('l17-reward-container').classList.add('hidden'); document.getElementById('l17-reward-container').classList.remove('flex'); document.getElementById('l17-reward-slider').value = 75; } },
+            { id: 'level-18', init: () => { document.getElementById('l18-slider').addEventListener('input', (e) => { setVolume(100 - parseInt(e.target.value)); }); }, updateUI: (vol) => { document.getElementById('l18-slider').value = 100 - vol; document.getElementById('l18-display').innerHTML = ` 75% <span class="text-[10px] text-red-500 absolute -right-16 font-sans font-bold animate-pulse tracking-widest bg-red-900/30 px-1 rounded">ERR_UI</span> `; }, reset: () => { document.getElementById('l18-slider').value = 25; } },
             {
-                // Level 17 (Fixed Scope)
-                id: 'level-17',
-                formIndex: 0,
-                isDrawing: false,
-                hasSigned: false,
-                ctx: null,
-                titles: [
-                    "End User License Agreement",
-                    "Waiver of Liability for Emotional Distress",
-                    "Binding Arbitration Agreement",
-                    "Soul Transfer Authorization",
-                    "Final Confirmation of Voluntary Participation"
-                ],
+                // Level 19: Support Queue
+                id: 'level-19',
+                queueInterval: null,
+                timeoutTimer: null,
                 init: function() {
-                    const canvas = document.getElementById('l17-signature-pad');
-                    this.ctx = canvas.getContext('2d');
-                    this.ctx.lineWidth = 3;
-                    this.ctx.strokeStyle = '#1e3a8a';
-                    this.ctx.lineCap = 'round';
-                    this.ctx.lineJoin = 'round';
+                    const input = document.getElementById('l19-input');
+                    const sendBtn = document.getElementById('l19-send');
+                    const chat = document.getElementById('l19-chat-box');
+                    const confirmBtn = document.getElementById('l19-confirm');
 
-                    const getPos = (e) => {
-                        const rect = canvas.getBoundingClientRect();
-                        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                        return {
-                            x: (clientX - rect.left) * (canvas.width / rect.width),
-                            y: (clientY - rect.top) * (canvas.height / rect.height)
-                        };
+                    const addMsg = (sender, msg, color) => {
+                        chat.innerHTML += `<div><span class="text-${color}-400 font-bold">${sender}:</span> ${msg}</div>`;
+                        chat.scrollTop = chat.scrollHeight;
                     };
 
-                    const startDraw = (e) => {
-                        e.preventDefault();
-                        this.isDrawing = true;
-                        this.hasSigned = true;
-                        const pos = getPos(e);
-                        this.ctx.beginPath();
-                        this.ctx.moveTo(pos.x, pos.y);
-                    };
-
-                    const draw = (e) => {
-                        if (!this.isDrawing) return;
-                        e.preventDefault();
-                        const pos = getPos(e);
-                        this.ctx.lineTo(pos.x, pos.y);
-                        this.ctx.stroke();
-                    };
-
-                    const stopDraw = () => {
-                        this.isDrawing = false;
-                    };
-
-                    canvas.addEventListener('mousedown', startDraw);
-                    canvas.addEventListener('mousemove', draw);
-                    canvas.addEventListener('mouseup', stopDraw);
-                    canvas.addEventListener('mouseout', stopDraw);
-                    canvas.addEventListener('touchstart', startDraw, {passive: false});
-                    canvas.addEventListener('touchmove', draw, {passive: false});
-                    canvas.addEventListener('touchend', stopDraw);
-
-                    document.getElementById('l17-clear-btn').onclick = () => {
-                        this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        this.hasSigned = false;
-                    };
-
-                    document.getElementById('l17-submit-btn').onclick = () => {
-                        if (!this.hasSigned) {
-                            const container = document.getElementById('l17-form-container');
-                            container.classList.add('translate-x-2');
-                            setTimeout(() => container.classList.remove('translate-x-2'), 100);
-                            setTimeout(() => container.classList.add('-translate-x-2'), 200);
-                            setTimeout(() => container.classList.remove('-translate-x-2'), 300);
-                            return;
-                        }
-
-                        this.formIndex++;
+                    const startQueue = () => {
+                        let pos = 3; 
+                        addMsg('Agent', `Hello. You are number ${pos} in queue.`, 'yellow');
                         
-                        if (this.formIndex < 5) {
-                            document.getElementById('l17-form-title').innerText = `${this.titles[this.formIndex]} (${this.formIndex + 1}/5)`;
-                            this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-                            this.hasSigned = false;
+                        this.queueInterval = setInterval(() => {
+                            pos--;
+                            if(pos > 0) {
+                                addMsg('System', `Queue update: Number ${pos}`, 'blue');
+                            } else {
+                                clearInterval(this.queueInterval);
+                                addMsg('Agent', 'I have sent a volume override. Please CONFIRM quickly.', 'yellow');
+                                confirmBtn.classList.remove('hidden');
+                                
+                                // They have exactly 800ms to click the button
+                                this.timeoutTimer = setTimeout(() => {
+                                    confirmBtn.classList.add('hidden');
+                                    addMsg('System', 'Session timed out. Please send a new request.', 'red');
+                                    setVolume(75); 
+                                }, 800); 
+                            }
+                        }, 2500); 
+                    };
+
+                    sendBtn.onclick = () => {
+                        let val = input.value;
+                        if(!val) return;
+                        addMsg('You', val, 'gray');
+                        input.value = '';
+                        
+                        if(val.includes('25')) {
+                            setTimeout(() => addMsg('System', 'Connecting to live agent...', 'blue'), 500);
+                            setTimeout(() => startQueue(), 1500);
                         } else {
-                            document.getElementById('l17-form-container').classList.add('hidden');
-                            document.getElementById('l17-form-container').classList.remove('flex');
-                            document.getElementById('l17-reward-container').classList.remove('hidden');
-                            document.getElementById('l17-reward-container').classList.add('flex');
-                            
-                            // Immediately sync the reward slider to the current global volume
-                            this.updateUI(currentVolume);
+                            setTimeout(() => addMsg('System', 'Request unclear. Please specify exact volume.', 'red'), 500);
                         }
                     };
 
-                    document.getElementById('l17-reward-slider').addEventListener('input', (e) => {
-                        setVolume(parseInt(e.target.value));
-                    });
+                    confirmBtn.onclick = () => {
+                        confirmBtn.classList.add('hidden');
+                        clearTimeout(this.timeoutTimer);
+                        addMsg('System', 'Override accepted. Locking volume at 25%.', 'green');
+                        setVolume(25);
+                    };
                 },
-                updateUI: function(vol) { // Changed to function() to properly bind 'this'
-                    if (this.formIndex >= 5) {
-                        document.getElementById('l17-reward-slider').value = vol;
-                        document.getElementById('l17-display').innerText = vol + '%';
-                    }
+                updateUI: (vol) => {
+                    document.getElementById('l19-display').innerText = vol + '%';
                 },
                 reset: function() {
-                    this.formIndex = 0;
-                    this.hasSigned = false;
-                    if (this.ctx) {
-                        const canvas = document.getElementById('l17-signature-pad');
-                        this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    }
-                    
-                    document.getElementById('l17-form-title').innerText = `${this.titles[0]} (1/5)`;
-                    document.getElementById('l17-form-container').classList.remove('hidden');
-                    document.getElementById('l17-form-container').classList.add('flex');
-                    document.getElementById('l17-reward-container').classList.add('hidden');
-                    document.getElementById('l17-reward-container').classList.remove('flex');
-                    document.getElementById('l17-reward-slider').value = 75;
+                    if(this.queueInterval) clearInterval(this.queueInterval);
+                    if(this.timeoutTimer) clearTimeout(this.timeoutTimer);
+                    document.getElementById('l19-chat-box').innerHTML = `<div><span class="text-blue-400 font-bold">System:</span> Manual overrides restricted. Speak to an agent.</div>`;
+                    document.getElementById('l19-confirm').classList.add('hidden');
                 }
             },
             {
-                // Level 18: The Disconnect
-                id: 'level-18',
-                init: () => {
-                    document.getElementById('l18-slider').addEventListener('input', (e) => {
-                        // Twist: Inverted slider. Input 75 actually equals volume 25.
-                        setVolume(100 - parseInt(e.target.value));
+                // Level 20: The Average
+                id: 'level-20',
+                vols: { A:75, B:75, C:75, D:75, E:75 },
+                eInterval: null,
+                cDist: 0,
+                init: function() {
+                    const calcAvg = () => {
+                        let sum = this.vols.A + this.vols.B + this.vols.C + this.vols.D + this.vols.E;
+                        setVolume(Math.round(sum / 5));
+                    };
+
+                    // Slider A: Inverted
+                    document.getElementById('l20-A').addEventListener('input', (e) => {
+                        this.vols.A = 100 - parseInt(e.target.value);
+                        calcAvg();
+                    });
+
+                    // Slider B: Fast Rubberband
+                    let lastB = 75;
+                    document.getElementById('l20-B').addEventListener('input', (e) => {
+                        let val = parseInt(e.target.value);
+                        if(Math.abs(val - lastB) > 10) {
+                            e.target.value = 75; // Snap visually
+                            val = 75;
+                        }
+                        this.vols.B = val;
+                        lastB = val;
+                        calcAvg();
+                    });
+
+                    // Slider C: Social Distancing
+                    const cUp = document.getElementById('l20-C-up');
+                    const cDown = document.getElementById('l20-C-down');
+                    const moveC = (change) => {
+                        this.vols.C = Math.max(0, Math.min(100, this.vols.C + change));
+                        document.getElementById('l20-C-val').innerText = this.vols.C;
+                        this.cDist += 2;
+                        cUp.style.transform = `translateX(${this.cDist}px)`;
+                        cDown.style.transform = `translateX(-${this.cDist}px)`;
+                        calcAvg();
+                    };
+                    cUp.onclick = () => moveC(1);
+                    cDown.onclick = () => moveC(-1);
+
+                    // Slider D: Brightness
+                    document.getElementById('l20-D').addEventListener('input', (e) => {
+                        this.vols.D = parseInt(e.target.value);
+                        let dark = Math.max(15, this.vols.D); 
+                        document.getElementById('level-20').style.filter = `brightness(${dark}%)`;
+                        calcAvg();
                     });
                 },
-                updateUI: (vol) => {
-                    // Update physical slider to match inverted logic
-                    document.getElementById('l18-slider').value = 100 - vol;
-                    
-                    // DO NOT UPDATE THE TEXT. Gaslight the user.
+                updateUI: function(vol) {
+                    document.getElementById('l20-display').innerText = vol + '%';
                 },
-                reset: () => {
-                    // Slider starts physically at 25 (which means volume is 75)
-                    document.getElementById('l18-slider').value = 25; 
+                reset: function() {
+                    this.vols = { A:75, B:75, C:75, D:75, E:75 };
+                    this.cDist = 0;
+                    
+                    document.getElementById('l20-A').value = 25; 
+                    document.getElementById('l20-B').value = 75;
+                    document.getElementById('l20-C-val').innerText = 75;
+                    document.getElementById('l20-C-up').style.transform = `translateX(0px)`;
+                    document.getElementById('l20-C-down').style.transform = `translateX(0px)`;
+                    document.getElementById('l20-D').value = 75;
+                    document.getElementById('level-20').style.filter = `brightness(100%)`;
+                    document.getElementById('l20-E').value = 75;
+                    
+                    if(this.eInterval) clearInterval(this.eInterval);
+                    this.eInterval = setInterval(() => {
+                        if (levels[currentLevelIndex].id !== 'level-20') {
+                            clearInterval(this.eInterval);
+                            return;
+                        }
+                        
+                        this.vols.E = Math.floor(Math.random() * 101);
+                        document.getElementById('l20-E').value = this.vols.E;
+                        
+                        let eSlider = document.getElementById('l20-E');
+                        eSlider.classList.add('shadow-[0_0_15px_rgba(168,85,247,1)]');
+                        setTimeout(() => eSlider.classList.remove('shadow-[0_0_15px_rgba(168,85,247,1)]'), 500);
+
+                        let sum = this.vols.A + this.vols.B + this.vols.C + this.vols.D + this.vols.E;
+                        setVolume(Math.round(sum / 5));
+                    }, 4500); 
                 }
             }
         ];
@@ -459,7 +521,7 @@
             levelEl.classList.remove('hidden');
             
             // Elements that need Flex layout
-            const flexLevels = ['level-2', 'level-3', 'level-4', 'level-6', 'level-7', 'level-8', 'level-10', 'level-11', 'level-12', 'level-15', 'level-16', 'level-17', 'level-18'];
+            const flexLevels = ['level-2', 'level-3', 'level-4', 'level-6', 'level-7', 'level-8', 'level-10', 'level-11', 'level-12', 'level-15', 'level-16', 'level-17', 'level-18', 'level-19', 'level-20'];
             if (flexLevels.includes(level.id)) {
                  levelEl.classList.add('flex');
             }
