@@ -3,105 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hostile Volume - Sign Up</title>
+    <title>Hostile Volume | Secure Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Smooth movement for the escaping button */
-        #submitBtn { transition: top 0.2s, left 0.2s; }
+        /* Hide scrollbar for the waiver to make it harder */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        .glass-panel { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center font-sans">
+<body class="min-h-screen flex items-center justify-center font-sans text-gray-200 p-6">
 
-    <div class="bg-white p-8 rounded-lg shadow-md w-96 overflow-hidden relative" id="formContainer">
-        <h2 class="text-2xl font-bold mb-6 text-gray-800">Create Your Account</h2>
+    <div class="glass-panel p-10 rounded-2xl shadow-2xl w-full max-w-xl relative overflow-hidden" id="formContainer">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-light tracking-widest text-white mb-2">HOSTILE<span class="font-bold">VOLUME</span></h1>
+            <p class="text-xs text-gray-400 uppercase tracking-widest">Enterprise Authentication</p>
+        </div>
 
-        <div class="mb-6">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-            <p class="text-xs text-gray-500 mb-2">Please select your number precisely.</p>
-            <input type="range" id="phoneSlider" min="1000000000" max="9999999999" value="5555555555" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-            <div class="text-center mt-2 font-mono text-lg text-blue-600" id="phoneDisplay">555-555-5555</div>
+        <div class="mb-8 bg-black/20 p-5 rounded-xl border border-white/5">
+            <label class="block text-sm font-medium text-gray-300 mb-3 flex justify-between">
+                <span>Security Calibration</span>
+                <span id="captchaTotal" class="text-red-400 font-mono">Total: 150 / 100</span>
+            </label>
+            <p class="text-xs text-gray-500 mb-4">Prove you are human. Calibrate the nodes to exactly 100.</p>
+            
+            <div class="space-y-3">
+                <input type="range" id="node1" min="0" max="100" value="50" class="w-full accent-blue-500">
+                <input type="range" id="node2" min="0" max="100" value="50" class="w-full accent-purple-500">
+                <input type="range" id="node3" min="0" max="100" value="50" class="w-full accent-teal-500">
+            </div>
         </div>
 
         <div class="mb-8">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <input type="text" id="password" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter password">
+            <label class="block text-sm font-medium text-gray-300 mb-2">Access Key</label>
+            <input type="text" id="password" class="w-full bg-black/30 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="Enter secure access key">
             
-            <ul id="passwordRules" class="mt-2 text-sm text-red-500 space-y-1">
-                <li id="rule1">❌ Must be at least 8 characters.</li>
-                <li id="rule2" class="hidden">❌ Must contain an uppercase letter.</li>
-                <li id="rule3" class="hidden">❌ Must contain the dimensions of a standard 2x4 (in inches).</li>
-                <li id="rule4" class="hidden">❌ Must include the name of a popular interlocking plastic brick toy.</li>
-            </ul>
+            <div class="mt-3 bg-black/40 p-3 rounded-lg border border-red-900/30">
+                <ul id="passwordRules" class="text-xs text-gray-400 space-y-2 font-mono">
+                    <li id="rule1" class="text-red-400">[-] Must be at least 12 characters.</li>
+                    <li id="rule2" class="hidden">[-] Must contain a type of hardwood (oak, walnut, maple).</li>
+                    <li id="rule3" class="hidden">[-] Must contain the actual decimal thickness of a standard 2x4 board.</li>
+                    <li id="rule4" class="hidden">[-] Must contain a popular interlocking plastic brick toy.</li>
+                </ul>
+            </div>
         </div>
 
-        <div class="relative h-12 w-full mt-4">
-            <button id="submitBtn" class="absolute left-0 top-0 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
-                Sign Up
-            </button>
+        <div class="mb-8">
+            <label class="block text-sm font-medium text-gray-300 mb-2">Terms of Service</label>
+            <div id="waiverBox" class="h-32 overflow-y-scroll no-scrollbar bg-black/30 border border-gray-600 rounded-lg p-4 text-xs text-gray-500 leading-relaxed relative">
+                <p class="mb-4">By proceeding, you agree to the following terms. You must read this carefully. Any indication of skimming will result in immediate termination of the reading process.</p>
+                <p class="mb-4">Section 1: The user agrees that Hostile Volume is not responsible for any peripheral damage, including but not limited to smashed keyboards, thrown mice, or shattered monitors.</p>
+                <p class="mb-4">Section 2: The user voluntarily surrenders their right to complain about audio levels, UI conventions, or standard user experience paradigms.</p>
+                <p class="mb-4">Section 3: You're almost there. Keep reading at a slow, measured pace. If you scroll too fast, the kinetic sensors will trigger a reset.</p>
+                <p class="mb-4">Section 4: By signing below, you acknowledge that you are trapped here by your own free will.</p>
+                <p class="mt-10 text-center text-white pb-4">--- END OF TERMS ---</p>
+            </div>
+            
+            <div class="mt-4">
+                <label class="block text-xs font-medium text-gray-400 mb-1">Digital Signature Required</label>
+                <canvas id="signaturePad" width="400" height="100" class="w-full bg-white rounded-lg cursor-crosshair border border-gray-600"></canvas>
+                <button id="clearSig" class="text-xs text-gray-500 hover:text-white mt-1 underline">Clear Signature</button>
+            </div>
         </div>
+
+        <button id="submitBtn" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-4 px-4 rounded-lg shadow-lg transition-all duration-300 opacity-50 cursor-not-allowed uppercase tracking-widest text-sm">
+            Initialize Sequence
+        </button>
+
     </div>
 
     <script>
-        // 1. Phone Slider Logic
-        const phoneSlider = document.getElementById('phoneSlider');
-        const phoneDisplay = document.getElementById('phoneDisplay');
+        // --- 1. THE INTERCONNECTED CAPTCHA ---
+        const nodes = [document.getElementById('node1'), document.getElementById('node2'), document.getElementById('node3')];
+        const captchaTotal = document.getElementById('captchaTotal');
+        let captchaPassed = false;
 
-        phoneSlider.addEventListener('input', function() {
-            let val = this.value.toString();
-            phoneDisplay.textContent = `${val.slice(0,3)}-${val.slice(3,6)}-${val.slice(6)}`;
+        nodes.forEach((node, index) => {
+            node.addEventListener('input', (e) => {
+                // When one moves, randomly penalize another one to make balancing infuriating
+                let otherIndex = (index + 1) % 3;
+                let val = parseInt(e.target.value);
+                
+                if (Math.random() > 0.3) {
+                    nodes[otherIndex].value = Math.max(0, parseInt(nodes[otherIndex].value) - Math.floor(Math.random() * 5));
+                }
+
+                let total = parseInt(nodes[0].value) + parseInt(nodes[1].value) + parseInt(nodes[2].value);
+                captchaTotal.textContent = `Total: ${total} / 100`;
+                
+                if (total === 100) {
+                    captchaTotal.classList.replace('text-red-400', 'text-green-400');
+                    captchaTotal.textContent = "CALIBRATED";
+                    captchaPassed = true;
+                } else {
+                    captchaTotal.classList.replace('text-green-400', 'text-red-400');
+                    captchaPassed = false;
+                }
+                checkMasterState();
+            });
         });
 
-        // 2. Escalating Password Logic
+        // --- 2. THE ESCALATING PASSWORD ---
         const password = document.getElementById('password');
-        const rule1 = document.getElementById('rule1');
-        const rule2 = document.getElementById('rule2');
-        const rule3 = document.getElementById('rule3');
-        const rule4 = document.getElementById('rule4');
+        let passwordPassed = false;
 
         password.addEventListener('input', function() {
-            let val = this.value;
-            let p1 = val.length >= 8;
-            let p2 = /[A-Z]/.test(val);
-            let p3 = val.includes("1.5x3.5");
-            let p4 = val.toLowerCase().includes("lego");
+            let val = this.value.toLowerCase();
+            let p1 = this.value.length >= 12;
+            let p2 = val.includes("oak") || val.includes("walnut") || val.includes("maple");
+            let p3 = val.includes("1.5");
+            let p4 = val.includes("lego");
 
-            // Rule 1
-            if(p1) { rule1.classList.replace('text-red-500', 'text-green-500'); rule1.textContent = '✅ Must be at least 8 characters.'; rule2.classList.remove('hidden'); } 
-            else { rule1.classList.replace('text-green-500', 'text-red-500'); rule1.textContent = '❌ Must be at least 8 characters.'; }
+            const updateRule = (id, passed, nextId) => {
+                const el = document.getElementById(id);
+                if (passed) {
+                    el.classList.replace('text-red-400', 'text-green-400');
+                    el.textContent = el.textContent.replace('[-]', '[+]');
+                    if(nextId) document.getElementById(nextId).classList.remove('hidden');
+                } else {
+                    el.classList.replace('text-green-400', 'text-red-400');
+                    el.textContent = el.textContent.replace('[+]', '[-]');
+                }
+            };
 
-            // Rule 2
-            if(p1 && p2) { rule2.classList.replace('text-red-500', 'text-green-500'); rule2.textContent = '✅ Must contain an uppercase letter.'; rule3.classList.remove('hidden'); } 
-            else if (p1) { rule2.classList.replace('text-green-500', 'text-red-500'); rule2.textContent = '❌ Must contain an uppercase letter.'; }
+            updateRule('rule1', p1, 'rule2');
+            if (p1) updateRule('rule2', p2, 'rule3');
+            if (p1 && p2) updateRule('rule3', p3, 'rule4');
+            if (p1 && p2 && p3) updateRule('rule4', p4, null);
 
-            // Rule 3
-            if(p1 && p2 && p3) { rule3.classList.replace('text-red-500', 'text-green-500'); rule3.textContent = '✅ Must contain the dimensions of a standard 2x4 (in inches).'; rule4.classList.remove('hidden'); } 
-            else if (p1 && p2) { rule3.classList.replace('text-green-500', 'text-red-500'); rule3.textContent = '❌ Must contain the dimensions of a standard 2x4 (in inches).'; }
-            
-            // Rule 4
-            if(p1 && p2 && p3 && p4) { rule4.classList.replace('text-red-500', 'text-green-500'); rule4.textContent = '✅ Must include the name of a popular interlocking plastic brick toy.'; } 
-            else if (p1 && p2 && p3) { rule4.classList.replace('text-green-500', 'text-red-500'); rule4.textContent = '❌ Must include the name of a popular interlocking plastic brick toy.'; }
+            passwordPassed = (p1 && p2 && p3 && p4);
+            checkMasterState();
         });
 
-        // 3. The Fleeing Button Logic
+        // --- 3. THE SPEED-LIMIT WAIVER ---
+        const waiverBox = document.getElementById('waiverBox');
+        let lastScrollTop = 0;
+        let lastScrollTime = Date.now();
+        let waiverRead = false;
+
+        waiverBox.addEventListener('scroll', function(e) {
+            let now = Date.now();
+            let currentScrollTop = this.scrollTop;
+            let scrollDiff = currentScrollTop - lastScrollTop;
+            let timeDiff = now - lastScrollTime;
+
+            // If they scroll more than 40px in less than 50ms, they are skimming!
+            if (scrollDiff > 40 && timeDiff < 50) {
+                this.scrollTop = 0;
+                alert("Kinetic reading sensors triggered. You are skimming the legal document. Start over.");
+            }
+
+            // Check if reached bottom
+            if (this.scrollHeight - this.scrollTop <= this.clientHeight + 10) {
+                waiverRead = true;
+                this.classList.replace('border-gray-600', 'border-green-500');
+            }
+
+            lastScrollTop = currentScrollTop;
+            lastScrollTime = now;
+            checkMasterState();
+        });
+
+        // --- 4. THE DIGITAL SIGNATURE ---
+        const canvas = document.getElementById('signaturePad');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let inkUsed = 0;
+        let sigPassed = false;
+
+        canvas.addEventListener('mousedown', (e) => { isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); });
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDrawing) {
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+                inkUsed++;
+                if (inkUsed > 100) { sigPassed = true; checkMasterState(); }
+            }
+        });
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mouseleave', () => isDrawing = false);
+
+        document.getElementById('clearSig').addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            inkUsed = 0; sigPassed = false; checkMasterState();
+        });
+
+        // --- MASTER STATE CHECK ---
         const submitBtn = document.getElementById('submitBtn');
-        const formContainer = document.getElementById('formContainer');
+        function checkMasterState() {
+            if (captchaPassed && passwordPassed && waiverRead && sigPassed) {
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                submitBtn.classList.add('hover:scale-105');
+                submitBtn.textContent = "ENTER THE HOSTILE VOLUME";
+            } else {
+                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                submitBtn.classList.remove('hover:scale-105');
+                submitBtn.textContent = "Initialize Sequence";
+            }
+        }
 
-        submitBtn.addEventListener('mouseover', function() {
-            // Only flee if they haven't passed all password rules (or just always flee for maximum chaos)
-            const containerRect = formContainer.getBoundingClientRect();
-            
-            // Generate random X and Y coordinates within the container boundaries
-            const randomX = Math.floor(Math.random() * (containerRect.width - submitBtn.offsetWidth));
-            const randomY = Math.floor(Math.random() * (containerRect.height - submitBtn.offsetHeight - 100)); // -100 to keep it from covering inputs too badly
-
-            submitBtn.style.position = 'absolute';
-            submitBtn.style.left = `${randomX}px`;
-            submitBtn.style.top = `${randomY}px`;
-            
-            // Randomly change the button text to taunt them
-            const taunts = ["Try Again", "Missed Me", "Too Slow", "Sign Up", "Nope"];
-            submitBtn.textContent = taunts[Math.floor(Math.random() * taunts.length)];
+        // Final troll: Button runs away if clicked before ready
+        submitBtn.addEventListener('click', function(e) {
+            if (!captchaPassed || !passwordPassed || !waiverRead || !sigPassed) {
+                e.preventDefault();
+                alert("Sequence rejected. Ensure all calibrations, keys, and legal bindings are strictly adhered to.");
+            } else {
+                alert("Welcome to Level 1.");
+                // window.location.href = '/level1.html';
+            }
         });
+
     </script>
 </body>
 </html>
