@@ -11,9 +11,9 @@
         body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
         .glass-panel { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        .level-enter { transition: opacity 0.8s ease-in, transform 0.8s ease-out; opacity: 1; transform: translateY(0); }
-        .level-hidden { opacity: 0; transform: translateY(20px); pointer-events: none; position: absolute; visibility: hidden; }
-        .level-active { position: relative; visibility: visible; pointer-events: auto; }
+        .step-enter { transition: opacity 0.8s ease-in, transform 0.8s ease-out; opacity: 1; transform: translateY(0); }
+        .step-hidden { opacity: 0; transform: translateY(20px); pointer-events: none; position: absolute; visibility: hidden; }
+        .step-active { position: relative; visibility: visible; pointer-events: auto; }
         
         .cf-spinner { border: 3px solid rgba(0,0,0,0.1); border-left-color: #22c55e; border-radius: 50%; width: 24px; height: 24px; animation: cf-spin 1s linear infinite; }
         @keyframes cf-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -25,13 +25,13 @@
         
         <div class="text-center mb-8">
             <h1 class="text-3xl font-light tracking-widest text-white mb-2">HOSTILE<span class="font-bold">VOLUME</span></h1>
-            <p class="text-xs text-gray-400 uppercase tracking-widest" id="stageIndicator">Stage 1: Identity</p>
+            <p class="text-xs text-gray-400 uppercase tracking-widest" id="stageIndicator">Step 1: Identity Verification</p>
         </div>
 
-        <div id="level0" class="mb-8 level-active level-enter">
+        <div id="step1" class="mb-8 step-active step-enter">
             <div class="flex items-center justify-between mb-2">
-                <label class="block text-sm font-medium text-gray-300">Level 1: Username</label>
-                <span id="l0-status" class="text-xs text-blue-400">AWAITING INPUT</span>
+                <label class="block text-sm font-medium text-gray-300">Username Registration</label>
+                <span id="s1-status" class="text-xs text-blue-400">AWAITING INPUT</span>
             </div>
             
             <div class="flex gap-2">
@@ -41,10 +41,10 @@
             <p id="usernameMsg" class="text-xs mt-2 hidden"></p>
         </div>
 
-        <div id="level1" class="mb-8 level-hidden border-t border-gray-700 pt-6">
+        <div id="step2" class="mb-8 step-hidden border-t border-gray-700 pt-6">
             <div class="flex items-center justify-between mb-2">
-                <label class="block text-sm font-medium text-gray-300">Level 2: Password</label>
-                <span id="l1-status" class="text-xs text-blue-400">IN PROGRESS</span>
+                <label class="block text-sm font-medium text-gray-300">Secure Password</label>
+                <span id="s2-status" class="text-xs text-blue-400">IN PROGRESS</span>
             </div>
             
             <div class="relative">
@@ -70,10 +70,10 @@
             </div>
         </div>
 
-        <div id="level1_5" class="mb-8 level-hidden border-t border-gray-700 pt-6">
+        <div id="step3" class="mb-8 step-hidden border-t border-gray-700 pt-6">
             <div class="flex items-center justify-between mb-4">
-                <label class="block text-sm font-medium text-gray-300">Level 3: Account Recovery</label>
-                <span id="l1_5-status" class="text-xs text-blue-400">PENDING</span>
+                <label class="block text-sm font-medium text-gray-300">Identity Recovery Questions</label>
+                <span id="s3-status" class="text-xs text-blue-400">PENDING</span>
             </div>
             
             <div class="space-y-4">
@@ -103,9 +103,9 @@
             </div>
         </div>
 
-        <div id="level2" class="level-hidden border-t border-gray-700 pt-6 mb-6">
+        <div id="step4" class="step-hidden border-t border-gray-700 pt-6 mb-6">
             <div class="flex items-center justify-between mb-3">
-                <label class="block text-sm font-medium text-gray-300">Level 4: Security Calibration</label>
+                <label class="block text-sm font-medium text-gray-300">Human Verification Calibration</label>
                 <span id="captchaTotal" class="text-red-400 font-mono text-xs">Total: 150 / 100</span>
             </div>
             <p class="text-xs text-gray-500 mb-4">Calibrate the nodes to exactly 100. They are magnetically linked.</p>
@@ -117,9 +117,9 @@
             </div>
         </div>
 
-        <div id="level3" class="level-hidden pt-2">
+        <div id="step5" class="step-hidden pt-2">
             <button id="submitBtn" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-4 px-4 rounded-lg shadow-lg uppercase tracking-widest text-sm hover:scale-105 transition-transform">
-                Enter The Hostile Volume
+                Complete Registration
             </button>
         </div>
     </div>
@@ -183,33 +183,29 @@
                 We appreciate you taking the time to calibrate our security nodes, study our legal bindings, and secure your password. However, this domain does not authorize the creation of user accounts. 
             </p>
             
-            <div class="relative h-12 w-full mt-4" id="defeatBtnContainer">
-                <button id="defeatBtn" onclick="location.reload()" class="absolute left-0 top-0 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-100 ease-in-out uppercase tracking-widest text-sm z-50">
-                    Accept Defeat
-                </button>
-            </div>
+            <button id="defeatBtn" onclick="location.reload()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-100 ease-in-out uppercase tracking-widest text-sm z-50 mt-2 block">
+                Accept Defeat
+            </button>
 
-            <p class="text-[10px] text-gray-500 mt-6 italic pointer-events-none">
+            <p class="text-[10px] text-gray-500 mt-8 italic pointer-events-none">
                 Your inability to click the button is being recorded for our 'Patience Analytics' department.
             </p>
         </div>
     </div>
 
     <script>
-        // Utilities
-        function unlockLevel(levelId, stageText) {
-            const levelEl = document.getElementById(levelId);
-            levelEl.classList.remove('level-hidden');
-            levelEl.classList.add('level-active', 'level-enter');
+        function unlockStep(stepId, stageText) {
+            const stepEl = document.getElementById(stepId);
+            stepEl.classList.remove('step-hidden');
+            stepEl.classList.add('step-active', 'step-enter');
             if(stageText) document.getElementById('stageIndicator').textContent = stageText;
             
-            // Smooth scroll down to the newly opened level on mobile
             setTimeout(() => {
-                levelEl.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                stepEl.scrollIntoView({ behavior: 'smooth', block: 'end' });
             }, 300);
         }
 
-        // --- LEVEL 0: USERNAME ---
+        // --- STEP 1: USERNAME ---
         const usernameInput = document.getElementById('username');
         const verifyUserBtn = document.getElementById('verifyUserBtn');
         const usernameMsg = document.getElementById('usernameMsg');
@@ -235,15 +231,15 @@
 
                 usernameMsg.innerHTML = `✅ "${val}" was taken. We have assigned you <strong>${newVal}</strong>. You cannot change this.`;
                 usernameMsg.className = "text-xs text-green-400 mt-2 block";
-                document.getElementById('l0-status').textContent = "LOCKED";
-                document.getElementById('l0-status').classList.replace('text-blue-400', 'text-green-400');
+                document.getElementById('s1-status').textContent = "LOCKED";
+                document.getElementById('s1-status').classList.replace('text-blue-400', 'text-green-400');
                 
-                unlockLevel('level1', 'Stage 2: Password');
+                unlockStep('step2', 'Step 2: Security Validation');
             }
         });
         usernameInput.addEventListener('keypress', function (e) { if (e.key === 'Enter') { e.preventDefault(); verifyUserBtn.click(); }});
 
-        // --- LEVEL 1: PASSWORD ---
+        // --- STEP 2: PASSWORD ---
         const password = document.getElementById('password');
         const showPwdBtn = document.getElementById('showPwdBtn');
         let passwordPassed = false;
@@ -304,16 +300,14 @@
 
             if (p1 && p2 && p3 && p4 && p5 && p6 && p7 && !passwordPassed) {
                 passwordPassed = true;
-                document.getElementById('l1-status').textContent = "CLEARED";
-                document.getElementById('l1-status').classList.replace('text-blue-400', 'text-green-400');
+                document.getElementById('s2-status').textContent = "CLEARED";
+                document.getElementById('s2-status').classList.replace('text-blue-400', 'text-green-400');
                 password.disabled = true; showPwdBtn.disabled = true;
-                
-                // Unlock Security Questions instead of Captcha directly
-                unlockLevel('level1_5', 'Stage 3: Recovery');
+                unlockStep('step3', 'Step 3: Account Recovery');
             }
         });
 
-        // --- LEVEL 1.5: SECURITY QUESTIONS ---
+        // --- STEP 3: SECURITY QUESTIONS ---
         const secQ1 = document.getElementById('secQ1');
         const secQ1Msg = document.getElementById('secQ1Msg');
         const secQ2 = document.getElementById('secQ2');
@@ -321,9 +315,7 @@
         const secQ3 = document.getElementById('secQ3');
         const verifySecurityBtn = document.getElementById('verifySecurityBtn');
         const secGlobalMsg = document.getElementById('secGlobalMsg');
-        let secPassed = false;
 
-        // Character count logic for Question 2
         secQ2.addEventListener('input', () => {
             let len = secQ2.value.length;
             secQ2Count.textContent = len;
@@ -332,45 +324,30 @@
         });
 
         verifySecurityBtn.addEventListener('click', () => {
-            secGlobalMsg.classList.add('hidden');
-            secQ1Msg.classList.add('hidden');
-            
-            let q1Val = secQ1.value;
-            let q2Val = secQ2.value;
-            let q3Val = secQ3.value.trim();
+            secGlobalMsg.classList.add('hidden'); secQ1Msg.classList.add('hidden');
+            let q1Val = secQ1.value; let q2Val = secQ2.value; let q3Val = secQ3.value.trim();
 
             if(!q1Val || !q2Val || !q3Val) {
                 secGlobalMsg.textContent = "❌ All subjective inquiries must be fulfilled.";
-                secGlobalMsg.classList.remove('hidden');
-                return;
+                secGlobalMsg.classList.remove('hidden'); return;
             }
-
-            // The soup trick
             if(q1Val === "soup") {
                 secQ1Msg.textContent = "❌ Too literal. Try again.";
-                secQ1Msg.classList.remove('hidden');
-                secQ1.value = "";
-                return;
+                secQ1Msg.classList.remove('hidden'); secQ1.value = ""; return;
             }
-
-            // The 17 characters trick
             if(q2Val.length !== 17) {
                 secGlobalMsg.textContent = "❌ Your Jazz definition does not meet strict length parameters.";
-                secGlobalMsg.classList.remove('hidden');
-                return;
+                secGlobalMsg.classList.remove('hidden'); return;
             }
 
-            // If they pass the subjective arbitrary rules
-            document.getElementById('l1_5-status').textContent = "VALIDATED";
-            document.getElementById('l1_5-status').classList.replace('text-blue-400', 'text-green-400');
+            document.getElementById('s3-status').textContent = "VALIDATED";
+            document.getElementById('s3-status').classList.replace('text-blue-400', 'text-green-400');
             secQ1.disabled = true; secQ2.disabled = true; secQ3.disabled = true;
-            verifySecurityBtn.disabled = true;
-            verifySecurityBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            
-            unlockLevel('level2', 'Stage 4: Calibration');
+            verifySecurityBtn.disabled = true; verifySecurityBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            unlockStep('step4', 'Step 4: Calibration');
         });
 
-        // --- LEVEL 2 & THE WAIVER AMBUSH ---
+        // --- STEP 4 & THE WAIVER AMBUSH ---
         const nodes = [document.getElementById('node1'), document.getElementById('node2'), document.getElementById('node3')];
         const captchaTotal = document.getElementById('captchaTotal');
         const waiverModal = document.getElementById('waiverModal');
@@ -390,8 +367,7 @@
 
                 if (!waiverTriggered && total > 40 && total < 60) {
                     waiverTriggered = true;
-                    waiverModal.classList.remove('hidden');
-                    waiverModal.classList.add('flex');
+                    waiverModal.classList.remove('hidden'); waiverModal.classList.add('flex');
                     setTimeout(() => { waiverModal.classList.remove('opacity-0'); waiverContent.classList.remove('scale-95'); }, 50);
 
                     waiverInterval = setInterval(() => {
@@ -413,13 +389,12 @@
                     captchaTotal.textContent = "CALIBRATED";
                     if(!captchaPassed) {
                         captchaPassed = true; nodes.forEach(n => n.disabled = true);
-                        unlockLevel('level3', 'Stage 5: Enter');
+                        unlockStep('step5', 'Step 5: Finalization');
                     }
                 } else { captchaTotal.classList.replace('text-green-400', 'text-red-400'); }
             });
         });
 
-        // --- THE WAIVER LOGIC (Mobile Adjusted) ---
         const waiverBox = document.getElementById('waiverBox');
         const sigContainer = document.getElementById('signatureContainer');
         const acceptWaiverBtn = document.getElementById('acceptWaiverBtn');
@@ -443,28 +418,21 @@
             lastScrollTop = this.scrollTop; lastScrollTime = now;
         });
 
-        // Signature Pad logic optimized for touch
         const canvas = document.getElementById('signaturePad');
         const ctx = canvas.getContext('2d');
-        let isDrawing = false; let inkUsed = 0;
-        ctx.strokeStyle = '#000000'; ctx.lineWidth = 2;
+        let isDrawing = false; let inkUsed = 0; ctx.strokeStyle = '#000000'; ctx.lineWidth = 2;
 
         function getPos(e) {
             const rect = canvas.getBoundingClientRect();
-            // Handle both mouse and touch events
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
             return { x: clientX - rect.left, y: clientY - rect.top };
         }
-
-        function startDrawing(e) {
-            e.preventDefault(); // Prevent scrolling while signing
-            isDrawing = true; const pos = getPos(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y);
-        }
+        function startDrawing(e) { e.preventDefault(); isDrawing = true; const pos = getPos(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); }
         function draw(e) {
             if (!isDrawing || !waiverRead) return;
             e.preventDefault(); const pos = getPos(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); inkUsed++;
-            if (inkUsed > 40) acceptWaiverBtn.classList.remove('hidden'); // Lowered ink requirement slightly for mobile
+            if (inkUsed > 40) acceptWaiverBtn.classList.remove('hidden'); 
         }
         function stopDrawing() { isDrawing = false; }
 
@@ -505,26 +473,34 @@
             }, 3000);
         });
 
-        // --- THE FLEEING DEFEAT BUTTON (Mobile Safe) ---
+        // --- THE CONTAINED FLEEING BUTTON ---
+        let buttonHasFled = false;
+
         function flee() {
-            const containerWidth = betrayalContent.clientWidth;
-            const containerHeight = betrayalContent.clientHeight;
-            defeatBtn.style.width = 'auto'; defeatBtn.style.whiteSpace = 'nowrap';
+            // Un-stretch the button so it can fit freely inside the modal
+            if (!buttonHasFled) {
+                defeatBtn.classList.remove('w-full', 'mt-2', 'block');
+                defeatBtn.style.width = 'max-content';
+                buttonHasFled = true;
+            }
             
-            const maxX = containerWidth - defeatBtn.clientWidth - 30; 
-            const maxY = containerHeight - defeatBtn.clientHeight - 80; // keep away from bottom text
+            // Calculate maximum bounds strictly inside the modal container
+            // The -32 padding accounts for the borders and edge clipping
+            const maxX = betrayalContent.clientWidth - defeatBtn.offsetWidth - 32; 
+            const maxY = betrayalContent.clientHeight - defeatBtn.offsetHeight - 32; 
             
-            const randomX = Math.max(10, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(10, Math.floor(Math.random() * maxY));
+            const randomX = Math.max(16, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(16, Math.floor(Math.random() * maxY));
             
+            // Switch to absolute positioning so it breaks out of document flow
             defeatBtn.style.position = 'absolute';
-            defeatBtn.style.left = `${randomX}px`; defeatBtn.style.top = `${randomY}px`;
+            defeatBtn.style.left = `${randomX}px`; 
+            defeatBtn.style.top = `${randomY}px`;
         }
         
-        // Use mouseover for desktop, touchstart for mobile
         defeatBtn.addEventListener('mouseover', flee);
         defeatBtn.addEventListener('touchstart', function(e) {
-            e.preventDefault(); // Prevents the click from registering when tapped
+            e.preventDefault(); 
             flee();
         }, {passive: false});
 
