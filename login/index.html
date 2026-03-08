@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostile Volume - Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Smooth movement for the escaping button */
+        #submitBtn { transition: top 0.2s, left 0.2s; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center font-sans">
+
+    <div class="bg-white p-8 rounded-lg shadow-md w-96 overflow-hidden relative" id="formContainer">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">Create Your Account</h2>
+
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+            <p class="text-xs text-gray-500 mb-2">Please select your number precisely.</p>
+            <input type="range" id="phoneSlider" min="1000000000" max="9999999999" value="5555555555" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+            <div class="text-center mt-2 font-mono text-lg text-blue-600" id="phoneDisplay">555-555-5555</div>
+        </div>
+
+        <div class="mb-8">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <input type="text" id="password" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter password">
+            
+            <ul id="passwordRules" class="mt-2 text-sm text-red-500 space-y-1">
+                <li id="rule1">❌ Must be at least 8 characters.</li>
+                <li id="rule2" class="hidden">❌ Must contain an uppercase letter.</li>
+                <li id="rule3" class="hidden">❌ Must contain the dimensions of a standard 2x4 (in inches).</li>
+                <li id="rule4" class="hidden">❌ Must include the name of a popular interlocking plastic brick toy.</li>
+            </ul>
+        </div>
+
+        <div class="relative h-12 w-full mt-4">
+            <button id="submitBtn" class="absolute left-0 top-0 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
+                Sign Up
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Phone Slider Logic
+        const phoneSlider = document.getElementById('phoneSlider');
+        const phoneDisplay = document.getElementById('phoneDisplay');
+
+        phoneSlider.addEventListener('input', function() {
+            let val = this.value.toString();
+            phoneDisplay.textContent = `${val.slice(0,3)}-${val.slice(3,6)}-${val.slice(6)}`;
+        });
+
+        // 2. Escalating Password Logic
+        const password = document.getElementById('password');
+        const rule1 = document.getElementById('rule1');
+        const rule2 = document.getElementById('rule2');
+        const rule3 = document.getElementById('rule3');
+        const rule4 = document.getElementById('rule4');
+
+        password.addEventListener('input', function() {
+            let val = this.value;
+            let p1 = val.length >= 8;
+            let p2 = /[A-Z]/.test(val);
+            let p3 = val.includes("1.5x3.5");
+            let p4 = val.toLowerCase().includes("lego");
+
+            // Rule 1
+            if(p1) { rule1.classList.replace('text-red-500', 'text-green-500'); rule1.textContent = '✅ Must be at least 8 characters.'; rule2.classList.remove('hidden'); } 
+            else { rule1.classList.replace('text-green-500', 'text-red-500'); rule1.textContent = '❌ Must be at least 8 characters.'; }
+
+            // Rule 2
+            if(p1 && p2) { rule2.classList.replace('text-red-500', 'text-green-500'); rule2.textContent = '✅ Must contain an uppercase letter.'; rule3.classList.remove('hidden'); } 
+            else if (p1) { rule2.classList.replace('text-green-500', 'text-red-500'); rule2.textContent = '❌ Must contain an uppercase letter.'; }
+
+            // Rule 3
+            if(p1 && p2 && p3) { rule3.classList.replace('text-red-500', 'text-green-500'); rule3.textContent = '✅ Must contain the dimensions of a standard 2x4 (in inches).'; rule4.classList.remove('hidden'); } 
+            else if (p1 && p2) { rule3.classList.replace('text-green-500', 'text-red-500'); rule3.textContent = '❌ Must contain the dimensions of a standard 2x4 (in inches).'; }
+            
+            // Rule 4
+            if(p1 && p2 && p3 && p4) { rule4.classList.replace('text-red-500', 'text-green-500'); rule4.textContent = '✅ Must include the name of a popular interlocking plastic brick toy.'; } 
+            else if (p1 && p2 && p3) { rule4.classList.replace('text-green-500', 'text-red-500'); rule4.textContent = '❌ Must include the name of a popular interlocking plastic brick toy.'; }
+        });
+
+        // 3. The Fleeing Button Logic
+        const submitBtn = document.getElementById('submitBtn');
+        const formContainer = document.getElementById('formContainer');
+
+        submitBtn.addEventListener('mouseover', function() {
+            // Only flee if they haven't passed all password rules (or just always flee for maximum chaos)
+            const containerRect = formContainer.getBoundingClientRect();
+            
+            // Generate random X and Y coordinates within the container boundaries
+            const randomX = Math.floor(Math.random() * (containerRect.width - submitBtn.offsetWidth));
+            const randomY = Math.floor(Math.random() * (containerRect.height - submitBtn.offsetHeight - 100)); // -100 to keep it from covering inputs too badly
+
+            submitBtn.style.position = 'absolute';
+            submitBtn.style.left = `${randomX}px`;
+            submitBtn.style.top = `${randomY}px`;
+            
+            // Randomly change the button text to taunt them
+            const taunts = ["Try Again", "Missed Me", "Too Slow", "Sign Up", "Nope"];
+            submitBtn.textContent = taunts[Math.floor(Math.random() * taunts.length)];
+        });
+    </script>
+</body>
+</html>
