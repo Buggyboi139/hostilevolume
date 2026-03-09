@@ -41,7 +41,7 @@
             <p class="text-gray-400 mb-8 text-base sm:text-lg leading-relaxed">
                 To progress, you must set the volume to exactly <strong class="text-white bg-gray-800 px-3 py-1 rounded-md border border-gray-700 mx-1 shadow-inner">25%</strong> and hold it there for 3 seconds.
             </p>
-            <button id="start-btn" class="w-full bg-white text-gray-900 hover:bg-gray-200 font-bold py-4 px-8 rounded-xl transition-all active:scale-95 text-lg shadow-[0_0_20px_rgba(255,255,255,0.1)] focus:outline-none touch-none select-none">
+            <button id="start-btn" class="w-full bg-white text-gray-900 hover:bg-gray-200 font-bold py-4 px-8 rounded-xl transition-all active:scale-95 text-lg shadow-[0_0_20px_rgba(255,255,255,0.1)] focus:outline-none">
                 Begin the Suffering
             </button>
         </div>
@@ -521,26 +521,14 @@
 
         updateDevBar();
 
-       let gameHasStarted = false;
-        
-        const triggerGameStart = (e) => {
-            if (e && e.cancelable) e.preventDefault(); // Stops ghost clicks
-            if (gameHasStarted) return;
-            gameHasStarted = true;
-
-            // Fault-tolerant audio play
-            try {
-                audio.volume = 0.75;
-                const playPromise = audio.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(err => console.warn("Audio blocked by browser:", err));
-                }
-            } catch (err) {
-                console.warn("Audio play synchronous error:", err);
-            }
+       startBtn.addEventListener('click', () => {
+            // Play happens instantly on click
+            audio.volume = 0.75;
+            audio.play().catch(e => console.warn("Audio blocked by browser:", e));
 
             modal.classList.add('opacity-0');
             
+            // Everything else waits half a second
             setTimeout(() => {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
@@ -549,7 +537,7 @@
                 
                 loadLevel(0);
             }, 500);
-        };
+        });
 
         // Bind to both touch and click to cover all bases
         startBtn.addEventListener('touchstart', triggerGameStart, {passive: false});
