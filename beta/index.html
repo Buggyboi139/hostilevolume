@@ -33,7 +33,7 @@
         <div id="global-progress" class="h-full bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.9)] transition-all duration-700 ease-out" style="width: 0%"></div>
     </div>
 
-    <div id="instructions-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 transition-opacity duration-500 p-4">
+    <div id="instructions-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[10000] transition-opacity duration-500 p-4">
         <div class="bg-gray-900/90 p-8 sm:p-10 rounded-3xl shadow-2xl max-w-lg w-full text-center border border-gray-700/50 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500"></div>
             <svg class="w-14 h-14 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
@@ -521,10 +521,19 @@
 
         updateDevBar();
 
-       startBtn.addEventListener('click', () => {
-            // Play happens instantly on click
-            audio.volume = 0.75;
-            audio.play().catch(e => console.warn("Audio blocked by browser:", e));
+       startBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevents weird mobile double-tap behaviors
+            
+            // Fault-tolerant audio play
+            try {
+                audio.volume = 0.75;
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(err => console.warn("Audio blocked by browser:", err));
+                }
+            } catch (err) {
+                console.warn("Audio play synchronous error:", err);
+            }
 
             modal.classList.add('opacity-0');
             
