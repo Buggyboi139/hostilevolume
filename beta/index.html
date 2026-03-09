@@ -280,14 +280,14 @@
         </div>
 
         <div id="level-25" class="level-ui hidden flex-col items-center justify-center w-full gap-2 relative mt-2">
-            <div class="text-[10px] sm:text-xs tracking-widest text-emerald-500 uppercase font-bold text-center animate-pulse mb-1">Nokia Nightmares</div>
-            <p class="text-[9px] sm:text-[10px] text-gray-400 font-mono mb-2 text-center">WASD / Arrows or Swipe to slither. Survive 3s after eating 25.</p>
+            <div class="text-[10px] sm:text-xs tracking-widest text-emerald-500 uppercase font-bold text-center animate-pulse mb-1 shrink-0">Nokia Nightmares</div>
+            <p class="text-[9px] sm:text-[10px] text-gray-400 font-mono mb-2 text-center shrink-0">WASD / Arrows or Swipe to slither. Survive 3s after eating 25.</p>
             
-            <div class="relative w-[300px] h-[300px] shrink-0 bg-gray-950 rounded border-2 border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.8)] p-0.5 overflow-hidden">
+            <div class="relative w-full max-w-[260px] sm:max-w-[300px] aspect-square shrink-0 bg-gray-950 rounded border-2 border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.8)] p-0.5 overflow-hidden mx-auto">
                 <canvas id="l25-canvas" width="300" height="300" class="w-full h-full block touch-none"></canvas>
             </div>
 
-            <div class="mt-2 text-4xl font-mono text-gray-300 text-center w-24" id="l25-display">75%</div>
+            <div class="mt-2 text-4xl font-mono text-gray-300 text-center w-full shrink-0" id="l25-display">75%</div>
         </div>
 
     </div>
