@@ -231,7 +231,7 @@
 
     </div>
 
-    <div id="dev-bar" class="fixed bottom-0 left-0 w-full bg-gray-900/95 backdrop-blur border-t border-gray-800 p-2 sm:p-3 z-[9999] flex items-center justify-start overflow-x-auto shadow-[0_-5px_15px_rgba(0,0,0,0.5)] scroll-smooth" style="scrollbar-width: none;">
+    <div id="dev-bar" class="fixed bottom-0 left-0 w-full bg-gray-900/95 backdrop-blur border-t border-gray-800 p-2 sm:p-3 z-[9999] flex items-center justify-start md:justify-center overflow-x-auto gap-1.5 shadow-[0_-5px_15px_rgba(0,0,0,0.5)] scroll-smooth" style="scrollbar-width: none;">
         </div>
 
     <script>
@@ -326,7 +326,7 @@
             updateDevBar(); 
         }
 
-        function updateDevBar() {
+       function updateDevBar() {
             const devBar = document.getElementById('dev-bar');
             
             // Sets the title text and clears the old buttons
@@ -336,7 +336,7 @@
                 const btn = document.createElement('button');
                 
                 if (i <= maxUnlockedLevel) {
-                    // UNLOCKED LEVEL - Added shrink-0 and w-8/h-8 for better mobile tapping
+                    // UNLOCKED LEVEL 
                     btn.className = "w-8 h-8 shrink-0 flex items-center justify-center bg-gray-800 hover:bg-blue-600 text-[10px] sm:text-xs font-mono text-gray-300 rounded border border-gray-700 transition-colors focus:outline-none";
                     btn.onclick = () => jumpToLevel(i);
                     
@@ -356,16 +356,24 @@
                 devBar.appendChild(btn);
             });
             
-            // Reset button
+            // Reset button (Always unlocked)
             const resetBtn = document.createElement('button');
-            resetBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-yellow-900/50 hover:bg-yellow-600 text-[10px] sm:text-xs font-mono text-yellow-400 rounded border border-yellow-800 transition-colors focus:outline-none ml-3";
+            resetBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-yellow-900/50 hover:bg-yellow-600 text-[10px] sm:text-xs font-mono text-yellow-400 rounded border border-yellow-800 transition-colors focus:outline-none ml-2";
             resetBtn.innerText = "RESET";
             resetBtn.onclick = () => jumpToLevel(currentLevelIndex);
             devBar.appendChild(resetBtn);
 
-            // Win button
+            // Win button (Locked until the final level)
             const winBtn = document.createElement('button');
-            winBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-green-900/50 hover:bg-green-600 text-[10px] sm:text-xs font-mono text-green-400 rounded border border-green-800 transition-colors focus:outline-none ml-1 mr-4";
+            if (maxUnlockedLevel >= levels.length - 1) {
+                // Unlocked
+                winBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-green-900/50 hover:bg-green-600 text-[10px] sm:text-xs font-mono text-green-400 rounded border border-green-800 transition-colors focus:outline-none ml-1 mr-4 md:mr-0";
+                winBtn.disabled = false;
+            } else {
+                // Locked
+                winBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-gray-950 text-[10px] sm:text-xs font-mono text-gray-700 rounded border border-gray-800 opacity-40 cursor-not-allowed ml-1 mr-4 md:mr-0";
+                winBtn.disabled = true;
+            }
             winBtn.innerText = "WIN";
             winBtn.onclick = () => jumpToLevel(levels.length);
             devBar.appendChild(winBtn);
