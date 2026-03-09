@@ -394,11 +394,13 @@
         initDevBar();
 
        startBtn.addEventListener('click', () => {
+            // Play happens instantly on click
             audio.volume = 0.75;
-            audio.play().catch(e => console.warn("Audio autoplay policy restricted playback.", e));
+            audio.play().catch(e => console.warn("Audio blocked by browser:", e));
 
             modal.classList.add('opacity-0');
             
+            // Everything else waits half a second
             setTimeout(() => {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
