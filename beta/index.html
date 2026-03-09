@@ -41,7 +41,7 @@
             <p class="text-gray-400 mb-8 text-base sm:text-lg leading-relaxed">
                 To progress, you must set the volume to exactly <strong class="text-white bg-gray-800 px-3 py-1 rounded-md border border-gray-700 mx-1 shadow-inner">25%</strong> and hold it there for 3 seconds.
             </p>
-            <button id="start-btn" class="w-full bg-white text-gray-900 hover:bg-gray-200 font-bold py-4 px-8 rounded-xl transition-all active:scale-95 text-lg shadow-[0_0_20px_rgba(255,255,255,0.1)] focus:outline-none">
+            <button id="start-btn" class="w-full bg-white text-gray-900 hover:bg-gray-200 font-bold py-4 px-8 rounded-xl transition-all active:scale-95 text-lg shadow-[0_0_20px_rgba(255,255,255,0.1)] focus:outline-none touch-none select-none">
                 Begin the Suffering
             </button>
         </div>
@@ -488,7 +488,7 @@
             const levelEl = document.getElementById(level.id);
             levelEl.classList.remove('hidden');
             
-            const flexLevels = ['level-1', 'level-2', 'level-3', 'level-4', 'level-5', 'level-6', 'level-7', 'level-8', 'level-9', 'level-10', 'level-11', 'level-12', 'level-13', 'level-14', 'level-15', 'level-16', 'level-17', 'level-18', 'level-19', 'level-20'];
+           const flexLevels = ['level-1', 'level-2', 'level-3', 'level-4', 'level-5', 'level-6', 'level-7', 'level-8', 'level-9', 'level-10', 'level-11', 'level-12', 'level-13', 'level-14', 'level-15', 'level-16', 'level-17', 'level-18', 'level-19', 'level-20', 'level-21', 'level-22', 'level-23', 'level-24', 'level-25'];
             if (flexLevels.includes(level.id)) {
                  levelEl.classList.add('flex');
             }
@@ -521,9 +521,13 @@
 
         updateDevBar();
 
-       startBtn.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevents weird mobile double-tap behaviors
-            
+       let gameHasStarted = false;
+        
+        const triggerGameStart = (e) => {
+            if (e && e.cancelable) e.preventDefault(); // Stops ghost clicks
+            if (gameHasStarted) return;
+            gameHasStarted = true;
+
             // Fault-tolerant audio play
             try {
                 audio.volume = 0.75;
@@ -537,7 +541,6 @@
 
             modal.classList.add('opacity-0');
             
-            // Everything else waits half a second
             setTimeout(() => {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
@@ -546,7 +549,11 @@
                 
                 loadLevel(0);
             }, 500);
-        });
+        };
+
+        // Bind to both touch and click to cover all bases
+        startBtn.addEventListener('touchstart', triggerGameStart, {passive: false});
+        startBtn.addEventListener('click', triggerGameStart);
     </script>
 </body>
 </html>
