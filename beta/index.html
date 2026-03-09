@@ -347,42 +347,29 @@
             lvlLabel.innerText = "Lvl:";
             devBar.appendChild(lvlLabel);
             
-            // 3. Loop through and add all the level buttons
+            // 3. Loop through and add all the level buttons (RESTRICTIONS REMOVED)
             levels.forEach((lvl, i) => {
                 const btn = document.createElement('button');
                 
-                if (i <= maxUnlockedLevel) {
-                    // UNLOCKED LEVEL 
-                    btn.className = "w-8 h-8 shrink-0 flex items-center justify-center bg-gray-800 hover:bg-blue-600 text-[10px] sm:text-xs font-mono text-gray-300 rounded border border-gray-700 transition-colors focus:outline-none";
-                    btn.onclick = () => jumpToLevel(i);
-                    
-                    // Highlight the level you are currently on
-                    if (i === currentLevelIndex) {
-                        btn.classList.add('ring-2', 'ring-blue-500', 'bg-gray-700');
-                        // Auto-scroll the bar so the active level is always visible
-                        setTimeout(() => btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }), 100);
-                    }
-                } else {
-                    // LOCKED LEVEL
-                    btn.className = "w-8 h-8 shrink-0 flex items-center justify-center bg-gray-950 text-[10px] sm:text-xs font-mono text-gray-700 rounded border border-gray-800 opacity-40 cursor-not-allowed";
-                    btn.disabled = true;
+                // All levels are now unlocked by default
+                btn.className = "w-8 h-8 shrink-0 flex items-center justify-center bg-gray-800 hover:bg-blue-600 text-[10px] sm:text-xs font-mono text-gray-300 rounded border border-gray-700 transition-colors focus:outline-none";
+                btn.onclick = () => jumpToLevel(i);
+                
+                // Highlight the level you are currently on
+                if (i === currentLevelIndex) {
+                    btn.classList.add('ring-2', 'ring-blue-500', 'bg-gray-700');
+                    // Auto-scroll the bar so the active level is always visible
+                    setTimeout(() => btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }), 100);
                 }
                 
                 btn.innerText = i + 1;
                 devBar.appendChild(btn);
             });
 
-            // 4. Win button (Locked until the final level, stays at the end)
+            // 4. Win button (RESTRICTIONS REMOVED, stays at the end)
             const winBtn = document.createElement('button');
-            if (maxUnlockedLevel >= levels.length - 1) {
-                // Unlocked
-                winBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-green-900/50 hover:bg-green-600 text-[10px] sm:text-xs font-mono text-green-400 rounded border border-green-800 transition-colors focus:outline-none ml-3 mr-4 md:mr-0";
-                winBtn.disabled = false;
-            } else {
-                // Locked
-                winBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-gray-950 text-[10px] sm:text-xs font-mono text-gray-700 rounded border border-gray-800 opacity-40 cursor-not-allowed ml-3 mr-4 md:mr-0";
-                winBtn.disabled = true;
-            }
+            winBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-green-900/50 hover:bg-green-600 text-[10px] sm:text-xs font-mono text-green-400 rounded border border-green-800 transition-colors focus:outline-none ml-3 mr-4 md:mr-0";
+            winBtn.disabled = false;
             winBtn.innerText = "WIN";
             winBtn.onclick = () => jumpToLevel(levels.length);
             devBar.appendChild(winBtn);
