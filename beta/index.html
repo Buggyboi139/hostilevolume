@@ -394,17 +394,18 @@
         initDevBar();
 
         startBtn.addEventListener('click', () => {
-            modal.classList.add('opacity-0');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+    
             setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
+                modal.style.display = 'none';
+        
                 progressContainer.classList.remove('hidden');
                 levelContainer.classList.remove('hidden');
-                
+      
+                loadLevel(0);
+        
                 audio.volume = 0.75;
                 audio.play().catch(e => console.warn("Audio autoplay policy restricted playback."));
-                
-                loadLevel(0);
             }, 500);
         });
     </script>
