@@ -33,7 +33,7 @@
         <div id="global-progress" class="h-full bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.9)] transition-all duration-700 ease-out" style="width: 0%"></div>
     </div>
 
-    <div id="instructions-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[10000] transition-opacity duration-500 p-4">
+    <div id="instructions-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[20000] transition-opacity duration-500 p-4">
         <div class="bg-gray-900/90 p-8 sm:p-10 rounded-3xl shadow-2xl max-w-lg w-full text-center border border-gray-700/50 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500"></div>
             <svg class="w-14 h-14 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <div id="victory-screen" class="hidden fixed inset-0 bg-black/90 backdrop-blur-xl flex-col items-center justify-center z-[10000] transition-opacity duration-1000 opacity-0 p-6 text-center">
+    <div id="victory-screen" class="hidden fixed inset-0 bg-black/90 backdrop-blur-xl flex-col items-center justify-center z-[10000] transition-opacity duration-1000 opacity-0 p-6 pb-20 text-center">
         <svg class="w-20 h-20 sm:w-24 sm:h-24 text-green-500 mb-6 drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <h1 class="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight uppercase">Volume Set</h1>
         <p class="text-lg sm:text-xl text-gray-400 mb-8 max-w-md">You have successfully achieved an optimal listening environment.</p>
@@ -443,7 +443,7 @@
             <div class="mt-1 text-4xl font-mono text-gray-300 text-center w-full shrink-0" id="l30-display">75%</div>
         </div>
 
-    </div> <div id="dev-bar" class="fixed bottom-0 left-0 w-full bg-gray-900/95 backdrop-blur border-t border-gray-800 p-2 sm:p-3 z-[9999] flex items-center justify-start md:justify-center overflow-x-auto gap-1.5 shadow-[0_-5px_15px_rgba(0,0,0,0.5)] scroll-smooth" style="scrollbar-width: none;">
+    </div> <div id="dev-bar" class="fixed bottom-0 left-0 w-full bg-gray-900/95 backdrop-blur border-t border-gray-800 p-2 sm:p-3 z-[15000] flex items-center justify-start md:justify-center overflow-x-auto gap-1.5 shadow-[0_-5px_15px_rgba(0,0,0,0.5)] scroll-smooth" style="scrollbar-width: none;">
 
     <script>
         const audio = document.getElementById('bg-music');
@@ -592,6 +592,13 @@
             const winBtn = document.createElement('button');
             winBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-green-900/50 hover:bg-green-600 text-[10px] sm:text-xs font-mono text-green-400 rounded border border-green-800 transition-colors focus:outline-none ml-3 mr-4 md:mr-0";
             winBtn.disabled = false;
+            
+            // Highlight the WIN button if we are currently on the Victory screen
+            if (currentLevelIndex >= levels.length) {
+                winBtn.classList.add('ring-2', 'ring-green-400', 'bg-green-800');
+                setTimeout(() => winBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }), 100);
+            }
+
             winBtn.innerText = "WIN";
             winBtn.onclick = () => jumpToLevel(levels.length);
             devBar.appendChild(winBtn);
