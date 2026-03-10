@@ -311,14 +311,6 @@
             <div class="text-4xl font-mono text-gray-300 text-center w-full shrink-0" id="l21-display">75%</div>
         </div>
 
-            <div id="l21-reward" class="hidden flex-col items-center justify-center gap-6 w-full h-48 sm:h-56">
-                <p class="text-green-500 text-[10px] sm:text-xs text-center font-bold uppercase tracking-widest animate-pulse">Data Harvested. Thank you.</p>
-                <input type="range" min="0" max="100" value="75" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-orange-500" id="l21-slider">
-            </div>
-
-            <div class="text-4xl font-mono text-gray-300 text-center w-full shrink-0" id="l21-display">75%</div>
-        </div>
-
         <div id="level-22" class="level-ui hidden flex-col items-center justify-center w-full gap-4 relative mt-2">
             <div class="text-[10px] sm:text-xs tracking-widest text-pink-500 uppercase font-bold text-center animate-pulse mb-1 shrink-0">Wheel of Misfortune</div>
             <div class="relative w-56 h-56 sm:w-64 sm:h-64 shrink-0 mx-auto">
@@ -593,11 +585,7 @@
                 
                 loadLevel(0);
             }, 500);
-        });
-
-        // Bind to both touch and click to cover all bases
-        startBtn.addEventListener('touchstart', triggerGameStart, {passive: false});
-        startBtn.addEventListener('click', triggerGameStart);
+        }); 
     </script>
 </body>
 </html>
