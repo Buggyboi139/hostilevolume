@@ -396,12 +396,12 @@
             <p class="text-[9px] sm:text-[10px] text-gray-400 font-mono mb-2 text-center shrink-0">Hold the slider to tilt the beam. Balance at 25%.<br>Do not drop the ball.</p>
             
             <div class="flex flex-row items-center justify-center gap-4 w-full h-40 sm:h-48 relative">
-                <div class="relative h-full w-10 sm:w-12 shrink-0 bg-gray-950 rounded-full border-2 border-gray-800 shadow-inner flex items-center justify-center overflow-hidden">
-                    <input type="range" min="-100" max="100" value="0" class="w-32 sm:w-40 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-teal-400 absolute origin-center focus:outline-none" id="l29-slider" style="transform: rotate(-90deg);">
+                <div class="relative w-full max-w-[240px] h-full bg-gray-950 rounded-xl overflow-hidden border-2 border-gray-700 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                    <canvas id="l29-canvas" class="w-full h-full block touch-none"></canvas>
                 </div>
                 
-                <div class="relative h-full w-10 sm:w-12 shrink-0 bg-gray-950 rounded-full border-2 border-gray-800 shadow-inner flex items-center justify-center overflow-hidden">
-                    <input type="range" min="-15" max="15" value="0" class="w-32 sm:w-40 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-teal-400 absolute origin-center focus:outline-none" id="l29-slider" style="transform: rotate(-90deg);">
+                <div class="relative h-full w-10 sm:w-12 shrink-0 bg-gray-950 rounded-full border-2 border-gray-800 shadow-inner flex items-center justify-center">
+                    <input type="range" min="-100" max="100" value="0" class="w-32 sm:w-40 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-teal-400 absolute origin-center focus:outline-none" id="l29-slider" style="transform: rotate(-90deg);">
                 </div>
             </div>
 
