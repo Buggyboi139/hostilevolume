@@ -70,17 +70,17 @@
             <div class="mt-8 text-4xl font-mono text-gray-300 text-center" id="l1-display">75%</div>
         </div>
 
-        <div id="level-2" class="level-ui hidden h-40 sm:h-48 flex-col items-center justify-center gap-4 relative">
-            <div class="absolute top-0 w-full text-[10px] sm:text-xs tracking-widest text-red-500 uppercase font-bold text-center animate-pulse mb-1 shrink-0">Incremental Agony</div>
-            <button id="l2-up" class="p-3 sm:p-4 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-full transition-colors focus:outline-none mt-6"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
+        <div id="level-2" class="level-ui hidden flex-col items-center justify-center gap-4 w-full min-h-[220px]">
+            <div class="w-full text-[10px] sm:text-xs tracking-widest text-red-500 uppercase font-bold text-center animate-pulse shrink-0">Incremental Agony</div>
+            <button id="l2-up" class="p-3 sm:p-4 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-full transition-colors focus:outline-none"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
             <div class="text-4xl font-mono text-gray-300 w-24 text-center" id="l2-display">75%</div>
             <button id="l2-down" class="p-3 sm:p-4 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-full transition-colors focus:outline-none"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg></button>
         </div>
 
-        <div id="level-3" class="level-ui hidden h-40 sm:h-48 flex-col items-center justify-center relative">
-            <div class="absolute top-0 w-full text-[10px] sm:text-xs tracking-widest text-yellow-500 uppercase font-bold text-center animate-pulse mb-1 shrink-0">Social Distancing</div>
-            <button id="l3-up" class="p-3 sm:p-4 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-full transition-transform duration-75 focus:outline-none z-10 mt-6"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
-            <div class="text-4xl font-mono text-gray-300 w-24 text-center my-2 z-0" id="l3-display">75%</div>
+        <div id="level-3" class="level-ui hidden flex-col items-center justify-center gap-4 w-full min-h-[220px]">
+            <div class="w-full text-[10px] sm:text-xs tracking-widest text-yellow-500 uppercase font-bold text-center animate-pulse shrink-0">Social Distancing</div>
+            <button id="l3-up" class="p-3 sm:p-4 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-full transition-transform duration-75 focus:outline-none z-10"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
+            <div class="text-4xl font-mono text-gray-300 w-24 text-center z-0" id="l3-display">75%</div>
             <button id="l3-down" class="p-3 sm:p-4 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-full transition-transform duration-75 focus:outline-none z-10"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg></button>
         </div>
 
@@ -115,12 +115,12 @@
             <div class="mt-2 text-4xl font-mono text-gray-300 w-24 text-center" id="l7-display">75%</div>
         </div>
 
-        <div id="level-8" class="level-ui hidden h-40 sm:h-48 flex-col items-center justify-center gap-3 relative">
-            <div class="absolute top-0 w-full text-[10px] sm:text-xs tracking-widest text-orange-400 uppercase font-bold text-center animate-pulse shrink-0">Rate Limited</div>
-            <button id="l8-up" class="p-3 sm:p-4 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-full transition-colors focus:outline-none mt-4"><svg class="w-8 h-8 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
+        <div id="level-8" class="level-ui hidden flex-col items-center justify-center gap-3 w-full min-h-[220px]">
+            <div class="w-full text-[10px] sm:text-xs tracking-widest text-orange-400 uppercase font-bold text-center animate-pulse shrink-0 mb-1">Rate Limited</div>
+            <button id="l8-up" class="p-3 sm:p-4 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-full transition-colors focus:outline-none"><svg class="w-8 h-8 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
             <div class="text-4xl font-mono text-gray-300 w-24 text-center" id="l8-display">75%</div>
             <button id="l8-down" class="p-3 sm:p-4 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-full transition-colors focus:outline-none"><svg class="w-8 h-8 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg></button>
-            <div class="w-24 h-1.5 bg-gray-950 rounded-full overflow-hidden mt-2 border border-gray-800"><div id="l8-cooldown-bar" class="h-full bg-blue-500 w-full"></div></div>
+            <div class="w-24 h-1.5 bg-gray-950 rounded-full overflow-hidden mt-1 border border-gray-800"><div id="l8-cooldown-bar" class="h-full bg-blue-500 w-full"></div></div>
         </div>
 
         <div id="level-9" class="level-ui hidden h-40 sm:h-48 flex-col justify-center relative">
