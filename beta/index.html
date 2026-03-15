@@ -47,36 +47,40 @@
         </div>
     </div>
 
-    <div id="victory-screen" class="hidden fixed inset-0 bg-black/95 backdrop-blur-xl flex-col items-center justify-center z-[10000] p-6 text-center overflow-y-auto">
-        <h1 class="text-4xl sm:text-5xl font-black text-green-500 mb-2 uppercase tracking-widest mt-10">Optimal Volume Achieved</h1>
-        
-        <div class="bg-gray-900 border border-gray-700 rounded-xl p-6 mb-6 w-full max-w-sm shadow-[0_0_30px_rgba(34,197,94,0.2)]">
-            <h2 class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-4 border-b border-gray-800 pb-2">Suffering Report</h2>
+    <div id="victory-screen" class="hidden fixed inset-0 bg-black/90 backdrop-blur-xl flex-col items-center justify-center z-[10000] transition-opacity duration-1000 p-6 pb-20 text-center overflow-y-auto">
+        <svg class="w-20 h-20 sm:w-24 sm:h-24 text-green-500 mb-6 drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <h1 class="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight uppercase">Volume Set</h1>
+        <p class="text-lg sm:text-xl text-gray-400 mb-2 max-w-md">You have successfully achieved an optimal listening environment.</p>
+        <p class="text-sm text-gray-500 font-mono italic mb-8">Please enjoy the music.</p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 mb-8 w-full max-w-sm shadow-inner text-left">
+            <h2 class="text-red-400 text-[10px] font-black uppercase tracking-widest mb-3 border-b border-gray-800 pb-2">Meaningless Metrics</h2>
             
-            <div class="flex justify-between items-center mb-3">
-                <span class="text-gray-500 font-mono text-sm">Time Elapsed:</span>
+            <div class="flex justify-between items-end mb-3">
+                <span class="text-gray-500 font-mono text-xs max-w-[60%]">Irrecoverable lifespan wasted:</span>
                 <span id="vic-time" class="text-white font-mono font-bold text-lg">00:00</span>
             </div>
             
-            <div class="flex justify-between items-center mb-4">
-                <span class="text-gray-500 font-mono text-sm">Global Survivor #:</span>
-                <span id="vic-survivor" class="text-blue-400 font-mono font-bold text-lg">Loading...</span>
+            <div class="flex justify-between items-end">
+                <span class="text-gray-500 font-mono text-xs max-w-[60%]">Gullible test subjects before you:</span>
+                <span id="vic-survivor" class="text-blue-400 font-mono font-bold text-lg">Calculating...</span>
             </div>
         </div>
 
         <div class="flex flex-col sm:flex-row gap-4 w-full max-w-sm mb-4">
-            <button id="share-btn" class="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-xl transition-all active:scale-95 focus:outline-none shadow-lg">
+            <button id="share-btn" class="flex-1 flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-xl transition-all active:scale-95 focus:outline-none border border-gray-700 shadow-lg">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
-                Share Report
+                Brag Online
             </button>
             
-            <a href="https://buymeacoffee.com/hostilevolume" target="_blank" rel="noopener noreferrer" class="flex-1 flex items-center justify-center gap-2 bg-[#FFdd00] hover:bg-[#FFdd00]/90 text-black font-black py-3 px-4 rounded-xl shadow-[0_0_20px_rgba(255,221,0,0.2)] transition-all active:scale-95 focus:outline-none">
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
-                </svg>
-                Tip Dev
+            <a href="https://buymeacoffee.com/hostilevolume" target="_blank" rel="noopener noreferrer" class="flex-1 flex items-center justify-center gap-2 bg-[#FFdd00] hover:bg-[#FFdd00]/90 text-black font-black py-3 px-4 rounded-xl shadow-[0_0_30px_rgba(255,221,0,0.3)] transition-all active:scale-95 focus:outline-none">
+                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+                Fund my villainy
             </a>
         </div>
+        
+        <p id="share-toast" class="text-green-400 text-xs font-mono opacity-0 transition-opacity">Copied to clipboard. May god have mercy on your followers.</p>
+    </div>
         
         <p id="share-toast" class="text-green-400 text-xs font-mono opacity-0 transition-opacity">Copied to clipboard!</p>
     </div>
