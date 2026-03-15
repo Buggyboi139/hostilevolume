@@ -659,9 +659,8 @@
 
                 // --- REDIS GLOBAL COUNTER ---
                 const REDIS_URL = "https://expert-jawfish-72148.upstash.io";
-                
-                // IMPORTANT: Use the regular REST token here, NOT the Read-Only one!
-                const REDIS_TOKEN = "PASTE_YOUR_REGULAR_REST_TOKEN_HERE";
+            
+                const REDIS_TOKEN = "gQAAAAAAARnUAAIncDJjOGEyNGM2NzBkODg0ODFmOWMzYmMwNjc4N2M0NGEzY3AyNzIxNDg";
 
                 fetch(`${REDIS_URL}/incr/global_survivors`, {
                     headers: { Authorization: `Bearer ${REDIS_TOKEN}` }
