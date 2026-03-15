@@ -42,8 +42,9 @@
                 To progress, you must set the volume to exactly <strong class="text-white bg-gray-800 px-3 py-1 rounded-md border border-gray-700 mx-1 shadow-inner">25%</strong> and hold it there for 3 seconds.
             </p>
             
-            <div class="mb-8 mx-auto w-fit text-[10px] font-mono text-gray-500 uppercase tracking-[0.2em] bg-black/40 py-2 px-6 rounded-lg border border-gray-800 shadow-inner">
-            Legends: <span id="intro-survivor-count" class="text-gray-300 font-bold text-sm animate-pulse">Querying database...</span>
+            <div class="mb-8 mx-auto w-fit text-[10px] font-mono text-gray-500 uppercase tracking-[0.2em] bg-black/40 py-3 px-6 rounded-xl border border-gray-800 shadow-inner flex flex-col gap-2 text-center">
+                <div>Driven to Insanity: <span id="intro-insanity-count" class="text-orange-500 font-bold text-sm animate-pulse">Tallying...</span></div>
+                <div class="border-t border-gray-800 pt-2">Legends: <span id="intro-survivor-count" class="text-gray-300 font-bold text-sm animate-pulse">Querying...</span></div>
             </div>
 
             <button id="start-btn" class="w-full bg-white text-gray-900 hover:bg-gray-200 font-bold py-4 px-8 rounded-xl transition-all active:scale-95 text-lg shadow-[0_0_20px_rgba(255,255,255,0.1)] focus:outline-none">
@@ -509,6 +510,24 @@
             const countEl = document.getElementById('intro-survivor-count');
             if (countEl) countEl.innerText = "Countless";
             countEl.classList.remove('animate-pulse');
+        });
+
+        fetch('https://willworkforbugs.goatcounter.com/counter//.json')
+        .then(res => res.json())
+        .then(data => {
+            const insEl = document.getElementById('intro-insanity-count');
+            if (insEl && data.count) {
+                // GoatCounter already returns the string formatted with commas (e.g., "4,083")
+                insEl.innerText = data.count; 
+                insEl.classList.remove('animate-pulse');
+            }
+        })
+        .catch(() => {
+            const insEl = document.getElementById('intro-insanity-count');
+            if (insEl) {
+                insEl.innerText = "Thousands";
+                insEl.classList.remove('animate-pulse');
+            }
         });
 
         function setVolume(val) {
