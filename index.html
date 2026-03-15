@@ -1,12 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Hostile Volume</title>
 
-    <script data-goatcounter="https://willworkforbugs.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://play.hostilevolume.com/">
+    <meta property="og:title" content="Hostile Volume: Begin the Suffering">
+    <meta property="og:description" content="A volume setting experience designed for maximum frustration. Can you beat the audit?">
+    <meta property="og:image" content="https://play.hostilevolume.com/og-preview.jpg">
+    <meta property="twitter:card" content="summary_large_image">
+
+    <script data-goatcounter="https://willworkforbugs.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
@@ -38,27 +42,54 @@
             <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500"></div>
             <svg class="w-14 h-14 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
             <h1 class="text-3xl sm:text-4xl font-black mb-4 text-white tracking-tight">Hostile Volume</h1>
-            <p class="text-gray-400 mb-8 text-base sm:text-lg leading-relaxed">
+            <p class="text-gray-400 mb-6 text-base sm:text-lg leading-relaxed">
                 To progress, you must set the volume to exactly <strong class="text-white bg-gray-800 px-3 py-1 rounded-md border border-gray-700 mx-1 shadow-inner">25%</strong> and hold it there for 3 seconds.
             </p>
+            
+            <div class="mb-8 mx-auto w-fit text-[10px] font-mono text-gray-500 uppercase tracking-[0.2em] bg-black/40 py-3 px-6 rounded-xl border border-gray-800 shadow-inner flex flex-col gap-2 text-center">
+                <div>Driven to Insanity: <span id="intro-insanity-count" class="text-orange-500 font-bold text-sm animate-pulse">Tallying...</span></div>
+                <div class="border-t border-gray-800 pt-2">Legends: <span id="intro-survivor-count" class="text-gray-300 font-bold text-sm animate-pulse">Querying...</span></div>
+            </div>
+
             <button id="start-btn" class="w-full bg-white text-gray-900 hover:bg-gray-200 font-bold py-4 px-8 rounded-xl transition-all active:scale-95 text-lg shadow-[0_0_20px_rgba(255,255,255,0.1)] focus:outline-none">
                 Begin the Suffering
             </button>
         </div>
     </div>
-
-    <div id="victory-screen" class="hidden fixed inset-0 bg-black/90 backdrop-blur-xl flex-col items-center justify-center z-[10000] transition-opacity duration-1000 opacity-0 p-6 pb-20 text-center">
+   
+    <div id="victory-screen" class="hidden fixed inset-0 bg-black/90 backdrop-blur-xl flex-col items-center justify-center z-[10000] transition-opacity duration-1000 p-6 pb-20 text-center overflow-y-auto">
         <svg class="w-20 h-20 sm:w-24 sm:h-24 text-green-500 mb-6 drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <h1 class="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight uppercase">Volume Set</h1>
-        <p class="text-lg sm:text-xl text-gray-400 mb-8 max-w-md">You have successfully achieved an optimal listening environment.</p>
-        <p class="text-sm text-gray-500 font-mono italic mb-10">Please enjoy the music.</p>
+        <p class="text-lg sm:text-xl text-gray-400 mb-2 max-w-md">You have successfully achieved an optimal listening environment.</p>
+        <p class="text-sm text-gray-500 font-mono italic mb-8">Please enjoy the music.</p>
 
-        <a href="https://buymeacoffee.com/hostilevolume" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 bg-[#FFdd00] hover:bg-[#FFdd00]/90 text-black font-black py-3 px-6 rounded-xl shadow-[0_0_30px_rgba(255,221,0,0.3)] transition-all active:scale-95 focus:outline-none">
-            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
-            </svg>
-            <span>Fund my villainy</span>
-        </a>
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 mb-8 w-full max-w-sm shadow-inner text-left">
+            <h2 class="text-red-400 text-[10px] font-black uppercase tracking-widest mb-3 border-b border-gray-800 pb-2">Over Achievers</h2>
+            
+            <div class="flex justify-between items-end mb-3">
+                <span class="text-gray-500 font-mono text-xs max-w-[60%]">Time spent not being productive:</span>
+                <span id="vic-time" class="text-white font-mono font-bold text-lg">00:00</span>
+            </div>
+            
+            <div class="flex justify-between items-end">
+                <span class="text-gray-500 font-mono text-xs max-w-[60%]">Victims before you:</span>
+                <span id="vic-survivor" class="text-blue-400 font-mono font-bold text-lg">Calculating...</span>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 w-full max-w-sm mb-4">
+            <button id="share-btn" class="flex-1 flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-xl transition-all active:scale-95 focus:outline-none border border-gray-700 shadow-lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+                Brag Online
+            </button>
+            
+            <a href="https://buymeacoffee.com/hostilevolume" target="_blank" rel="noopener noreferrer" class="flex-1 flex items-center justify-center gap-2 bg-[#FFdd00] hover:bg-[#FFdd00]/90 text-black font-black py-3 px-4 rounded-xl shadow-[0_0_30px_rgba(255,221,0,0.3)] transition-all active:scale-95 focus:outline-none">
+                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+                Tip the Dev
+            </a>
+        </div>
+        
+        <p id="share-toast" class="text-green-400 text-xs font-mono opacity-0 transition-opacity">Copied to clipboard. May god have mercy on your followers.</p>
     </div>
 
     <div id="level-container" class="hidden w-[90%] max-w-md p-6 sm:p-10 bg-gray-900 rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.8)] text-center border border-gray-800 transition-all duration-500 relative overflow-hidden">
@@ -215,7 +246,7 @@
         </div>
 
         <div id="level-17" class="level-ui hidden flex-col justify-center h-40 sm:h-48 relative">
-            <div class="absolute top-0 w-full text-[10px] sm:text-xs tracking-widest text-red-500 uppercase font-bold text-center animate-pulse shrink-0">UI Desync</div>
+            <div class="absolute top-0 w-full text-[10px] sm:text-xs tracking-widest text-red-500 uppercase font-bold text-center animate-pulse shrink-0">Opposite Day</div>
             <input type="range" min="0" max="100" value="25" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500 mt-6" id="l17-slider">
             <div class="mt-8 text-4xl font-mono text-gray-300 text-center relative flex justify-center items-center" id="l17-display">
                 75%
@@ -445,7 +476,9 @@
             <div class="mt-1 text-4xl font-mono text-gray-300 text-center w-full shrink-0" id="l30-display">75%</div>
         </div>
 
-    </div> <div id="dev-bar" class="fixed bottom-0 left-0 w-full bg-gray-900/95 backdrop-blur border-t border-gray-800 p-2 sm:p-3 z-[15000] flex items-center justify-start md:justify-center overflow-x-auto gap-1.5 shadow-[0_-5px_15px_rgba(0,0,0,0.5)] scroll-smooth" style="scrollbar-width: none;">
+    </div> 
+    
+    <div id="dev-bar" class="fixed bottom-0 left-0 w-full bg-gray-900/95 backdrop-blur border-t border-gray-800 p-2 sm:p-3 z-[15000] flex items-center justify-start md:justify-center overflow-x-auto gap-1.5 shadow-[0_-5px_15px_rgba(0,0,0,0.5)] scroll-smooth" style="scrollbar-width: none;"></div>
 
     <script>
         const audio = document.getElementById('bg-music');
@@ -455,12 +488,64 @@
         const levelTitle = document.getElementById('level-title');
         const progressBar = document.getElementById('global-progress');
         const progressContainer = document.getElementById('progress-bar-container');
+        const REDIS_URL = "https://expert-jawfish-72148.upstash.io";
+        const REDIS_TOKEN = "gQAAAAAAARnUAAIncDJjOGEyNGM2NzBkODg0ODFmOWMzYmMwNjc4N2M0NGEzY3AyNzIxNDg";
 
         let currentVolume = 75;
         let progressTimer = null;
         let currentLevelIndex = 0;
         let l3Distance = 0;
         let maxUnlockedLevel = 0;
+        let startTime = null;
+        let totalFails = 0;
+
+        fetch(`${REDIS_URL}/get/global_survivors`, {
+            headers: { Authorization: `Bearer ${REDIS_TOKEN}` }
+        })
+        .then(res => res.json())
+        .then(data => {
+            const countEl = document.getElementById('intro-survivor-count');
+            if (countEl && data.result) {
+                
+                const currentVictims = parseInt(data.result).toLocaleString();
+                countEl.innerText = currentVictims;
+                countEl.classList.remove('animate-pulse');
+            }
+        })
+        .catch(err => {
+            const countEl = document.getElementById('intro-survivor-count');
+            if (countEl) countEl.innerText = "Countless";
+            countEl.classList.remove('animate-pulse');
+        });
+
+        fetch('https://willworkforbugs.goatcounter.com/counter//.json')
+        .then(res => res.json())
+        .then(data => {
+            const insEl = document.getElementById('intro-insanity-count');
+            if (insEl && data.count) {
+                // GoatCounter already returns the string formatted with commas (e.g., "4,083")
+                insEl.innerText = data.count; 
+                insEl.classList.remove('animate-pulse');
+            }
+        })
+        .catch(() => {
+            const insEl = document.getElementById('intro-insanity-count');
+            if (insEl) {
+                insEl.innerText = "Thousands";
+                insEl.classList.remove('animate-pulse');
+            }
+        });
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                audio.pause();
+            } else {
+                // Only resume if they have actually started the game and haven't won yet
+                if (startTime !== null && currentLevelIndex < levels.length) {
+                    audio.play().catch(e => console.warn("Audio resume blocked by browser"));
+                }
+            }
+        });
 
         function setVolume(val) {
             currentVolume = Math.max(0, Math.min(100, val));
@@ -528,14 +613,12 @@
                 clearTimeout(progressTimer);
                 progressTimer = null;
             }
-            
-            // Ensure audio plays if we bypassed the Start button using the dev bar
+           
             if (audio.paused) {
                 audio.volume = 0.75;
                 audio.play().catch(e => console.warn("Audio blocked by browser:", e));
             }
-            
-            // Clean up states/overlays
+        
             document.getElementById('victory-screen').classList.add('hidden');
             document.getElementById('victory-screen').classList.remove('flex');
             
@@ -547,15 +630,13 @@
             
             currentLevelIndex = index;
             loadLevel(currentLevelIndex);
-            
-            // Updates the highlight ring on the dev bar to your new current level!
+        
             updateDevBar(); 
         }
 
        function updateDevBar() {
             const devBar = document.getElementById('dev-bar');
             
-            // Clear out the bar entirely
             devBar.innerHTML = '';
 
             // 1. Reset button (Always unlocked)
@@ -603,6 +684,7 @@
                 // Unlocked
                 winBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-green-900/50 hover:bg-green-600 text-[10px] sm:text-xs font-mono text-green-400 rounded border border-green-800 transition-colors focus:outline-none ml-3 mr-4 md:mr-0";
                 winBtn.disabled = false;
+                winBtn.onclick = () => jumpToLevel(levels.length);
             } else {
                 // Locked
                 winBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-gray-950 text-[10px] sm:text-xs font-mono text-gray-700 rounded border border-gray-800 opacity-40 cursor-not-allowed ml-3 mr-4 md:mr-0";
@@ -616,7 +698,6 @@
             }
 
             winBtn.innerText = "WIN";
-            winBtn.onclick = () => jumpToLevel(levels.length);
             devBar.appendChild(winBtn);
         }
 
@@ -628,18 +709,76 @@
             
             document.getElementById('level-container').style.filter = 'none';
 
-            // VICTORY
+            // --- VICTORY CONDITION ---
             if (index >= levels.length) {
                 progressBar.style.width = '100%';
                 levelContainer.classList.add('hidden');
                 progressContainer.classList.add('hidden');
+                
                 const vic = document.getElementById('victory-screen');
                 vic.classList.remove('hidden');
                 vic.classList.add('flex');
                 setTimeout(() => vic.classList.remove('opacity-0'), 100);
+
+                // Calculate personal time
+                const actualStart = startTime || Date.now(); 
+                const timeDiff = Math.floor((Date.now() - actualStart) / 1000);
+                const minutes = Math.floor(timeDiff / 60);
+                const seconds = timeDiff % 60;
+                const timeString = `${minutes}m ${seconds}s`;
+                
+                const timeEl = document.getElementById('vic-time');
+                if (timeEl) timeEl.innerText = timeString;
+
+                // --- REDIS GLOBAL COUNTER ---
+                const REDIS_URL = "https://expert-jawfish-72148.upstash.io";
+            
+                const REDIS_TOKEN = "gQAAAAAAARnUAAIncDJjOGEyNGM2NzBkODg0ODFmOWMzYmMwNjc4N2M0NGEzY3AyNzIxNDg";
+
+                fetch(`${REDIS_URL}/incr/global_survivors`, {
+                    headers: { Authorization: `Bearer ${REDIS_TOKEN}` }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    let rankText = "Anonymized";
+                    if (data.result) {
+                        rankText = `#${data.result.toLocaleString()}`;
+                    } else if (data.error) {
+                        console.warn("Redis Error:", data.error);
+                        rankText = "Token Error";
+                    }
+                    
+                    const survivorEl = document.getElementById('vic-survivor');
+                    if (survivorEl) survivorEl.innerText = rankText;
+                    
+                    // Setup the Share Logic with the actual Rank
+                    const shareBtn = document.getElementById('share-btn');
+                    if (shareBtn) {
+                        const shareText = `I just wasted ${timeString} of my life setting my volume to 25%.\n\nI was moron ${rankText}.\n\nSuffer with me: https://play.hostilevolume.com`;
+                        
+                        shareBtn.onclick = () => {
+                            navigator.clipboard.writeText(shareText).then(() => {
+                                const toast = document.getElementById('share-toast');
+                                if(toast) {
+                                    toast.classList.remove('opacity-0');
+                                    setTimeout(() => toast.classList.add('opacity-0'), 2000);
+                                }
+                            }).catch(err => {
+                                console.error('Could not copy text: ', err);
+                                alert("Browser blocked copy. The suffering continues.");
+                            });
+                        };
+                    }
+                })
+                .catch(err => {
+                    console.error("Fetch Error:", err);
+                    document.getElementById('vic-survivor').innerText = "Offline Victim";
+                });
+
                 return;
             }
 
+            // --- NORMAL LEVEL LOAD ---
             progressBar.style.width = `${(index / levels.length) * 100}%`;
 
             const level = levels[index];
@@ -648,7 +787,7 @@
             const levelEl = document.getElementById(level.id);
             levelEl.classList.remove('hidden');
             
-           const flexLevels = ['level-1', 'level-2', 'level-3', 'level-4', 'level-5', 'level-6', 'level-7', 'level-8', 'level-9', 'level-10', 'level-11', 'level-12', 'level-13', 'level-14', 'level-15', 'level-16', 'level-17', 'level-18', 'level-19', 'level-20', 'level-21', 'level-22', 'level-23', 'level-24', 'level-25', 'level-26', 'level-27', 'level-28', 'level-29', 'level-30'];
+            const flexLevels = ['level-1', 'level-2', 'level-3', 'level-4', 'level-5', 'level-6', 'level-7', 'level-8', 'level-9', 'level-10', 'level-11', 'level-12', 'level-13', 'level-14', 'level-15', 'level-16', 'level-17', 'level-18', 'level-19', 'level-20', 'level-21', 'level-22', 'level-23', 'level-24', 'level-25', 'level-26', 'level-27', 'level-28', 'level-29', 'level-30'];
             if (flexLevels.includes(level.id)) {
                  levelEl.classList.add('flex');
             }
@@ -682,13 +821,13 @@
         updateDevBar();
 
        startBtn.addEventListener('click', () => {
-            // Play happens instantly on click
+            
+           startTime = Date.now();
             audio.volume = 0.75;
             audio.play().catch(e => console.warn("Audio blocked by browser:", e));
 
             modal.classList.add('opacity-0');
             
-            // Everything else waits half a second
             setTimeout(() => {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
