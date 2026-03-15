@@ -26,7 +26,12 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
     </style>
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#111827">
+    <link rel="apple-touch-icon" href="icon-192.png">
 </head>
+
 <body class="bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-800 via-gray-950 to-black text-white h-screen flex items-center justify-center overflow-hidden font-sans select-none relative pb-12">
 
     <audio id="bg-music" loop>
@@ -499,6 +504,12 @@
         let startTime = null;
         let totalFails = 0;
 
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW setup failed: ', err));
+            });
+        }
+        
         fetch(`${REDIS_URL}/get/global_survivors`, {
             headers: { Authorization: `Bearer ${REDIS_TOKEN}` }
         })
@@ -639,36 +650,31 @@
             
             devBar.innerHTML = '';
 
-            // 1. Reset button (Always unlocked)
             const resetBtn = document.createElement('button');
             resetBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-yellow-900/50 hover:bg-yellow-600 text-[10px] sm:text-xs font-mono text-yellow-400 rounded border border-yellow-800 transition-colors focus:outline-none ml-1 sm:ml-2 mr-2 sm:mr-3";
             resetBtn.innerText = "RESET";
             resetBtn.onclick = () => jumpToLevel(currentLevelIndex);
             devBar.appendChild(resetBtn);
             
-            // 2. Add the "Lvl:" label
             const lvlLabel = document.createElement('span');
             lvlLabel.className = "text-[10px] sm:text-xs font-mono text-gray-500 font-bold mr-1 sm:mr-2 uppercase tracking-widest shrink-0";
             lvlLabel.innerText = "Lvl:";
             devBar.appendChild(lvlLabel);
             
-            // 3. Loop through and add all the level buttons
             levels.forEach((lvl, i) => {
                 const btn = document.createElement('button');
                 
                 if (i <= maxUnlockedLevel) {
-                    // UNLOCKED LEVEL 
+                   
                     btn.className = "w-8 h-8 shrink-0 flex items-center justify-center bg-gray-800 hover:bg-blue-600 text-[10px] sm:text-xs font-mono text-gray-300 rounded border border-gray-700 transition-colors focus:outline-none";
                     btn.onclick = () => jumpToLevel(i);
                     
-                    // Highlight the level you are currently on
                     if (i === currentLevelIndex) {
                         btn.classList.add('ring-2', 'ring-blue-500', 'bg-gray-700');
-                        // Auto-scroll the bar so the active level is always visible
+
                         setTimeout(() => btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }), 100);
                     }
                 } else {
-                    // LOCKED LEVEL
                     btn.className = "w-8 h-8 shrink-0 flex items-center justify-center bg-gray-950 text-[10px] sm:text-xs font-mono text-gray-700 rounded border border-gray-800 opacity-40 cursor-not-allowed";
                     btn.disabled = true;
                 }
@@ -677,21 +683,17 @@
                 devBar.appendChild(btn);
             });
 
-            // 4. Win button (Locked until the final level is beaten)
             const winBtn = document.createElement('button');
             
             if (maxUnlockedLevel >= levels.length) {
-                // Unlocked
                 winBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-green-900/50 hover:bg-green-600 text-[10px] sm:text-xs font-mono text-green-400 rounded border border-green-800 transition-colors focus:outline-none ml-3 mr-4 md:mr-0";
                 winBtn.disabled = false;
                 winBtn.onclick = () => jumpToLevel(levels.length);
             } else {
-                // Locked
                 winBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-gray-950 text-[10px] sm:text-xs font-mono text-gray-700 rounded border border-gray-800 opacity-40 cursor-not-allowed ml-3 mr-4 md:mr-0";
                 winBtn.disabled = true;
             }
             
-            // Highlight the WIN button if we are currently on the Victory screen
             if (currentLevelIndex >= levels.length) {
                 winBtn.classList.add('ring-2', 'ring-green-400', 'bg-green-800');
                 setTimeout(() => winBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }), 100);
@@ -709,7 +711,6 @@
             
             document.getElementById('level-container').style.filter = 'none';
 
-            // --- VICTORY CONDITION ---
             if (index >= levels.length) {
                 progressBar.style.width = '100%';
                 levelContainer.classList.add('hidden');
@@ -720,7 +721,6 @@
                 vic.classList.add('flex');
                 setTimeout(() => vic.classList.remove('opacity-0'), 100);
 
-                // Calculate personal time
                 const actualStart = startTime || Date.now(); 
                 const timeDiff = Math.floor((Date.now() - actualStart) / 1000);
                 const minutes = Math.floor(timeDiff / 60);
@@ -730,7 +730,6 @@
                 const timeEl = document.getElementById('vic-time');
                 if (timeEl) timeEl.innerText = timeString;
 
-                // --- REDIS GLOBAL COUNTER ---
                 const REDIS_URL = "https://expert-jawfish-72148.upstash.io";
             
                 const REDIS_TOKEN = "gQAAAAAAARnUAAIncDJjOGEyNGM2NzBkODg0ODFmOWMzYmMwNjc4N2M0NGEzY3AyNzIxNDg";
@@ -751,7 +750,6 @@
                     const survivorEl = document.getElementById('vic-survivor');
                     if (survivorEl) survivorEl.innerText = rankText;
                     
-                    // Setup the Share Logic with the actual Rank
                     const shareBtn = document.getElementById('share-btn');
                     if (shareBtn) {
                         const shareText = `I just wasted ${timeString} of my life setting my volume to 25%.\n\nI was moron ${rankText}.\n\nSuffer with me: https://play.hostilevolume.com`;
@@ -778,7 +776,6 @@
                 return;
             }
 
-            // --- NORMAL LEVEL LOAD ---
             progressBar.style.width = `${(index / levels.length) * 100}%`;
 
             const level = levels[index];
