@@ -504,6 +504,28 @@
         let startTime = null;
         let totalFails = 0;
 
+        let activeSeconds = 0;
+        const heartbeatInterval = setInterval(() => {
+
+            if (startTime === null || currentLevelIndex >= levels.length || document.hidden) {
+                return; 
+            }
+
+            activeSeconds += 30;
+            
+            if (window.goatcounter && window.goatcounter.count) {
+                window.goatcounter.count({
+                    path: `duration-${activeSeconds}s`,
+                    title: `Survived for ${activeSeconds} seconds`,
+                    event: true 
+                });
+            }
+            
+            if (activeSeconds >= 900) {
+                clearInterval(heartbeatInterval);
+            }
+        }, 30000);
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW setup failed: ', err));
@@ -534,7 +556,7 @@
         .then(data => {
             const insEl = document.getElementById('intro-insanity-count');
             if (insEl && data.count) {
-                // GoatCounter already returns the string formatted with commas (e.g., "4,083")
+                
                 insEl.innerText = data.count; 
                 insEl.classList.remove('animate-pulse');
             }
@@ -551,7 +573,7 @@
             if (document.hidden) {
                 audio.pause();
             } else {
-                // Only resume if they have actually started the game and haven't won yet
+              
                 if (startTime !== null && currentLevelIndex < levels.length) {
                     audio.play().catch(e => console.warn("Audio resume blocked by browser"));
                 }
