@@ -38,15 +38,19 @@
             <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500"></div>
             <svg class="w-14 h-14 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
             <h1 class="text-3xl sm:text-4xl font-black mb-4 text-white tracking-tight">Hostile Volume</h1>
-            <p class="text-gray-400 mb-8 text-base sm:text-lg leading-relaxed">
+            <p class="text-gray-400 mb-6 text-base sm:text-lg leading-relaxed">
                 To progress, you must set the volume to exactly <strong class="text-white bg-gray-800 px-3 py-1 rounded-md border border-gray-700 mx-1 shadow-inner">25%</strong> and hold it there for 3 seconds.
             </p>
+            
+            <div class="mb-8 text-xs font-mono text-gray-500 uppercase tracking-widest bg-black/40 py-2 rounded-lg border border-gray-800">
+                "Winners": <span id="intro-survivor-count" class="text-red-400 font-bold text-sm animate-pulse">Accessing records...</span>
+            </div>
+
             <button id="start-btn" class="w-full bg-white text-gray-900 hover:bg-gray-200 font-bold py-4 px-8 rounded-xl transition-all active:scale-95 text-lg shadow-[0_0_20px_rgba(255,255,255,0.1)] focus:outline-none">
                 Begin the Suffering
             </button>
         </div>
     </div>
-
     <div id="victory-screen" class="hidden fixed inset-0 bg-black/90 backdrop-blur-xl flex-col items-center justify-center z-[10000] transition-opacity duration-1000 p-6 pb-20 text-center overflow-y-auto">
         <svg class="w-20 h-20 sm:w-24 sm:h-24 text-green-500 mb-6 drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <h1 class="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight uppercase">Volume Set</h1>
@@ -80,9 +84,6 @@
         </div>
         
         <p id="share-toast" class="text-green-400 text-xs font-mono opacity-0 transition-opacity">Copied to clipboard. May god have mercy on your followers.</p>
-    </div>
-        
-        <p id="share-toast" class="text-green-400 text-xs font-mono opacity-0 transition-opacity">Copied to clipboard!</p>
     </div>
 
     <div id="level-container" class="hidden w-[90%] max-w-md p-6 sm:p-10 bg-gray-900 rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.8)] text-center border border-gray-800 transition-all duration-500 relative overflow-hidden">
@@ -479,6 +480,8 @@
         const levelTitle = document.getElementById('level-title');
         const progressBar = document.getElementById('global-progress');
         const progressContainer = document.getElementById('progress-bar-container');
+        const REDIS_URL = "https://expert-jawfish-72148.upstash.io";
+        const REDIS_TOKEN = "gQAAAAAAARnUAAIncDJjOGEyNGM2NzBkODg0ODFmOWMzYmMwNjc4N2M0NGEzY3AyNzIxNDg";
 
         let currentVolume = 75;
         let progressTimer = null;
@@ -487,6 +490,25 @@
         let maxUnlockedLevel = 0;
         let startTime = null;
         let totalFails = 0;
+
+        fetch(`${REDIS_URL}/get/global_survivors`, {
+            headers: { Authorization: `Bearer ${REDIS_TOKEN}` }
+        })
+        .then(res => res.json())
+        .then(data => {
+            const countEl = document.getElementById('intro-survivor-count');
+            if (countEl && data.result) {
+                
+                const currentVictims = parseInt(data.result).toLocaleString();
+                countEl.innerText = currentVictims;
+                countEl.classList.remove('animate-pulse');
+            }
+        })
+        .catch(err => {
+            const countEl = document.getElementById('intro-survivor-count');
+            if (countEl) countEl.innerText = "Countless";
+            countEl.classList.remove('animate-pulse');
+        });
 
         function setVolume(val) {
             currentVolume = Math.max(0, Math.min(100, val));
@@ -554,14 +576,12 @@
                 clearTimeout(progressTimer);
                 progressTimer = null;
             }
-            
-            // Ensure audio plays if we bypassed the Start button using the dev bar
+           
             if (audio.paused) {
                 audio.volume = 0.75;
                 audio.play().catch(e => console.warn("Audio blocked by browser:", e));
             }
-            
-            // Clean up states/overlays
+        
             document.getElementById('victory-screen').classList.add('hidden');
             document.getElementById('victory-screen').classList.remove('flex');
             
@@ -573,15 +593,13 @@
             
             currentLevelIndex = index;
             loadLevel(currentLevelIndex);
-            
-            // Updates the highlight ring on the dev bar to your new current level!
+        
             updateDevBar(); 
         }
 
        function updateDevBar() {
             const devBar = document.getElementById('dev-bar');
             
-            // Clear out the bar entirely
             devBar.innerHTML = '';
 
             // 1. Reset button
