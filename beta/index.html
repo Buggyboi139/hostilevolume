@@ -476,7 +476,9 @@
             <div class="mt-1 text-4xl font-mono text-gray-300 text-center w-full shrink-0" id="l30-display">75%</div>
         </div>
 
-    </div> <div id="dev-bar" class="fixed bottom-0 left-0 w-full bg-gray-900/95 backdrop-blur border-t border-gray-800 p-2 sm:p-3 z-[15000] flex items-center justify-start md:justify-center overflow-x-auto gap-1.5 shadow-[0_-5px_15px_rgba(0,0,0,0.5)] scroll-smooth" style="scrollbar-width: none;">
+    </div> 
+    
+    <div id="dev-bar" class="fixed bottom-0 left-0 w-full bg-gray-900/95 backdrop-blur border-t border-gray-800 p-2 sm:p-3 z-[15000] flex items-center justify-start md:justify-center overflow-x-auto gap-1.5 shadow-[0_-5px_15px_rgba(0,0,0,0.5)] scroll-smooth" style="scrollbar-width: none;"></div>
 
     <script>
         const audio = document.getElementById('bg-music');
@@ -531,6 +533,17 @@
             if (insEl) {
                 insEl.innerText = "Thousands";
                 insEl.classList.remove('animate-pulse');
+            }
+        });
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                audio.pause();
+            } else {
+                // Only resume if they have actually started the game and haven't won yet
+                if (startTime !== null && currentLevelIndex < levels.length) {
+                    audio.play().catch(e => console.warn("Audio resume blocked by browser"));
+                }
             }
         });
 
@@ -626,7 +639,7 @@
             
             devBar.innerHTML = '';
 
-            // 1. Reset button
+            // 1. Reset button (Always unlocked)
             const resetBtn = document.createElement('button');
             resetBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-yellow-900/50 hover:bg-yellow-600 text-[10px] sm:text-xs font-mono text-yellow-400 rounded border border-yellow-800 transition-colors focus:outline-none ml-1 sm:ml-2 mr-2 sm:mr-3";
             resetBtn.innerText = "RESET";
@@ -639,29 +652,44 @@
             lvlLabel.innerText = "Lvl:";
             devBar.appendChild(lvlLabel);
             
-            // 3. Loop through and add all the level buttons (ALL UNLOCKED)
+            // 3. Loop through and add all the level buttons
             levels.forEach((lvl, i) => {
                 const btn = document.createElement('button');
                 
-                btn.className = "w-8 h-8 shrink-0 flex items-center justify-center bg-gray-800 hover:bg-blue-600 text-[10px] sm:text-xs font-mono text-gray-300 rounded border border-gray-700 transition-colors focus:outline-none";
-                btn.onclick = () => jumpToLevel(i);
-                
-                // Highlight the current level
-                if (i === currentLevelIndex) {
-                    btn.classList.add('ring-2', 'ring-blue-500', 'bg-gray-700');
-                    // Auto-scroll the bar so the active level is always visible
-                    setTimeout(() => btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }), 100);
+                if (i <= maxUnlockedLevel) {
+                    // UNLOCKED LEVEL 
+                    btn.className = "w-8 h-8 shrink-0 flex items-center justify-center bg-gray-800 hover:bg-blue-600 text-[10px] sm:text-xs font-mono text-gray-300 rounded border border-gray-700 transition-colors focus:outline-none";
+                    btn.onclick = () => jumpToLevel(i);
+                    
+                    // Highlight the level you are currently on
+                    if (i === currentLevelIndex) {
+                        btn.classList.add('ring-2', 'ring-blue-500', 'bg-gray-700');
+                        // Auto-scroll the bar so the active level is always visible
+                        setTimeout(() => btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }), 100);
+                    }
+                } else {
+                    // LOCKED LEVEL
+                    btn.className = "w-8 h-8 shrink-0 flex items-center justify-center bg-gray-950 text-[10px] sm:text-xs font-mono text-gray-700 rounded border border-gray-800 opacity-40 cursor-not-allowed";
+                    btn.disabled = true;
                 }
                 
                 btn.innerText = i + 1;
                 devBar.appendChild(btn);
             });
 
-            // 4. Win button (ALL UNLOCKED)
+            // 4. Win button (Locked until the final level is beaten)
             const winBtn = document.createElement('button');
             
-            winBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-green-900/50 hover:bg-green-600 text-[10px] sm:text-xs font-mono text-green-400 rounded border border-green-800 transition-colors focus:outline-none ml-3 mr-4 md:mr-0";
-            winBtn.disabled = false;
+            if (maxUnlockedLevel >= levels.length) {
+                // Unlocked
+                winBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-green-900/50 hover:bg-green-600 text-[10px] sm:text-xs font-mono text-green-400 rounded border border-green-800 transition-colors focus:outline-none ml-3 mr-4 md:mr-0";
+                winBtn.disabled = false;
+                winBtn.onclick = () => jumpToLevel(levels.length);
+            } else {
+                // Locked
+                winBtn.className = "h-8 px-3 shrink-0 flex items-center justify-center bg-gray-950 text-[10px] sm:text-xs font-mono text-gray-700 rounded border border-gray-800 opacity-40 cursor-not-allowed ml-3 mr-4 md:mr-0";
+                winBtn.disabled = true;
+            }
             
             // Highlight the WIN button if we are currently on the Victory screen
             if (currentLevelIndex >= levels.length) {
@@ -670,7 +698,6 @@
             }
 
             winBtn.innerText = "WIN";
-            winBtn.onclick = () => jumpToLevel(levels.length);
             devBar.appendChild(winBtn);
         }
 
