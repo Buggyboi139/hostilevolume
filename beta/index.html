@@ -504,28 +504,6 @@
         let startTime = null;
         let totalFails = 0;
 
-        let activeSeconds = 0;
-        const heartbeatInterval = setInterval(() => {
-
-            if (startTime === null || currentLevelIndex >= levels.length || document.hidden) {
-                return; 
-            }
-
-            activeSeconds += 30;
-            
-            if (window.goatcounter && window.goatcounter.count) {
-                window.goatcounter.count({
-                    path: `duration-${activeSeconds}s`,
-                    title: `Survived for ${activeSeconds} seconds`,
-                    event: true 
-                });
-            }
-            
-            if (activeSeconds >= 900) {
-                clearInterval(heartbeatInterval);
-            }
-        }, 30000);
-
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW setup failed: ', err));
