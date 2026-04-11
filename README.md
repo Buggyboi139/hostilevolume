@@ -1,7 +1,7 @@
 # Hostile Volume
 
 ## Overview
-Hostile Volume is a browser-based web game deployed as a Progressive Web App (PWA). It utilizes client-side execution for state management and audio rendering, functioning entirely independently of a backend server after the initial load.
+Live at https://hostilevolume.com Hostile Volume is a browser-based web game deployed as a Progressive Web App (PWA). It utilizes client-side execution for state management and audio rendering, functioning entirely independently of a backend server after the initial load.
 
 ## Architecture
 * **Core Engine (`index.html`):** Manages the primary game loop, DOM manipulation, and state tracking via Vanilla JavaScript.
