@@ -1,0 +1,6 @@
+{
+  "id": "level-27",
+  "title": "Catch a Star",
+  "display": "flex",
+  "html": "        <div id=\"level-27\" class=\"level-ui hidden flex-col items-center justify-center w-full gap-2 relative mt-2\">\n            <div class=\"text-[10px] sm:text-xs tracking-widest text-yellow-400 uppercase font-bold text-center animate-pulse mb-1 shrink-0\">Catch a Star</div>\n            <p class=\"text-[9px] sm:text-[10px] text-gray-400 font-mono mb-1 text-center shrink-0\">The slider controls the bucket. Stars dictate the volume.<br>Catch the 25% star. Dodge the rest.</p>\n            \n            <div class=\"relative w-full max-w-[300px] h-40 sm:h-48 shrink-0 bg-gray-950 rounded border-2 border-gray-700 shadow-inner overflow-hidden mx-auto\">\n                <canvas id=\"l27-canvas\" class=\"w-full h-full block touch-none\"></canvas>\n            </div>\n            \n            <input type=\"range\" min=\"0\" max=\"100\" value=\"75\" class=\"w-full max-w-[300px] h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-yellow-400 mt-2 mx-auto\" id=\"l27-slider\">\n\n            <div class=\"mt-1 text-4xl font-mono text-gray-300 text-center w-full shrink-0\" id=\"l27-display\">75%</div>\n        </div>"
+}

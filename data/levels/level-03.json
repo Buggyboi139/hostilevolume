@@ -1,0 +1,6 @@
+{
+  "id": "level-3",
+  "title": "Social Distancing",
+  "display": "flex",
+  "html": "        <div id=\"level-3\" class=\"level-ui hidden flex-col items-center justify-center gap-4 w-full min-h-[220px]\">\n            <div class=\"w-full text-[10px] sm:text-xs tracking-widest text-yellow-500 uppercase font-bold text-center animate-pulse shrink-0\">Social Distancing</div>\n            <button id=\"l3-up\" class=\"p-3 sm:p-4 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-full transition-transform duration-75 focus:outline-none z-10\"><svg class=\"w-8 h-8\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"3\" d=\"M5 15l7-7 7 7\"></path></svg></button>\n            <div class=\"text-4xl font-mono text-gray-300 w-24 text-center z-0\" id=\"l3-display\">75%</div>\n            <button id=\"l3-down\" class=\"p-3 sm:p-4 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-full transition-transform duration-75 focus:outline-none z-10\"><svg class=\"w-8 h-8\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"3\" d=\"M19 9l-7 7-7-7\"></path></svg></button>\n        </div>"
+}

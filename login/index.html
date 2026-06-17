@@ -107,6 +107,27 @@
             </div>
         </div>
 
+        <div id="step3b" class="mb-8 step-hidden border-t border-gray-700 pt-6">
+            <div class="flex items-center justify-between mb-3">
+                <label class="block text-sm font-medium text-gray-300">Session Filing Audit</label>
+                <span id="s3b-status" class="text-xs text-blue-400">UNFILED</span>
+            </div>
+            <p class="text-xs text-gray-500 mb-4">Please route your application through the correct internal paperwork sequence. Buttons may reorganize themselves for operational efficiency.</p>
+            <div class="bg-black/30 border border-gray-700 rounded-lg p-4">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-[10px] uppercase tracking-widest text-gray-500">Required Order</span>
+                    <span id="auditProgress" class="text-xs font-mono text-yellow-400">0 / 3</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mb-3 text-center text-[10px] font-mono text-gray-400">
+                    <span>PRINT</span>
+                    <span>STAMP</span>
+                    <span>MISFILE</span>
+                </div>
+                <div id="auditButtons" class="grid grid-cols-2 gap-2"></div>
+                <p id="auditMsg" class="text-xs text-red-400 mt-3 min-h-[1rem]"></p>
+            </div>
+        </div>
+
         <div id="step4" class="step-hidden border-t border-gray-700 pt-6 mb-6">
             <div class="flex items-center justify-between mb-3">
                 <label class="block text-sm font-medium text-gray-300">Human Verification Calibration</label>
@@ -169,6 +190,17 @@
                     <span class="text-sm font-medium">Verify you are human</span>
                 </div>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Cloudflare_Logo.svg" alt="Cloudflare" class="h-6 opacity-30">
+            </div>
+
+            <div id="cfQueue" class="hidden text-left max-w-xs mx-auto bg-gray-100 border border-gray-200 rounded-sm p-3 mb-6">
+                <div class="flex justify-between text-[10px] uppercase tracking-widest text-gray-500 mb-2">
+                    <span>Security Review Queue</span>
+                    <span id="cfQueuePct">0%</span>
+                </div>
+                <div class="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div id="cfQueueBar" class="h-full bg-orange-500 transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <p id="cfQueueMsg" class="text-[10px] text-gray-500 mt-2">Preparing compliance theater...</p>
             </div>
 
             <p class="text-xs text-gray-400">Ray ID: 89b7c6d5e4f3-DSM • Performance & security by Cloudflare</p>
@@ -348,8 +380,64 @@
             document.getElementById('s3-status').classList.replace('text-blue-400', 'text-green-400');
             secQ1.disabled = true; secQ2.disabled = true; secQ3.disabled = true;
             verifySecurityBtn.disabled = true; verifySecurityBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            unlockStep('step4', 'Step 4: Calibration');
+            unlockStep('step3b', 'Step 3.5: Filing Audit');
+            startFilingAudit();
         });
+
+        // --- STEP 3.5: SESSION FILING AUDIT ---
+        const auditButtons = document.getElementById('auditButtons');
+        const auditProgress = document.getElementById('auditProgress');
+        const auditMsg = document.getElementById('auditMsg');
+        const auditOptions = ['PRINT', 'STAMP', 'MISFILE', 'SHRED', 'ESCALATE', 'LAMINATE'];
+        const auditSequence = ['PRINT', 'STAMP', 'MISFILE'];
+        let auditIndex = 0;
+        let auditStarted = false;
+
+        function shuffleAuditOptions() {
+            const shuffled = [...auditOptions].sort(() => Math.random() - 0.5);
+            auditButtons.innerHTML = '';
+            shuffled.forEach((label) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.textContent = label;
+                btn.className = "bg-gray-800 hover:bg-gray-700 active:bg-gray-900 border border-gray-700 text-gray-300 rounded-lg py-2 px-2 text-[10px] font-bold tracking-widest transition-all";
+                if (label === 'STAMP') btn.classList.add('hover:translate-x-1');
+                btn.addEventListener('click', () => {
+                    const expected = auditSequence[auditIndex];
+                    if (label === expected) {
+                        auditIndex++;
+                        auditProgress.textContent = `${auditIndex} / ${auditSequence.length}`;
+                        auditMsg.textContent = auditIndex === auditSequence.length ? "✅ Filed incorrectly enough to proceed." : `✅ ${label} acknowledged. Continue without confidence.`;
+                        auditMsg.className = "text-xs text-green-400 mt-3 min-h-[1rem]";
+                        if (auditIndex === auditSequence.length) {
+                            document.getElementById('s3b-status').textContent = "FILED";
+                            document.getElementById('s3b-status').classList.replace('text-blue-400', 'text-green-400');
+                            [...auditButtons.querySelectorAll('button')].forEach(b => b.disabled = true);
+                            setTimeout(() => unlockStep('step4', 'Step 4: Calibration'), 600);
+                        } else {
+                            shuffleAuditOptions();
+                        }
+                    } else {
+                        auditIndex = Math.max(0, auditIndex - 1);
+                        auditProgress.textContent = `${auditIndex} / ${auditSequence.length}`;
+                        auditMsg.textContent = `❌ ${label} routed to the wrong department. Progress partially revoked.`;
+                        auditMsg.className = "text-xs text-red-400 mt-3 min-h-[1rem]";
+                        shuffleAuditOptions();
+                    }
+                });
+                auditButtons.appendChild(btn);
+            });
+        }
+
+        function startFilingAudit() {
+            if (auditStarted) return;
+            auditStarted = true;
+            auditIndex = 0;
+            auditProgress.textContent = "0 / 3";
+            auditMsg.textContent = "Awaiting first clerical mistake.";
+            auditMsg.className = "text-xs text-gray-500 mt-3 min-h-[1rem]";
+            shuffleAuditOptions();
+        }
 
         // --- STEP 4 & THE WAIVER AMBUSH ---
         const nodes = [document.getElementById('node1'), document.getElementById('node2'), document.getElementById('node3')];
@@ -361,41 +449,52 @@
         let captchaPassed = false; let waiverTriggered = false; let waiverCompleted = false;
         let waiverInterval; let waiverTime = 4500;
 
+        function triggerWaiver() {
+            if (waiverTriggered) return;
+            waiverTriggered = true;
+            waiverModal.classList.remove('hidden'); waiverModal.classList.add('flex');
+            setTimeout(() => { waiverModal.classList.remove('opacity-0'); waiverContent.classList.remove('scale-95'); }, 50);
+
+            waiverInterval = setInterval(() => {
+                waiverTime--;
+                let secs = Math.floor(waiverTime / 100);
+                let ms = waiverTime % 100;
+                waiverTimerDisplay.textContent = `URGENT: ${secs}.${ms < 10 ? '0' : ''}${ms}s`;
+                
+                if (waiverTime <= 0) {
+                    clearInterval(waiverInterval);
+                    alert("Time expired. You failed to process the legal binding in time. Terminating session.");
+                    location.reload(); 
+                }
+            }, 10);
+        }
+
+        function evaluateCalibration() {
+            let total = parseInt(nodes[0].value) + parseInt(nodes[1].value) + parseInt(nodes[2].value);
+            captchaTotal.textContent = `Total: ${total} / 100`;
+
+            if (!waiverTriggered && ((total > 40 && total < 60) || total === 100)) {
+                triggerWaiver();
+            }
+            
+            if (total === 100 && waiverCompleted) {
+                captchaTotal.classList.replace('text-red-400', 'text-green-400');
+                captchaTotal.textContent = "CALIBRATED";
+                if(!captchaPassed) {
+                    captchaPassed = true; nodes.forEach(n => n.disabled = true);
+                    unlockStep('step5', 'Step 5: Finalization');
+                }
+            } else {
+                captchaTotal.classList.replace('text-green-400', 'text-red-400');
+                if (total === 100 && !waiverCompleted) captchaTotal.textContent = "LEGAL HOLD: 100 / 100";
+            }
+        }
+
         nodes.forEach((node, index) => {
             node.addEventListener('input', (e) => {
                 let otherIndex = (index + 1) % 3;
                 if (Math.random() > 0.65) nodes[otherIndex].value = Math.max(0, parseInt(nodes[otherIndex].value) - Math.floor(Math.random() * 8));
-
-                let total = parseInt(nodes[0].value) + parseInt(nodes[1].value) + parseInt(nodes[2].value);
-                captchaTotal.textContent = `Total: ${total} / 100`;
-
-                if (!waiverTriggered && total > 40 && total < 60) {
-                    waiverTriggered = true;
-                    waiverModal.classList.remove('hidden'); waiverModal.classList.add('flex');
-                    setTimeout(() => { waiverModal.classList.remove('opacity-0'); waiverContent.classList.remove('scale-95'); }, 50);
-
-                    waiverInterval = setInterval(() => {
-                        waiverTime--;
-                        let secs = Math.floor(waiverTime / 100);
-                        let ms = waiverTime % 100;
-                        waiverTimerDisplay.textContent = `URGENT: ${secs}.${ms < 10 ? '0' : ''}${ms}s`;
-                        
-                        if (waiverTime <= 0) {
-                            clearInterval(waiverInterval);
-                            alert("Time expired. You failed to process the legal binding in time. Terminating session.");
-                            location.reload(); 
-                        }
-                    }, 10);
-                }
-                
-                if (total === 100 && waiverCompleted) {
-                    captchaTotal.classList.replace('text-red-400', 'text-green-400');
-                    captchaTotal.textContent = "CALIBRATED";
-                    if(!captchaPassed) {
-                        captchaPassed = true; nodes.forEach(n => n.disabled = true);
-                        unlockStep('step5', 'Step 5: Finalization');
-                    }
-                } else { captchaTotal.classList.replace('text-green-400', 'text-red-400'); }
+                evaluateCalibration();
             });
         });
 
@@ -453,6 +552,7 @@
             waiverCompleted = true; clearInterval(waiverInterval);
             waiverModal.classList.add('opacity-0');
             setTimeout(() => { waiverModal.classList.add('hidden'); waiverModal.classList.remove('flex'); }, 300);
+            evaluateCalibration();
         });
 
         // --- THE CLOUDFLARE FAKEOUT & BETRAYAL MODAL ---
@@ -460,9 +560,20 @@
         const cloudflareScreen = document.getElementById('cloudflareScreen');
         const cfCheckContainer = document.getElementById('cfCheckContainer');
         const cfBox = document.getElementById('cfBox');
+        const cfQueue = document.getElementById('cfQueue');
+        const cfQueueBar = document.getElementById('cfQueueBar');
+        const cfQueuePct = document.getElementById('cfQueuePct');
+        const cfQueueMsg = document.getElementById('cfQueueMsg');
         const betrayalModal = document.getElementById('betrayalModal');
         const betrayalContent = document.getElementById('betrayalContent');
         const defeatBtn = document.getElementById('defeatBtn');
+        const cfMessages = [
+            "Checking patience residue...",
+            "Comparing mouse path to acceptable despair...",
+            "Locating account database...",
+            "Account database not found. Continuing anyway...",
+            "Preparing final answer..."
+        ];
 
         submitBtn.addEventListener('click', function() {
             cloudflareScreen.classList.remove('hidden'); cloudflareScreen.classList.add('flex');
@@ -471,10 +582,23 @@
         cfCheckContainer.addEventListener('click', function() {
             if(cfBox.classList.contains('cf-spinner')) return; 
             cfBox.className = "cf-spinner";
+            cfQueue.classList.remove('hidden');
+            let queue = 0;
+            let queueTick = setInterval(() => {
+                queue += Math.floor(Math.random() * 18) + 7;
+                if (queue > 99) queue = 99;
+                cfQueueBar.style.width = queue + '%';
+                cfQueuePct.textContent = queue + '%';
+                cfQueueMsg.textContent = cfMessages[Math.min(cfMessages.length - 1, Math.floor(queue / 22))];
+            }, 450);
             setTimeout(() => {
+                clearInterval(queueTick);
+                cfQueueBar.style.width = '100%';
+                cfQueuePct.textContent = '100%';
+                cfQueueMsg.textContent = "Review complete. No account will be created.";
                 betrayalModal.classList.remove('hidden'); betrayalModal.classList.add('flex');
                 setTimeout(() => { betrayalModal.classList.remove('opacity-0'); betrayalContent.classList.remove('scale-95'); }, 50);
-            }, 3000);
+            }, 3600);
         });
 
         // --- THE CONTAINED FLEEING BUTTON ---

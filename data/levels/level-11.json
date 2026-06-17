@@ -1,0 +1,6 @@
+{
+  "id": "level-11",
+  "title": "Trivia Night",
+  "display": "flex",
+  "html": "        <div id=\"level-11\" class=\"level-ui hidden flex-col items-center justify-center w-full gap-4 min-h-[200px] relative\">\n            <div class=\"text-[10px] sm:text-xs tracking-widest text-amber-500 uppercase font-bold text-center animate-pulse mb-1 shrink-0\">Trivia Night</div>\n            <div id=\"l11-question\" class=\"text-sm sm:text-base font-semibold text-center text-gray-200 mb-2 px-2 h-16 flex items-center justify-center w-full\"></div>\n            <div id=\"l11-options\" class=\"grid grid-cols-2 gap-2 sm:gap-3 w-full max-w-sm\"></div>\n            <div class=\"mt-4 text-4xl font-mono text-gray-300 w-24 text-center\" id=\"l11-display\">75%</div>\n        </div>"
+}

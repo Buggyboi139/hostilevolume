@@ -1,0 +1,6 @@
+{
+  "id": "level-1",
+  "title": "False Hope",
+  "display": "flex",
+  "html": "        <div id=\"level-1\" class=\"level-ui hidden h-40 sm:h-48 flex-col justify-center relative\">\n            <div class=\"absolute top-0 w-full text-[10px] sm:text-xs tracking-widest text-blue-500 uppercase font-bold text-center animate-pulse mb-1 shrink-0\">False Hope</div>\n            <input type=\"range\" min=\"0\" max=\"100\" value=\"75\" class=\"w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500 mt-4\" id=\"l1-slider\">\n            <div class=\"mt-8 text-4xl font-mono text-gray-300 text-center\" id=\"l1-display\">75%</div>\n        </div>"
+}

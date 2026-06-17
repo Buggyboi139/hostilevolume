@@ -1,0 +1,6 @@
+{
+  "id": "level-2",
+  "title": "Incremental Agony",
+  "display": "flex",
+  "html": "        <div id=\"level-2\" class=\"level-ui hidden flex-col items-center justify-center gap-4 w-full min-h-[220px]\">\n            <div class=\"w-full text-[10px] sm:text-xs tracking-widest text-red-500 uppercase font-bold text-center animate-pulse shrink-0\">Incremental Agony</div>\n            <button id=\"l2-up\" class=\"p-3 sm:p-4 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-full transition-colors focus:outline-none\"><svg class=\"w-8 h-8\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"3\" d=\"M5 15l7-7 7 7\"></path></svg></button>\n            <div class=\"text-4xl font-mono text-gray-300 w-24 text-center\" id=\"l2-display\">75%</div>\n            <button id=\"l2-down\" class=\"p-3 sm:p-4 bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-full transition-colors focus:outline-none\"><svg class=\"w-8 h-8\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"3\" d=\"M19 9l-7 7-7-7\"></path></svg></button>\n        </div>"
+}

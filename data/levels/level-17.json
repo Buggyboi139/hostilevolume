@@ -1,0 +1,6 @@
+{
+  "id": "level-17",
+  "title": "Opposite Day",
+  "display": "flex",
+  "html": "        <div id=\"level-17\" class=\"level-ui hidden flex-col justify-center h-40 sm:h-48 relative\">\n            <div class=\"absolute top-0 w-full text-[10px] sm:text-xs tracking-widest text-red-500 uppercase font-bold text-center animate-pulse shrink-0\">Opposite Day</div>\n            <input type=\"range\" min=\"0\" max=\"100\" value=\"25\" class=\"w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500 mt-6\" id=\"l17-slider\">\n            <div class=\"mt-8 text-4xl font-mono text-gray-300 text-center relative flex justify-center items-center\" id=\"l17-display\">\n                75%\n                <span class=\"text-[8px] sm:text-[10px] text-red-500 absolute bottom-full mb-1 left-1/2 transform -translate-x-1/2 font-sans font-bold animate-pulse tracking-widest bg-red-900/30 px-2 py-0.5 rounded whitespace-nowrap border border-red-500/20\">ERR_UI_DISCONNECT</span>\n            </div>\n        </div>"
+}

@@ -1,0 +1,6 @@
+{
+  "id": "level-19",
+  "title": "Mandatory Viewing",
+  "display": "flex",
+  "html": "        <div id=\"level-19\" class=\"level-ui hidden flex-col items-center justify-center w-full gap-3 sm:gap-4 relative\">\n            <div class=\"text-[9px] sm:text-[10px] tracking-widest text-yellow-500 uppercase font-bold mb-1 sm:mb-2 animate-pulse shrink-0\">Mandatory Viewing</div>\n            <div class=\"text-[9px] sm:text-[10px] tracking-widest text-yellow-500 uppercase font-bold mb-1 sm:mb-2 animate-pulse\">Advertisement</div>\n            <div class=\"w-full aspect-video bg-black rounded-xl overflow-hidden border-2 border-gray-700 shadow-2xl relative\">\n                <div class=\"absolute inset-0 z-10\" id=\"l19-click-catcher\"></div>\n                <div id=\"l19-player\"></div>\n            </div>\n            <p id=\"l19-status-text\" class=\"text-xs sm:text-sm text-gray-400 font-mono mt-1 sm:mt-2 transition-colors\">Click video to play. Do not look away.</p>\n            <div class=\"mt-2 text-4xl font-mono text-gray-300 text-center\" id=\"l19-display\">75%</div>\n        </div>"
+}

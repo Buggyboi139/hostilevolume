@@ -1,0 +1,6 @@
+{
+  "id": "level-12",
+  "title": "Roll For Initiative",
+  "display": "flex",
+  "html": "        <div id=\"level-12\" class=\"level-ui hidden flex-col items-center justify-center gap-6 relative\">\n            <div class=\"text-[10px] sm:text-xs tracking-widest text-rose-500 uppercase font-bold text-center animate-pulse mb-2 shrink-0\">Roll For Initiative</div>\n            <button id=\"l12-btn\" class=\"bg-red-700 hover:bg-red-600 active:bg-red-800 text-white font-bold py-4 sm:py-5 px-10 rounded-xl shadow-lg transition-transform active:scale-95 focus:outline-none border-b-4 border-red-900 active:border-b-0 active:translate-y-1 flex flex-col items-center gap-1\">\n                <span class=\"text-lg sm:text-xl tracking-widest uppercase font-black\">Roll d20</span>\n                <span id=\"l12-last-roll\" class=\"text-xs sm:text-sm text-red-200 font-mono tracking-wide h-5\">Ready</span>\n            </button>\n            <div class=\"text-4xl font-mono text-gray-300 w-24 text-center\" id=\"l12-display\">75%</div>\n        </div>"
+}

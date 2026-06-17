@@ -1,0 +1,6 @@
+{
+  "id": "level-6",
+  "title": "Floating Chaos",
+  "display": "flex",
+  "html": "        <div id=\"level-6\" class=\"level-ui hidden h-56 sm:h-64 flex-col items-center justify-center relative overflow-hidden bg-gray-950 border border-gray-800 rounded-xl mt-2\">\n            <div class=\"absolute top-2 w-full text-[10px] sm:text-xs tracking-widest text-cyan-500 uppercase font-bold text-center animate-pulse z-20 shrink-0\">Floating Chaos</div>\n            <div class=\"text-6xl font-mono text-gray-800 w-full text-center pointer-events-none absolute z-0 opacity-50\" id=\"l6-display\">75%</div>\n            <div id=\"l6-bubble-container\" class=\"absolute inset-0 z-10 pointer-events-auto mt-6\"></div>\n        </div>"
+}

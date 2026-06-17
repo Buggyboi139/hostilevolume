@@ -1,0 +1,6 @@
+{
+  "id": "level-5",
+  "title": "Diminishing Returns",
+  "display": "flex",
+  "html": "        <div id=\"level-5\" class=\"level-ui hidden h-40 sm:h-48 flex-col items-center justify-center relative\">\n            <div class=\"absolute top-0 w-full text-[10px] sm:text-xs tracking-widest text-teal-500 uppercase font-bold text-center animate-pulse mb-1 shrink-0\">Diminishing Returns</div>\n            <div class=\"w-full flex justify-center h-12 items-center mt-6\">\n                <input type=\"range\" min=\"0\" max=\"100\" value=\"75\" class=\"w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500 origin-center transition-transform duration-100 ease-out\" id=\"l5-slider\">\n            </div>\n            <div class=\"mt-8 text-4xl font-mono text-gray-300 w-24 text-center\" id=\"l5-display\">75%</div>\n        </div>"
+}

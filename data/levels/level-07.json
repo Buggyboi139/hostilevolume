@@ -1,0 +1,6 @@
+{
+  "id": "level-7",
+  "title": "Essay Question",
+  "display": "flex",
+  "html": "        <div id=\"level-7\" class=\"level-ui hidden flex-col items-center justify-center w-full relative\">\n            <div class=\"text-[10px] sm:text-xs tracking-widest text-fuchsia-500 uppercase font-bold text-center animate-pulse mb-2 shrink-0\">Essay Question</div>\n            <p class=\"text-gray-500 mb-2 text-xs sm:text-sm text-center font-semibold tracking-wide\">Please describe your desired volume in at least 25 words. Include the number.</p>\n            <textarea id=\"l7-textarea\" class=\"w-full h-32 sm:h-36 bg-gray-950 text-gray-300 p-4 rounded-xl border border-gray-700 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none transition-colors shadow-inner leading-relaxed text-sm\" placeholder=\"Start typing...\"></textarea>\n            <div class=\"flex justify-end w-full mt-2\"><span id=\"l7-word-count\" class=\"text-xs font-mono text-gray-600 transition-colors duration-200\">0 / 25+</span></div>\n            <div class=\"mt-2 text-4xl font-mono text-gray-300 w-24 text-center\" id=\"l7-display\">75%</div>\n        </div>"
+}

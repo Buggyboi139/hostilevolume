@@ -1,0 +1,6 @@
+{
+  "id": "level-28",
+  "title": "Target Practice",
+  "display": "flex",
+  "html": "   \n        <div id=\"level-28\" class=\"level-ui hidden flex-col items-center justify-center w-full gap-2 relative mt-2\">\n            <div class=\"text-[10px] sm:text-xs tracking-widest text-red-500 uppercase font-bold text-center animate-pulse mb-1 shrink-0\">Target Practice</div>\n            <p class=\"text-[9px] sm:text-[10px] text-gray-400 font-mono mb-1 text-center shrink-0\">Tap to fire. Center is 0%, outer edge is 100%.<br>Lead your shot to land on the dashed green line.</p>\n            \n            <div class=\"relative w-full max-w-[300px] aspect-square shrink-0 bg-gray-950 rounded border-2 border-gray-700 shadow-inner overflow-hidden mx-auto\">\n                <canvas id=\"l28-canvas\" class=\"w-full h-full block touch-none\"></canvas>\n            </div>\n\n            <div class=\"mt-1 text-4xl font-mono text-gray-300 text-center w-full shrink-0\" id=\"l28-display\">75%</div>\n        </div>"
+}

@@ -1,0 +1,6 @@
+{
+  "id": "level-14",
+  "title": "Fade To Black",
+  "display": "flex",
+  "html": "        <div id=\"level-14\" class=\"level-ui hidden flex-col justify-center h-40 sm:h-48 relative\">\n            <div class=\"absolute top-0 w-full text-[10px] sm:text-xs tracking-widest text-gray-400 uppercase font-bold text-center animate-pulse shrink-0\">Fade To Black</div>\n            <input type=\"range\" min=\"0\" max=\"100\" value=\"75\" class=\"w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500 transition-all duration-300 mt-6\" id=\"l14-slider\">\n            <div class=\"mt-8 text-4xl font-mono text-gray-300 text-center transition-all duration-300\" id=\"l14-display\">75%</div>\n        </div>"
+}

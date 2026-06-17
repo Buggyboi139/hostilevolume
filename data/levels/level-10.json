@@ -1,0 +1,6 @@
+{
+  "id": "level-10",
+  "title": "Russian Roulette",
+  "display": "flex",
+  "html": "        <div id=\"level-10\" class=\"level-ui hidden h-40 sm:h-48 flex-col items-center justify-center gap-6 relative\">\n            <div class=\"absolute top-0 w-full text-[10px] sm:text-xs tracking-widest text-pink-600 uppercase font-bold text-center animate-pulse shrink-0\">Russian Roulette</div>\n            <button id=\"l10-btn\" class=\"bg-purple-700 hover:bg-purple-600 active:bg-purple-800 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-transform active:scale-95 focus:outline-none tracking-widest uppercase mt-6\">Randomize</button>\n            <div class=\"text-4xl font-mono text-gray-300 w-24 text-center\" id=\"l10-display\">75%</div>\n        </div>"
+}
