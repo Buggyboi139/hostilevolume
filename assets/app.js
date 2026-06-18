@@ -274,7 +274,7 @@
                     
                     const shareBtn = document.getElementById('share-btn');
                     if (shareBtn) {
-                        const shareText = `I just wasted ${timeString} of my life setting my volume to 25%.\n\nI was moron ${rankText}.\n\nSuffer with me: https://play.hostilevolume.com`;
+                        const shareText = `I just wasted ${timeString} of my life setting my volume to 25%.\n\nI was moron ${rankText}.\n\nSuffer with me: https://hostilevolume.com`;
                         
                         shareBtn.onclick = () => {
                             navigator.clipboard.writeText(shareText).then(() => {
